@@ -1,0 +1,78 @@
+﻿@model ProyectoPersonal.Models.RegisterViewModel
+
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <fieldset>
+        <legend>Información Empresa</legend>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.NombreEmpresa, new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.DropDownListFor(m => m.NombreEmpresa, new SelectList(ViewBag.ListaEmpresa, "NombreEmpresa", "NombreEmpresa"), new { @class = "col-md-2 form-control" })
+            </div>
+        </div>
+    </fieldset>
+    <fieldset>
+        <legend>Información Personal</legend>
+
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.NombrePrimer, new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.NombrePrimer, new { @class = "form-control" })
+            </div>
+            @Html.LabelFor(m => m.NombreSegundo, new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.NombreSegundo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ApePaterno, new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.ApePaterno, new { @class = "form-control" })
+            </div>
+            @Html.LabelFor(m => m.ApeMaterno, new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.ApeMaterno, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.FechaNacimiento, new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.FechaNacimiento, new { @class = "form-control" })
+            </div>
+            @Html.LabelFor(m => m.Sexo, new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.TextBoxFor(m => m.Sexo, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+            @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+            <div class="col-md-4">
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-5 col-md-5 right">
+                <input type="submit" class="btn btn-default" value="Registrarse" />
+            </div>
+        </div>
+
+    </fieldset>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

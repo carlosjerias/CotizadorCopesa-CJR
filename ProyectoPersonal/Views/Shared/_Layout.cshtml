@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+
+</head>
+<body class="front wide">
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title" id="myModalLabel">iDea Clean and Unique Design</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Consectetur adipisicing elit. Nemo architecto debitis dolorum ullam in ut sint, odit maiores eaque explicabo, repellendus minima soluta sunt! Nisi minima blanditiis voluptate, ut atque.</p>
+                    <ul class="list-icons">
+                        <li><i class="icon-check"></i> Nisi minima blanditiis voluptate</li>
+                        <li><i class="icon-check"></i> Officiis nisi nam doloribus explicabo</li>
+                        <li><i class="icon-check"></i> Debitis delectus corporis aspernatur</li>
+                        <li><i class="icon-check"></i> Dolore temporibus odio distinctio</li>
+                        <li><i class="icon-check"></i> Reprehenderit optio unde accusantium quia</li>
+                    </ul>
+                    <p>Culpa expedita! Quisquam, itaque officiis nisi nam doloribus explicabo possimus, dolorum alias provident maxime temporibus, enim voluptatibus! Molestias, accusantium cum impedit sint velit exercitationem deserunt, corporis magni provident earum, ullam iusto voluptatem iste animi inventore ab cupiditate quod laborum quasi libero doloremque obcaecati eius. Ut, reprehenderit optio unde accusantium quia qui! Debitis delectus corporis aspernatur nemo aut, odio harum ea repellendus quidem, saepe, incidunt? Assumenda deserunt unde minima aspernatur ducimus velit molestiae, minus eius inventore, dolore temporibus odio distinctio optio.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-default" data-dismiss="modal"><i class="icon-check"></i> Ok</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- scrollToTop -->
+    <!-- ================ -->
+    <div class="scrollToTop" style="display: block;"><i class="icon-up-open-big"></i></div>
+    <!-- page wrapper start -->
+    <!-- ================ -->
+    <div class="page-wrapper">
+        <!-- header-top start (Add "dark" class to .header-top in order to enable dark header-top e.g <div class="header-top dark">) -->
+        <!-- ================ -->
+        <div class="header-top">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-2 col-sm-6">
+                        <!-- header-top-first start -->
+                        <!-- ================ -->
+                        <div class="header-top-first clearfix">
+                            <ul class="social-links clearfix hidden-xs">
+                                <li class="twitter"><a target="_blank" href="http://www.twitter.com/"><i class="fa fa-twitter"></i></a></li>
+                                <li class="linkedin"><a target="_blank" href="http://www.linkedin.com/"><i class="fa fa-linkedin"></i></a></li>
+                                <li class="facebook"><a target="_blank" href="http://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                            </ul>
+                            <div class="social-links hidden-lg hidden-md hidden-sm">
+                                <div class="btn-group dropdown">
+                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-share-alt"></i></button>
+                                    <ul class="dropdown-menu dropdown-animation">
+                                        <li class="twitter"><a target="_blank" href="http://www.twitter.com/"><i class="fa fa-twitter"></i></a></li>
+                                        <li class="linkedin"><a target="_blank" href="http://www.linkedin.com/"><i class="fa fa-linkedin"></i></a></li>
+                                        <li class="facebook"><a target="_blank" href="http://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- header-top-first end -->
+                    </div>
+                    <div class="col-xs-10 col-sm-6">
+                        <!-- header-top-second start -->
+                        <!-- ================ -->
+                        <div id="header-top-second" class="clearfix">
+                            <!-- header top dropdowns start -->
+                            <!-- ================ -->
+                            <div class="header-top-dropdown">
+                                <div class="btn-group dropdown">
+                                    <button type="button" class="btn dropdown-toggle" data-toggle="dropdown"><i class="fa fa-search"></i> Buscar</button>
+                                    <ul class="dropdown-menu dropdown-menu-right dropdown-animation">
+                                        <li>
+                                            <form role="search" class="search-box">
+                                                <div class="form-group has-feedback">
+                                                    <input type="text" class="form-control" placeholder="Buscar">
+                                                    <i class="fa fa-search form-control-feedback"></i>
+                                                </div>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <!--Inicio Login-->
+                                @Html.Partial("_LoginPartial")
+                                <!--Fin Login-->
+                            </div>
+                            <!--  header top dropdowns end -->
+                        </div>
+                        <!-- header-top-second end -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- header-top end -->
+        <!-- Menu Horizontal -->
+        @{Html.RenderAction("ListarMenuPrincipal", "Modulo"); }
+        <!-- header end -->
+        <div class="container" id="containerheight">
+            
+
+            @RenderBody()
+        </div>
+        <hr />
+        <hr />
+        <footer id="footer" class="">
+
+            <!-- .footer start -->
+            <!-- ================ -->
+            <div class="footer">
+                <div class="container">
+                    <div class="row">
+                        <div class="footer-content">
+                            
+                            <div class="col-sm-4">
+                                <ul class="social-links circle  text-center">
+                                    <li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                                    <li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                                    <li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i class="fa fa-linkedin"></i></a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-4" style="margin-top: 20px;">
+                                <p>Tenemos una trayectoria de más de cuarenta años, ofreciendo las mejores soluciones gráficas.</p>
+                            </div>
+                            <div class="col-sm-4">
+                                <ul class="list-icons">
+                                    <li><i class="fa fa-map-marker pr-10"></i> Av. Gladys Marin, 6920</li>
+                                    <li><i class="fa fa-phone pr-10"></i> 2440 5700</li>
+                                    <li><i class="fa fa-envelope-o pr-10"></i> info@aimpresores.cl</li>
+                                </ul>
+                            </div>
+                        </div>
+                        </div>
+                    <div class="space-bottom hidden-lg hidden-xs"></div>
+                </div>
+            </div>
+            <!-- .footer end -->
+            <!-- .subfooter start -->
+            <!-- ================ -->
+            <div class="subfooter">
+                <div class="container">
+                    <div class="row text-center">
+                        <p>Copyright © 2017 Aimpresores. All Rights Reserved</p>
+                    </div>
+                </div>
+            </div>
+            <!-- .subfooter end -->
+
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+   
+    
+</body>
+</html>

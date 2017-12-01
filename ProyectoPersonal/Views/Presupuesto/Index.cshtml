@@ -1,0 +1,131 @@
+﻿@model IEnumerable<ProyectoPersonal.Models.Cotizador.Presupuesto>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<style>
+    .btnExportacion:hover, .btnExportacion:active  {
+        background-color: lightgrey !important;
+        color: black !important;
+        border-color: grey !important;
+    }
+
+    .btnExportacion {
+        padding: 6px 12px;
+        border: 1px solid transparent;
+        color: #333 !important;
+        background-color: #fff;
+        border-color: #ccc;
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 400;
+        touch-action: manipulation;
+        cursor: pointer;
+        user-select: none;
+        background-image: none;
+        min-width: 0px;
+        text-decoration: none;
+    }
+
+</style>
+<script type="text/javascript" language="javascript">
+    $(document).ready(function () {
+        var miTabla = $('#tblPresupuesto').DataTable({
+            "paging": false,
+            "searching": true,
+            "dom": "t"
+        });
+
+    });
+</script>
+<div class="dt-buttons btn-group" style="margin: 0;padding: 0;">
+    <a class="btn  btn-default btnExportacion" style="border-radius: 4px 0px 0px 4px;"  href="@Url.Action("Create", "Presupuesto")">
+        <i class="fa fa-plus-circle"></i> Crear Nuevo
+    </a> 
+    <a class="btn btn-default btnExportacion" style="border-radius: 0px 4px 4px 0px;" tabindex="0" aria-controls="example" href="#">
+        <span>Excel</span>
+    </a>     
+</div>
+<div class="row">
+    <table id="tblPresupuesto" class="table" style="padding-right: 0px !important;padding-left: 0px !important;">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NombrePresupuesto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tiraje)
+                </th>
+                <th>
+                    Formato
+                </th>
+                <th>
+                    Int Cant.
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Interior.Papel.NombrePapel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Interior.Papel.Gramaje)
+                </th>
+                <th>
+                    Tap Cant.
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tapa.Papel.NombrePapel)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Tapa.Papel.Gramaje)
+                </th>
+                <th>
+                    Total
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombrePresupuesto)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.Tiraje)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Formato.NombreFormato)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.Interior.CantidadPaginas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Interior.Papel.NombrePapel)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.Interior.Papel.Gramaje)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.Tapa.CantidadPaginas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Tapa.Papel.NombrePapel)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.Tapa.Papel.Gramaje)
+                    </td>
+                    <td class="text-right">
+                        @Html.DisplayFor(modelItem => item.TotalNetoTotal)
+                    </td>
+                    <td>
+                        <a href="@Url.Action("Edit","Presupuesto", new { id = item.IdPresupuesto })"><span title="Editar" class="fa fa-edit"></span></a> |
+                        <a href="@Url.Action("Details","Presupuesto", new { id = item.IdPresupuesto })"><span title="Detalle" class="glyphicon glyphicon-th-list"></span></a> |
+                        <a href="@Url.Action("Delete", "Presupuesto", new { id = item.IdPresupuesto })"><span title="Eliminar" class="fa fa-trash"></span></a>
+                        <a href="@Url.Action("PDF", "Presupuesto", new { id = item.IdPresupuesto })" target="_blank"><span title="PDF" class="fa fa-file-pdf-o"></span></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

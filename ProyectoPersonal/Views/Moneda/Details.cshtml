@@ -1,0 +1,42 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Moneda
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Moneda</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Valor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Valor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaValor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaValor)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdMoneda }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

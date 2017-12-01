@@ -1,0 +1,58 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Impresion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Impresion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Maquina.NombreMaquina)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Maquina.NombreMaquina)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreImpresion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreImpresion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorFijoImpresion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorFijoImpresion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.valorvariableImpresion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valorvariableImpresion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdImpresion }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

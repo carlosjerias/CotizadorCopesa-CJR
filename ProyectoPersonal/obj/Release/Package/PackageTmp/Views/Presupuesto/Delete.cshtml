@@ -1,0 +1,113 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Presupuesto
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Eliminar Presupuesto</h2>
+
+<h3>Esta seguro que desea eliminarlo?</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NombrePresupuesto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombrePresupuesto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tiraje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tiraje)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Encuadernacion.NombreEncuadernacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Encuadernacion.NombreEncuadernacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Formato.NombreFormato)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Formato.NombreFormato)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Interior.CantidadPaginas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Interior.CantidadPaginas)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Interior.Papel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Interior.Papel.NombrePapel)
+        </dd>
+        
+
+        <dt>
+            Tapas
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tapa.CantidadPaginas)
+        </dd>
+
+        
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalNetoFijo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalNetoFijo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalNetoVari)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalNetoVari)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalNetoTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalNetoTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecioUnitario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecioUnitario)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ProyectoPersonal.Models.Cotizador.Impresion>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Maquina.NombreMaquina)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreImpresion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValorFijoImpresion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.valorvariableImpresion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Maquina.NombreMaquina)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoMoneda.NombreTipoMoneda)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreImpresion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValorFijoImpresion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.valorvariableImpresion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdImpresion }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdImpresion }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdImpresion })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,99 @@
+﻿@model IEnumerable<ProyectoPersonal.Models.Cotizador.Formato>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-condensed table-bordered table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Doblez.NombreDoblez)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FormatoCerradoX)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FormatoCerradoY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FormatoExtendidoX)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FormatoExtendidoY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EntradasxFormatos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Interior_Ancho)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Interior_Alto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TapaDiptica_Ancho)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TapaDiptica_Alto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TapaTriptica_Ancho_)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TapaTriptica_Alto)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Doblez.NombreDoblez)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FormatoCerradoX)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FormatoCerradoY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FormatoExtendidoX)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FormatoExtendidoY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EntradasxFormatos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Interior_Ancho)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Interior_Alto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TapaDiptica_Ancho)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TapaDiptica_Alto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TapaTriptica_Ancho_)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TapaTriptica_Alto)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdFormato }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdFormato }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdFormato })
+        </td>
+    </tr>
+}
+
+</table>

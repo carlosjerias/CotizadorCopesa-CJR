@@ -1,0 +1,82 @@
+﻿@model SolicitudCotizador.Models.Solicitud
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Solicitud</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Despacho.NombreDespacho)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Despacho.NombreDespacho)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Encuadernacion.NombreEncuadernacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Encuadernacion.NombreEncuadernacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Formato.IdFormato)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Formato.IdFormato)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreProducto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreProducto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaProduccion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaProduccion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Embalaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Embalaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadPaginasTotales)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CantidadPaginasTotales)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ColoresTotales)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ColoresTotales)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdSolicitud }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,66 @@
+﻿@model SolicitudCotizador.Models.Proceso
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Proceso</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Solicitud.NombreProducto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solicitud.NombreProducto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreProceso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreProceso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CantidadProceso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CantidadProceso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Papel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Papel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gramaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gramaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observacion)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdProceso }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

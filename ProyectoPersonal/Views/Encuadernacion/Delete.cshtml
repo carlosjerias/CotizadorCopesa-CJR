@@ -1,0 +1,56 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Encuadernacion
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Encuadernacion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreEncuadernacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreEncuadernacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorFijo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorFijo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorVariable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorVariable)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

@@ -1,0 +1,66 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Papel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Papel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Maquina.NombreMaquina)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Maquina.NombreMaquina)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombrePapel)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombrePapel)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gramaje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gramaje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AnchoBanda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AnchoBanda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Lomo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Lomo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Adhesivo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Adhesivo)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdPapel }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

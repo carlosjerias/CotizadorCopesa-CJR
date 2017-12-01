@@ -1,0 +1,50 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Encuadernacion
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Encuadernacion</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreEncuadernacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreEncuadernacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorFijo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorFijo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ValorVariable)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ValorVariable)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdEncuadernacion }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

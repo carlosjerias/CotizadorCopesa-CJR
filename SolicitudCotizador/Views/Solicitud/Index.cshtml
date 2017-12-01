@@ -1,0 +1,75 @@
+﻿@model IEnumerable<SolicitudCotizador.Models.Solicitud>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Encuadernacion.NombreEncuadernacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Formato.IdFormato)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreProducto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaProduccion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Embalaje)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Despacho)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CantidadPaginasTotales)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ColoresTotales)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Encuadernacion.NombreEncuadernacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Formato.IdFormato)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreProducto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaProduccion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Embalaje)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Despacho)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CantidadPaginasTotales)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ColoresTotales)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdSolicitud }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdSolicitud }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdSolicitud })
+        </td>
+    </tr>
+}
+
+</table>

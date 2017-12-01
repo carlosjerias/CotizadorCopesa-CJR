@@ -1,0 +1,78 @@
+﻿@using ProyectoPersonal.Models
+@model LoginViewModel
+@{
+    ViewBag.Title = "Iniciar sesión";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+    <style>
+
+    </style>
+</head>
+<body class="front wide" style="background-image:url(../../Imagen/bg-sitio.jpg)" ;>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-7 col-md-offset-3" style="margin-top: 12%;">
+                <section id="loginForm">
+                    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                        @Html.AntiForgeryToken()
+                        <div class="col-md-offset-2">
+                            <img src="~/Imagen/LOGO A.png" />
+                        </div>
+                        <div class="col-md-offset-3">
+                            <h2>Presupuestador</h2>
+                        </div>
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Email, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Password, new { @class = "col-md-3 control-label" })
+                                <div class="col-md-9">
+                                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <div class="checkbox">
+                                        @Html.CheckBoxFor(m => m.RememberMe)
+                                        @Html.LabelFor(m => m.RememberMe)
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-3 col-md-10">
+                                    <input type="submit" value="Iniciar sesión" class="btn btn-default" />
+                                </div>
+                            </div>
+
+
+                    }
+                </section>
+            </div>
+            <div class="col-md-7 col-md-offset-3">
+                <div class="col-md-offset-2 col-md-10">
+                    <img src="~/Imagen/logo_copesa.jpg" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

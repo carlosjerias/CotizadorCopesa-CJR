@@ -1,0 +1,90 @@
+﻿.body {
+    font-family: "Open Sans", sans-serif;
+    line-height: 1.5;
+    color: #666666;
+}
+
+.header {
+    background-color: #f1f1f1;
+    border-bottom: 1px solid #dadada;
+    font-size: 12px;
+}
+
+.menu {
+    padding: 10px 0;
+    border-bottom: 1px solid #eaeaea;
+    background-color: #ffffff;
+    z-index: 1000;
+}
+
+.wrapper {
+    /*height: 1800px;*/
+    padding-top: 20px;
+}
+
+.fixed {
+    position: fixed;
+    width: 100%;
+    top: 0;
+}
+
+/*Cabecera*/
+.social-links li a i {
+    line-height: 30px;
+    color: #999999;
+    text-align: center;
+}
+
+
+.header .social-links li {
+    padding: 3px 5px 2px;
+    border-right: 1px solid #e3e3e3;
+    margin: 0;
+}
+
+.header .social-links {
+    margin: 0;
+}
+
+.social-links {
+    list-style: none;
+    /*font-size: 0;*/
+    padding: 0;
+}
+
+.header .social-links li {
+    display: inline-block;
+    width: 35px;
+    height: 35px;
+    text-align: center;
+}
+
+.header .social-links li:hover {
+    background-color: #fafafa;
+}
+
+.header .social-links li a {
+    border: none;
+    font-size: 16px;
+    color: #999999;
+    background-color: transparent;
+    border-color: transparent;
+}
+
+    .header .social-links li.linkedin a i:hover {
+        color: #0976b4;
+        background-color: transparent;
+        border-color: transparent;
+    }
+
+    .header .social-links li.facebook a i:hover {
+        color: #3b5998;
+        background-color: transparent;
+        border-color: transparent;
+    }
+
+    .header .social-links li.twitter a i:hover {
+        color: #55acee;
+        background-color: transparent;
+        border-color: transparent;
+    }

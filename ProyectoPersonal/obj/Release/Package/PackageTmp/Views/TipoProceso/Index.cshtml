@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ProyectoPersonal.Models.Cotizador.TipoProceso>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreTipoProceso)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreTipoProceso)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdTipoProceso }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdTipoProceso }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdTipoProceso })
+        </td>
+    </tr>
+}
+
+</table>

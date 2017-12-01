@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Mi aplicación ASP.NET</title>
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css2")
+    @Scripts.Render("~/bundles/modernizr")
+
+    @Scripts.Render("~/bundles/jquery")
+
+    <style>
+        
+
+            
+
+        /*Registrar y acceder Cabecera y/o buscar*/
+        .header-top-dropdown .dropdown > button {
+            padding: 8px 10px;
+            margin: 0;
+            font-size: 12px;
+            color: #999999;
+            text-align: center;
+            min-width: 0;
+            background-color: transparent;
+            box-shadow: none !important;
+            text-transform: none;
+        }
+
+            .header-top-dropdown .dropdown.open > button, .header-top-dropdown .dropdown > button:hover {
+                color: #009798;
+                background-color: #fafafa;
+                border-right-color: #e3e3e3;
+            }
+
+
+        /*Fielset*/
+        fieldset {
+            padding: 10px 25px;
+            margin: 15px 0px;
+            border: 1px solid #dddddd;
+            background-color: #fafafa;
+        }
+
+            fieldset legend {
+                display: block;
+                width: auto;
+                padding: 3px 10px;
+                margin-bottom: 0;
+                font-size: 15px;
+                line-height: inherit;
+                color: #333;
+                border: 1px solid #ddd;
+                background-color: #ffffff;
+            }
+        /*footer Pagina Principal*/
+
+        .footerPrincipal {
+            padding: 15px 0;
+            background-color: #262626;
+            border-top: 1px solid #3a3a3a;
+            border-bottom: 1px solid #333333;
+            font-size: 14px;
+            color: #999999;
+        }
+
+        .footer-content .social-links li {
+            margin: 0 5px 5px 0;
+            display: inline-block;
+        }
+
+            .footer-content .social-links li a {
+                color: #666666;
+                background-color: transparent;
+                border-color: #666666;
+                width: 45px;
+                height: 45px;
+                display: block;
+                text-align: center;
+                font-size: 20px;
+            }
+
+        .footer-content .social-links.circle li a {
+            -webkit-border-radius: 100%;
+            -moz-border-radius: 100%;
+            border-radius: 100%;
+            border: 1px solid #666666;
+        }
+
+        .footer-content .social-links li a i {
+            line-height: 44px;
+        }
+
+        .footer-content .social-links li a {
+            color: #666666;
+            background-color: transparent;
+            border-color: #666666;
+        }
+
+            .footer-content .social-links li a:hover {
+                color: #ffffff;
+                background-color: #666666;
+                border-color: #666666;
+            }
+
+        .footer-content .social-links li.linkedin a:hover {
+            background-color: #0976b4;
+            border-color: #0976b4;
+            color: #ffffff;
+        }
+
+        .footer-content .social-links li.twitter a:hover {
+            background-color: #55acee;
+            border-color: #55acee;
+            color: #ffffff;
+        }
+
+        .footer-content .social-links li.facebook a:hover {
+            background-color: #3b5998;
+            border-color: #3b5998;
+            color: #ffffff;
+        }
+
+        .footer-content .list-icons {
+            list-style: none;
+            padding: 0;
+        }
+
+            .footer-content .list-icons li, .footer-content .list li {
+                padding: 5px 0;
+            }
+
+                .footer-content .list-icons li i {
+                    width: 25px;
+                    text-align: center;
+                }
+
+        .footer-content .pr-10 {
+            padding-right: 10px;
+        }
+    </style>
+
+    <script>
+        posicionarMenu();
+
+        $(window).scroll(function () {
+            posicionarMenu();
+        });
+
+        function posicionarMenu() {
+            var altura_del_header = $('.header').outerHeight(true);
+            var altura_del_menu = $('.menu').outerHeight(true);
+
+            if ($(window).scrollTop() >= altura_del_header) {
+                $('.menu').addClass('fixed');
+                $('.wrapper').css('margin-top', (altura_del_menu) + 'px');
+            } else {
+                $('.menu').removeClass('fixed');
+                $('.wrapper').css('margin-top', '0');
+            }
+        }
+
+    </script>
+</head>
+<body class="body">
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-2 col-sm-6">
+                    <ul class="social-links">
+                        <li class="twitter"><a target="_blank" href="http://www.twitter.com/"><i class="fa fa-twitter"></i></a></li>
+                        <li class="linkedin"><a target="_blank" href="http://www.linkedin.com/"><i class="fa fa-linkedin"></i></a></li>
+                        <li class="facebook"><a target="_blank" href="http://www.facebook.com/"><i class="fa fa-facebook"></i></a></li>
+                    </ul>
+
+                </div>
+                <div class="col-xs-10 col-sm-6 text-right">
+                    <div class="header-top-dropdown">
+                        @Html.Partial("_LoginPartial")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="menu">
+        @*<div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="header-left">
+                        <div class="logo">
+                            <a href="/"><img src="~/Imagen/LOGO A.png" /></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    @{Html.RenderAction("ListarMenuPrincipal", "Modulo"); }
+
+                </div>
+            </div>
+        </div>*@
+    </div>
+    <div class="wrapper">
+        <div class="container">
+            @RenderBody()
+
+        </div>
+
+        <div class="footerPrincipal">
+            <div class="container">
+                <div class="row">
+                    <div class="footer-content">
+                        <div class="col-sm-4">
+                            <ul class="social-links circle  text-center">
+                                <li class="facebook"><a target="_blank" href="http://www.facebook.com"><i class="fa fa-facebook"></i></a></li>
+                                <li class="twitter"><a target="_blank" href="http://www.twitter.com"><i class="fa fa-twitter"></i></a></li>
+                                <li class="linkedin"><a target="_blank" href="http://www.linkedin.com"><i class="fa fa-linkedin"></i></a></li>
+                            </ul>
+                        </div>
+                        <div class="col-sm-4">
+                            <p>Tenemos una trayectoria de más de cuarenta años, ofreciendo las mejores soluciones gráficas.</p>
+                        </div>
+                        <div class="col-sm-4">
+                            <ul class="list-icons">
+                                <li><i class="fa fa-map-marker pr-10"></i> Av. Gladys Marin, 6920</li>
+                                <li><i class="fa fa-phone pr-10"></i> 2440 5700</li>
+                                <li><i class="fa fa-envelope-o pr-10"></i> info@aimpresores.cl</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/DataTables")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

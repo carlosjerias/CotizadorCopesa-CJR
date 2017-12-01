@@ -1,0 +1,50 @@
+﻿@model ProyectoPersonal.Models.Gerencia.Empresa
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Empresa</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreEmpresa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreEmpresa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.RutEmpresa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.RutEmpresa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DgtVerificadorEmpresa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DgtVerificadorEmpresa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EstadoEmpresa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EstadoEmpresa)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdEmpresa }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

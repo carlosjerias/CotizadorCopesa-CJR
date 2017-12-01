@@ -1,0 +1,63 @@
+﻿@model IEnumerable<SolicitudCotizador.Models.Proceso>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Solicitud.NombreProducto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreProceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CantidadProceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Papel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gramaje)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Solicitud.NombreProducto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreProceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CantidadProceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Papel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gramaje)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdProceso }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdProceso }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdProceso })
+        </td>
+    </tr>
+}
+
+</table>

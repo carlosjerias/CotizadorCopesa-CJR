@@ -1,0 +1,272 @@
+﻿@model SolicitudCotizador.Models.Solicitud
+
+@{
+    ViewBag.Title = "Create";
+}
+@Styles.Render("~/Content/CssDatePicker")
+<style>
+    .bootstrap-datetimepicker-widget tr:hover {
+    background-color: #808080;
+}
+    
+</style>
+
+@using (Html.BeginForm("Create", "Solicituds"))
+{
+    @Html.AntiForgeryToken()
+    <div class="container-fluid">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div id="sidebar" class="modal-dialog bottom" style="top: 15px;">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    Nueva Cotización
+                </div>
+                <div class="modal-footer">
+                    <a href=""><span class="btn btn-sm btn-default fa fa-history">Volver</span></a>
+                    <input type="submit" value="Crear" class="btn btn-default" />
+                </div>
+            </div>
+        </div>
+        <div class="form-horizontal form">
+            <fieldset>
+                <legend>Información Cliente</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NombreCliente, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NombreCliente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NombreCliente, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RutCliente, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 form-inline">
+                        @Html.EditorFor(model => model.RutCliente, new { htmlAttributes = new { @class = "form-control", @style = "width: 120px;" } })-
+                        @Html.EditorFor(model => model.RutDigitoVerificador, new { htmlAttributes = new { @class = "form-control", @style = "width: 60px;" } })
+                        @Html.ValidationMessageFor(model => model.RutCliente, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Contacto, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Contacto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Contacto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Información Presupuesto</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NombreProducto, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NombreProducto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NombreProducto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Formato, "Formato Cerrado", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 form-inline">
+                        @Html.EditorFor(model => model.FormatoCerradoX, new { htmlAttributes = new { @class = "form-control", @style = "width:70px", @placeholder = "Ancho" } })
+                        mm. x
+                        @Html.EditorFor(model => model.FormatoCerradoY, new { htmlAttributes = new { @class = "form-control", @style = "width:70px", @placeholder = "Largo" } })
+                        mm.
+                        @Html.ValidationMessageFor(model => model.FormatoCerradoX, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Formato, "Formato Abierto", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-8 form-inline">
+                        @Html.EditorFor(model => model.FormatoAbiertoX, new { htmlAttributes = new { @class = "form-control", @style = "width:70px", @placeholder = "Ancho" } })
+                        mm. x
+                        @Html.EditorFor(model => model.FormatoAbiertoY, new { htmlAttributes = new { @class = "form-control", @style = "width:70px", @placeholder = "Largo" } })
+                        mm.
+                        @Html.ValidationMessageFor(model => model.FormatoAbiertoX, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EncuadernacionId, "Encuadernación", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("EncuadernacionId", null, "No", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EncuadernacionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tirajes, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 form-inline">
+                        @Html.EditorFor(model => model.Tiraje1, new { htmlAttributes = new { @class = "form-control", @style = "width:120px", @placeholder = "Tiraje 1" } })
+                        @Html.EditorFor(model => model.Tiraje2, new { htmlAttributes = new { @class = "form-control", @style = "width:120px", @placeholder = "Tiraje 2" } })
+                        @Html.EditorFor(model => model.Tiraje3, new { htmlAttributes = new { @class = "form-control", @style = "width:120px", @placeholder = "Tiraje 3" } })
+                        @Html.ValidationMessageFor(model => model.Tiraje1, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.Tiraje2, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.Tiraje3, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FechaProduccionSemana, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FechaProduccionSemana, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FechaProduccionSemana, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+               
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Embalaje, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Embalaje, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Embalaje, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DespachoId, "Despacho", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("DespachoId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.DespachoId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Información Interior</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.CantidadInterior, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.CantidadInterior, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.CantidadInterior, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Papel, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("DespachoId", null, htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Papel, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Gramaje, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Gramaje, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Gramaje, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Colores, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 form-inline">
+                        @Html.DropDownList("ColoresID1", null, htmlAttributes: new { @class = "form-control", @style = "width:63px" }) /
+                        @Html.DropDownList("ColoresID2", null, htmlAttributes: new { @class = "form-control", @style = "width:63px" })
+                        @Html.ValidationMessageFor(model => model.Colores, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+               
+            </fieldset>
+            <fieldset>
+                <legend>Otros Procesos</legend>
+                <div class="col-sm-offset-9 col-md-offset-9 col-sm-2 col-md-2">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Agregar Nuevo Proceso</button>
+                </div>
+                <hr />
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Proceso</th>
+                            <th>Cantidad</th>
+                            <th>Observación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </fieldset>
+
+        </div>
+        <div id="sidebar2" class="modal-dialog bottom" style="top: 15px;">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    Nueva Cotización
+                </div>
+                <div class="modal-footer">
+                    <a href=""><span class="btn btn-sm btn-default fa fa-history">Volver</span></a>
+                    <input type="submit" value="Crear" class="btn btn-default" />
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+}
+        <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            @Html.Partial("_CrearProceso");
+        </div>
+    </div>
+
+
+    
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+@Scripts.Render("~/bundles/JsDatePicker")
+<script>
+
+        $(function () {
+            var offset = $("#sidebar").offset();
+            var topPadding = -35;
+            if ($(document).width() > 992) {
+                $(window).on("scroll", function () {
+                    if ($(window).scrollTop() > (offset.top - topPadding)) {
+                        if ($(window).scrollTop() + (offset.top - topPadding) > 0) {
+                            $("#sidebar").stop().animate({
+                                marginTop: $(window).scrollTop() + (offset.top - topPadding)
+                            });
+                        }
+                        else {
+                            $("#sidebar").stop().animate({
+                                marginTop: 0
+                            });
+                        }
+                    } else {
+                        $("#sidebar").stop().animate({
+                            marginTop: 0
+                        });
+                    };
+                });
+            }
+        });
+        $(document).ready(function () {
+            moment.locale('es', {
+                week: { dow: 1 } // Monday is the first day of the week
+            });
+
+            //Initialize the datePicker(I have taken format as mm-dd-yyyy, you can     //have your owh)
+            $("#FechaProduccionSemana").datetimepicker({
+                format: 'DD-MM-YYYY'
+            });
+
+            //Get the value of Start and End of Week
+            $('#FechaProduccionSemana').on('dp.change', function (e) {
+                
+                var value = $("#FechaProduccionSemana").val();
+                console.log( value);
+                var firstDate = moment(value, "DD-MM-YYYY").day(0).format("DD-MM-YYYY") + " - " + moment(value, "DD-MM-YYYY").day(6).format("DD-MM-YYYY");
+                console.log(firstDate);
+                var lastDate = moment(value, "DD-MM-YYYY").day(6).format("DD-MM-YYYY");
+                $("#FechaProduccionSemana").val(firstDate);
+                console.log($("#FechaProduccionSemana").val());
+            });
+        });
+</script>
+}

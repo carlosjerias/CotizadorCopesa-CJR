@@ -1,0 +1,49 @@
+﻿@model IEnumerable<ProyectoPersonal.Models.Gerencia.Empresa>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<fieldset>
+    <legend>Información Empresas</legend>
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+    <table class="table table-condensed">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NombreEmpresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RutEmpresa)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EstadoEmpresa)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreEmpresa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RutEmpresa)
+                    -
+                    @Html.DisplayFor(modelItem => item.DgtVerificadorEmpresa)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.EstadoEmpresa)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.IdEmpresa }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.IdEmpresa }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.IdEmpresa })
+                </td>
+            </tr>
+        }
+
+    </table>
+</fieldset>

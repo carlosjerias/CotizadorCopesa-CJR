@@ -1,0 +1,210 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Presupuesto
+@{
+    Layout = null;
+}
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+@Scripts.Render("~/bundles/jquery")
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 table-bordered">
+            <div class="col-xs-6">
+
+                <br />
+                <img alt='Logo AImpresores' src='http://cencosud.aimpresores.cl/Estructura/Image/índice.jpg' />
+
+                <address class="small">
+                    Av. Gladys Marín Millie 6920, Estación Central, Santiago de Chile <br />
+                    Teléfono: (56 2) 2440 5700 / Fax:   p.PersonalComercial.Fax <br />
+                    info@aimpresores.cl
+                </address>
+
+            </div>
+            <div class="col-xs-6 text-center">
+                <br /><br /><br /><br /><strong class="text-uppercase">PRESUPUESTO @Html.DisplayFor(model => model.IdPresupuesto)  </strong>
+            </div>
+        </div>
+        <div class="col-xs-12 text-center table-bordered" style="border-top:0">
+            <em><strong> De acuerdo a lo solicitado por ustedes, remitimos el siguiente presupuesto:</strong></em>
+
+        </div>
+        <div class="col-xs-12">
+            <br />
+            <div class="col-xs-2 col-xs-offset-3 text-right">Empresa:</div>
+            <div class="col-xs-3 text-left">Grupo Copesa</div>
+            <div class="col-xs-1">Fecha:</div>
+            <div class="col-xs-3 text-left">@Html.DisplayFor(model => model.FechaCreacion)</div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-2 col-xs-offset-3 text-right">Atención a:</div>
+            <div class="col-xs-7 text-left">@Html.DisplayFor(model => model.Usuario.NombreCompleto)</div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-2 col-xs-offset-3 text-right">Ejecutivo Directo:</div>
+            <div class="col-xs-7 text-left">Patricio Alcalde</div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-2 col-xs-offset-3 text-right">Mail:</div>
+            <div class="col-xs-7 text-left">patricio.alcalde@aimpresores.cl</div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-2 col-xs-offset-3 text-right">Telefono:</div>
+            <div class="col-xs-7 text-left">2440 5723 / 9631 8645</div>
+        </div>
+        <div class="col-xs-12" style="margin-top:5px; margin-bottom:5px; height:1px; width:100%; border-top:1px solid gray;"></div>
+        <div class="col-xs-12">
+            <br />
+            <div class="col-xs-2 col-xs-offset-3 text-right">Producto:</div>
+            <div class="col-xs-7 text-left"><strong class="text-uppercase">@Html.DisplayFor(model => model.NombrePresupuesto)</strong></div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-2 col-xs-offset-3 text-right">Formato Cerrado:</div>
+            <div class="col-xs-7 text-left">@Html.DisplayFor(model => model.Formato.NombreFormato) (mm.)</div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-3 col-xs-offset-2 text-right">Formato Extendido:</div>
+            <div class="col-xs-7 text-left">@Html.DisplayFor(model => model.Formato.FormatoExtendido) (mm.)</div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-2 col-xs-offset-3 text-right">Extensión:</div>
+            <div class="col-xs-7 text-left">@Html.DisplayFor(model => model.Interior.CantidadPaginas) páginas Interiores impresas a 4/4 colores proceso</div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-2 col-xs-offset-3 text-right">Papel:</div>
+            <div class="col-xs-7 text-left">@Html.DisplayFor(model => model.Interior.Papel.NombrePapel) de @Html.DisplayFor(model => model.Interior.Papel.Gramaje) grs. </div>
+        </div>
+        @if (Model.TapaId != null)
+        {
+            <div class="col-xs-12">
+                <div class="col-xs-2 col-xs-offset-3 text-right">Tapa:</div>
+                <div class="col-xs-7 text-left">@Html.DisplayFor(model => model.Tapa.CantidadPaginas) Tapas impresas a 4/4 colores proceso</div>
+            </div>
+            <div class="col-xs-12">
+                <div class="col-xs-2 col-xs-offset-3 text-right">Papel:</div>
+                <div class="col-xs-7 text-left">@Html.DisplayFor(model => model.Tapa.Papel.NombrePapel) de @Html.DisplayFor(model => model.Tapa.Papel.Gramaje) grs. </div>
+            </div>
+        }
+
+        <div class="col-xs-12">
+            <div class="col-xs-2 col-xs-offset-3 text-right">Encuadernación:</div>
+            <div class="col-xs-7 text-left">@Html.DisplayFor(mode => Model.Encuadernacion.NombreEncuadernacion)</div>
+        </div>
+        <div class="col-xs-12">
+            <br />
+            <div class="col-xs-3 col-xs-offset-3 text-right">Cantidad de Ejemplares:</div>
+            <div class="col-xs-2 text-left">@Html.DisplayFor(model => model.Tiraje)</div>
+            <div class="col-xs-2 text-right">Total Neto:</div>
+            <div class="col-xs-2 text-left">$@Html.DisplayFor(model => model.TotalNetoTotal)</div>
+            <br />
+        </div>
+        <div class="col-xs-12 form-inline">
+            <br />
+            <div class="col-xs-5">
+                <br />
+                <table class="table table-striped table-bordered"  style="border: 1px solid #ddd;">
+                    <thead>
+                        <tr>
+                            <td>Tiraje</td>
+                            <td>Kg. Interior</td>
+                            <td>kg. Tapa</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="text-right">@Html.DisplayFor(model => model.Tiraje)</td>
+                            <td class="text-right">@Html.DisplayFor(model => model.Interior.KilosPapel)</td>
+                            @if (Model.Tapa != null)
+                            {
+                                <td class="text-right">@Html.DisplayFor(model => model.Tapa.KilosPapel)</td>
+                            }
+                            else
+                            {
+                                <td class="text-right">0</td> 
+                            }
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-xs-1"></div>
+            <div class="col-xs-5">
+                <table class="table table-striped table-bordered" style="border: 1px solid #ddd;">
+                    <thead>
+                        <tr>
+                            <td></td>
+                            <td>C.F</td>
+                            <td>C.V.</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Papel:</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TarifaFijaPapel)</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TarifaVariablePapel)</td>
+                        </tr>
+                        <tr>
+                            <td>Impresión:</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TarifaFijaImpresion)</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TarifaVariableImpresion)</td>
+                        </tr>
+                        <tr>
+                            <td>Encuadernación:</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TarifaFijaEncuadernacion)</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TarifaVariableEncuadernacion)</td>
+                        </tr>
+                        <tr>
+                            <td>Terminación:</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TarifaFijaTerminacion)</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TarifaVariableTerminacion)</td>
+                        </tr>
+                        <tr>
+                            <td>Manufactura:</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TotalNetoTotal)</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TotalNetoTotal)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        @if (Model.TapaId == null)
+        {
+            <div class="col-xs-12"><br /></div>
+        }
+        <div class="col-xs-12"> Observaciones : Papeles son proporcionado por grupo Copesa</div>
+        @if (Model.TapaId == null)
+        {
+            <div class="col-xs-12" style="height:200px"></div>
+        }
+        else
+        {
+            <div class="col-xs-12" style="height:150px"></div>
+        }
+        <div class="col-xs-12">
+            <div class="col-xs-3 col-xs-offset-2" style="width:25%; margin-top:5px; margin-bottom:5px; height:1px; border-top:1px solid gray;"></div>
+            <div class="col-xs-3 col-xs-offset-2" style="margin-top:5px; margin-bottom:5px; height:1px; border-top:1px solid gray;"></div>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-3 col-xs-offset-2 text-center small">ACEPTADO CLIENTE</div>
+            <div class="col-xs-3 col-xs-offset-2 text-center small">A IMPRESORES S.A.</div>
+        </div>
+        <div class="col-xs-12">Precios no Incluyen IVA</div>
+        <div class="col-xs-12  table-bordered text-center small">
+            La Validez de este presupuesto es de 30 días, vencido este plazo el presupuesto queda nulo
+            <br />
+            Se acepta una variación de la cantidad solicitada en un rango /- 5% la cual será
+            facturada al valor del ejemplar adicional
+            <br />
+            Este Presupuesto se mantiene proforma hasta el cierre completo del material proporcionado
+            por el cliente
+            <br />
+            Despacho del volumen total solo a un lugar físico dentro de la Región Metropolitana
+            <br />
+            Si este presupuesto es acertado,se deberá confirmar disponibilidad de máquina y
+            papeles con su ejecutivo directo.
+            <br />
+            Tipo de cambio vigente : UF @Html.DisplayFor(model => model.Moneda.Valor)
+            informado por el Banco Central de Chile.
+        </div>
+    </div>
+</div>

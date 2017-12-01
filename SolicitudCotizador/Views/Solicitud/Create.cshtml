@@ -1,0 +1,446 @@
+﻿@model SolicitudCotizador.Models.Solicitud
+
+@{
+    ViewBag.Title = "Create";
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    <div class="container-fluid">
+        <div id="sidebar" class="modal-dialog bottom" style="top: 15px;">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    Nueva Cotización
+                </div>
+                <div class="modal-footer">
+                    <a href=""><span class="btn btn-sm btn-default fa fa-history">Volver</span></a>
+                    <button id="btnGuardar" type="button" class="btn btn-sm btn-default">
+                        <i class="icon-check"></i>Crear
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="form-horizontal form">
+            <fieldset>
+                <legend>Información Cliente</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NombreCliente, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NombreCliente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NombreCliente, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.RutCliente, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 form-inline">
+                        @Html.EditorFor(model => model.RutCliente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.EditorFor(model => model.RutDigitoVerificador, new { htmlAttributes = new { @class = "form-control", @style = "width: 50px;" } })
+                        @Html.ValidationMessageFor(model => model.RutCliente, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Contacto, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Contacto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Contacto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Correo, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Correo, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Correo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Telefono, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Telefono, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Información Presupuesto</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NombreProducto, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NombreProducto, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NombreProducto, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <span class="control-label col-md-2">Formato Cerrado</span>
+                    <div class="col-md-10 form-inline">
+                        <asp:TextBox ID="txtFormatox" runat="server" CssClass="form-control" Width="70px"></asp:TextBox>
+                        mm. x
+                        <asp:TextBox ID="txtFormatoy" runat="server" CssClass="form-control" Width="70px"></asp:TextBox>
+                        mm.
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2">Formato Abierto</span>
+                    <div class="col-md-8 form-inline">
+                        <asp:TextBox ID="txtFormatoAx" runat="server" CssClass="form-control" Width="70px"></asp:TextBox>
+                        mm. x
+                        <asp:TextBox ID="txtFormatoAy" runat="server" CssClass="form-control" Width="70px"></asp:TextBox>
+                        mm.
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EncuadernacionId, "EncuadernacionId", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("EncuadernacionId", null,"No", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EncuadernacionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Tirajes, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10 form-inline">
+                        @Html.EditorFor(model => model.Tiraje1, new { htmlAttributes = new { @class = "form-control", @style="width:120px" } })
+                        @Html.EditorFor(model => model.Tiraje2, new { htmlAttributes = new { @class = "form-control", @style = "width:120px" } })
+                        @Html.EditorFor(model => model.Tiraje3, new { htmlAttributes = new { @class = "form-control", @style = "width:120px" } })
+                        @Html.ValidationMessageFor(model => model.Tiraje1, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.Tiraje2, "", new { @class = "text-danger" })
+                        @Html.ValidationMessageFor(model => model.Tiraje3, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <span class="control-label col-md-2">Fecha de Producción</span>
+                    <div class="col-md-10  form-inline">
+                        <asp:DropDownList ID="ddlSemana" runat="server" CssClass="form-control">
+                            <asp:ListItem>Primera Semana</asp:ListItem>
+                            <asp:ListItem>Segunda Semana</asp:ListItem>
+                            <asp:ListItem>Tercera Semana</asp:ListItem>
+                            <asp:ListItem>Cuarta Semana</asp:ListItem>
+                        </asp:DropDownList>
+                        <asp:DropDownList ID="ddlMes" runat="server" CssClass="form-control">
+                            <asp:ListItem>Octubre</asp:ListItem>
+                            <asp:ListItem>Noviembre</asp:ListItem>
+                            <asp:ListItem>Diciembre</asp:ListItem>
+                            <asp:ListItem>Enero</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Embalaje, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Embalaje, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Embalaje, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2">Despacho</span>
+                    <div class="col-md-10">
+                        <asp:DropDownList ID="ddldespacho" runat="server" CssClass="form-control">
+                            <asp:ListItem>Dentro de Santiago</asp:ListItem>
+                            <asp:ListItem>Fuera de Santiago</asp:ListItem>
+                            <asp:ListItem>Lista de Distribucción</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2">cantidad paginas Totales</span>
+                    <div class="col-md-10">
+                        <asp:TextBox ID="TextBox12" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2">cantidad colores Totales</span>
+                    <div class="col-md-10">
+                        <asp:TextBox ID="TextBox13" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Información Interior</legend>
+                <div class="form-group">
+                    <span class="control-label col-md-2">N° Paginas Interior</span>
+                    <div class="col-md-10">
+                        <asp:DropDownList ID="ddlCantidadInt" runat="server" CssClass="form-control">
+                        </asp:DropDownList>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2">Papel Interior</span>
+                    <div class="col-md-10">
+                        <asp:TextBox ID="txtPapelInterior" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2">Gramaje Interior</span>
+                    <div class="col-md-10">
+                        <asp:TextBox ID="txtGramajeInt" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2">Colores</span>
+                    <div class="col-md-10  form-inline">
+                        <asp:DropDownList ID="DropDownList2" runat="server" CssClass="form-control">
+                            <asp:ListItem>0</asp:ListItem>
+                            <asp:ListItem>1</asp:ListItem>
+                            <asp:ListItem>2</asp:ListItem>
+                            <asp:ListItem>3</asp:ListItem>
+                            <asp:ListItem>4</asp:ListItem>
+                            <asp:ListItem>5</asp:ListItem>
+                            <asp:ListItem>6</asp:ListItem>
+                        </asp:DropDownList>/
+                        <asp:DropDownList ID="DropDownList4" runat="server" CssClass="form-control">
+                            <asp:ListItem>0</asp:ListItem>
+                            <asp:ListItem>1</asp:ListItem>
+                            <asp:ListItem>2</asp:ListItem>
+                            <asp:ListItem>3</asp:ListItem>
+                            <asp:ListItem>4</asp:ListItem>
+                            <asp:ListItem>5</asp:ListItem>
+                            <asp:ListItem>6</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Información Tapa</legend>
+                <div class="form-group">
+                    <span class="control-label col-md-2">N° Paginas Tapa</span>
+                    <div class="col-md-10">
+                        <asp:TextBox ID="txtCantidadTapa" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2">Papel Tapa</span>
+                    <div class="col-md-10">
+                        <asp:TextBox ID="txtPapelTapa" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2">Gramaje Tapa</span>
+                    <div class="col-md-10">
+                        <asp:TextBox ID="txtGramajeTapa" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <span class="control-label col-md-2">Colores</span>
+                    <div class="col-md-10  form-inline">
+                        <asp:DropDownList ID="DropDownList5" runat="server" CssClass="form-control">
+                            <asp:ListItem>0</asp:ListItem>
+                            <asp:ListItem>1</asp:ListItem>
+                            <asp:ListItem>2</asp:ListItem>
+                            <asp:ListItem>3</asp:ListItem>
+                            <asp:ListItem>4</asp:ListItem>
+                            <asp:ListItem>5</asp:ListItem>
+                            <asp:ListItem>6</asp:ListItem>
+                        </asp:DropDownList>/
+                        <asp:DropDownList ID="DropDownList6" runat="server" CssClass="form-control">
+                            <asp:ListItem>0</asp:ListItem>
+                            <asp:ListItem>1</asp:ListItem>
+                            <asp:ListItem>2</asp:ListItem>
+                            <asp:ListItem>3</asp:ListItem>
+                            <asp:ListItem>4</asp:ListItem>
+                            <asp:ListItem>5</asp:ListItem>
+                            <asp:ListItem>6</asp:ListItem>
+                        </asp:DropDownList>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Otros Procesos</legend>
+                <div class="col-sm-offset-9 col-md-offset-9 col-sm-2 col-md-2">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal">Agregar Nuevo Proceso</button>
+                </div>
+                <hr />
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Proceso</th>
+                            <th>Cantidad</th>
+                            <th>Observación</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Barniz UV</td>
+                            <td>15000</td>
+                            <td>Solo en el Tiro.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </fieldset>
+
+        </div>
+        <div id="sidebar2" class="modal-dialog bottom" style="top: 15px;">
+            <div class="modal-content">
+                <div class="modal-header text-center">
+                    Nueva Cotización
+                </div>
+                <div class="modal-footer">
+                    <a href=""><span class="btn btn-sm btn-default fa fa-history">Volver</span></a>
+                    <button id="btnGuardar" type="button" class="btn btn-sm btn-default">
+                        <i class="icon-check"></i>Crear
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Nuevo Proceso</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal form" style="width: 100%">
+                            <div class="form-group">
+                                <span class="control-label col-md-3">Proceso</span>
+                                <div class="col-md-9">
+                                    <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control">
+                                        <asp:ListItem>Interior 2</asp:ListItem>
+                                        <asp:ListItem>Interior 3</asp:ListItem>
+                                        <asp:ListItem>Interior 4</asp:ListItem>
+                                        <asp:ListItem>Interior 5</asp:ListItem>
+                                        <asp:ListItem>Laminado</asp:ListItem>
+                                        <asp:ListItem>Barniz UV</asp:ListItem>
+                                        <asp:ListItem>Quinto Color</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3">Cantidad</span>
+                                <div class="col-md-9">
+                                    <asp:TextBox ID="TextBox10" runat="server" CssClass="form-control"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3">Papel</span>
+                                <div class="col-md-9 form-inline">
+                                    <asp:DropDownList ID="DropDownList3" runat="server" CssClass="form-control">
+                                        <asp:ListItem>Bond</asp:ListItem>
+                                        <asp:ListItem>Couche Opaco</asp:ListItem>
+                                        <asp:ListItem>Couche Brillante</asp:ListItem>
+                                        <asp:ListItem>LWC</asp:ListItem>
+                                        <asp:ListItem>Diario</asp:ListItem>
+                                    </asp:DropDownList>
+                                    <asp:TextBox ID="TextBox11" runat="server" CssClass="form-control"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3">Gramaje</span>
+                                <div class="col-md-9">
+                                    <asp:TextBox ID="txtGramaje" runat="server" CssClass="form-control"></asp:TextBox>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3">Colores</span>
+                                <div class="col-md-9  form-inline">
+                                    <asp:DropDownList ID="DropDownList7" runat="server" CssClass="form-control">
+                                        <asp:ListItem>0</asp:ListItem>
+                                        <asp:ListItem>1</asp:ListItem>
+                                        <asp:ListItem>2</asp:ListItem>
+                                        <asp:ListItem>3</asp:ListItem>
+                                        <asp:ListItem>4</asp:ListItem>
+                                        <asp:ListItem>5</asp:ListItem>
+                                        <asp:ListItem>6</asp:ListItem>
+                                    </asp:DropDownList>/
+                                    <asp:DropDownList ID="DropDownList8" runat="server" CssClass="form-control">
+                                        <asp:ListItem>0</asp:ListItem>
+                                        <asp:ListItem>1</asp:ListItem>
+                                        <asp:ListItem>2</asp:ListItem>
+                                        <asp:ListItem>3</asp:ListItem>
+                                        <asp:ListItem>4</asp:ListItem>
+                                        <asp:ListItem>5</asp:ListItem>
+                                        <asp:ListItem>6</asp:ListItem>
+                                    </asp:DropDownList>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="control-label col-md-3">Observación</span>
+                                <div class="col-md-9">
+                                    <asp:TextBox ID="txtOtrosProcesos" runat="server" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <hr />
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Agregar</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+
+
+    <div class="form-horizontal">
+        <h4>Solicitud Presupuestos</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FormatoId, "FormatoId", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("FormatoId", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.FormatoId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FechaProduccion, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FechaProduccion, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FechaProduccion, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Despacho, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Despacho, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Despacho, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.CantidadPaginasTotales, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CantidadPaginasTotales, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CantidadPaginasTotales, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ColoresTotales, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ColoresTotales, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ColoresTotales, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

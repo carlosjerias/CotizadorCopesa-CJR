@@ -1,0 +1,75 @@
+﻿@model IEnumerable<ProyectoPersonal.Models.Cotizador.SubProceso>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Doblez.NombreDoblez)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Proceso.NombreProceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UnidadMedida.NombreUnidadMedida)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreSubProceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CostoFijoSubProceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CostoVariableSubProceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Doblez.NombreDoblez)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Proceso.NombreProceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TipoMoneda.NombreTipoMoneda)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UnidadMedida.NombreUnidadMedida)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombreSubProceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CostoFijoSubProceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CostoVariableSubProceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Observacion)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.idSubProceso }) |
+            @Html.ActionLink("Details", "Details", new { id=item.idSubProceso }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.idSubProceso })
+        </td>
+    </tr>
+}
+
+</table>

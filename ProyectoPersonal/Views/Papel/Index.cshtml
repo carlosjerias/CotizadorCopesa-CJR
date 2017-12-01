@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ProyectoPersonal.Models.Cotizador.Papel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Maquina.NombreMaquina)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombrePapel)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Gramaje)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AnchoBanda)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Lomo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Adhesivo)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Maquina.NombreMaquina)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NombrePapel)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Gramaje)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AnchoBanda)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Lomo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Adhesivo)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdPapel }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdPapel }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdPapel })
+        </td>
+    </tr>
+}
+
+</table>

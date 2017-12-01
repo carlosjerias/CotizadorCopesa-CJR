@@ -1,0 +1,90 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+#sidebar {
+            width: 23%;
+            float: right;
+            background: #ccc;
+            margin-left: 10px;
+            padding: 0 2px 2px 0;
+        }
+        #sidebar2 {
+                display:none;
+                width: 100%;
+                float: none;
+                background: #ccc;
+                margin-left: 10px;
+                padding: 0 2px 2px 0;
+            }
+        .form-horizontal {
+            width: 75%;
+        }
+
+        @media (max-width: 992px) {
+            #sidebar {
+                display:none;
+                width: 100%;
+                float: none;
+                background: #ccc;
+                margin-left: 10px;
+                padding: 0 2px 2px 0;
+            }
+            #sidebar2 {
+                display:block;
+                width: 100%;
+                float: none;
+                background: #ccc;
+                margin-left: 10px;
+                padding: 0 2px 2px 0;
+            }
+            .form-horizontal {
+                width: 100%;
+            }
+        }
+        /*Fielset*/
+        fieldset {
+            padding: 10px 25px;
+            margin: 15px 0px;
+            border: 1px solid #dddddd;
+            background-color: #fafafa;
+        }
+
+            fieldset legend {
+                display: block;
+                width: auto;
+                padding: 3px 10px;
+                margin-bottom: 0;
+                font-size: 15px;
+                line-height: inherit;
+                color: #333;
+                border: 1px solid #ddd;
+                background-color: #ffffff;
+            }
+@media (min-width: 1440px) {
+    .container {
+        max-width: 90%;
+    }
+}

@@ -1,0 +1,88 @@
+﻿@model ProyectoPersonal.Models.Cotizador.SubProceso
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>SubProceso</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Doblez.NombreDoblez)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doblez.NombreDoblez)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Proceso.NombreProceso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Proceso.NombreProceso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoMoneda.NombreTipoMoneda)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UnidadMedida.NombreUnidadMedida)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UnidadMedida.NombreUnidadMedida)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreSubProceso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreSubProceso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CostoFijoSubProceso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CostoFijoSubProceso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CostoVariableSubProceso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CostoVariableSubProceso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Observacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Observacion)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

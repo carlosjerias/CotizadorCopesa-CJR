@@ -1,0 +1,99 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Presupuesto
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Presupuesto</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Encuadernacion.NombreEncuadernacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Encuadernacion.NombreEncuadernacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Formato.IdFormato)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Formato.IdFormato)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Interior.IdInterior)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Interior.IdInterior)
+        </dd>
+
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tapa.IdTapa)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tapa.IdTapa)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombrePresupuesto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombrePresupuesto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Tiraje)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Tiraje)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalNetoFijo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalNetoFijo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalNetoVari)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalNetoVari)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalNetoTotal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TotalNetoTotal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PrecioUnitario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PrecioUnitario)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdPresupuesto }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

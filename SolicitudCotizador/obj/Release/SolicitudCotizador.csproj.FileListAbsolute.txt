@@ -1,0 +1,211 @@
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\ApplicationInsights.config
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\csc.exe
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\vbc.exe
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\VBCSCompiler.exe
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\SolicitudCotizador.dll.config
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\SolicitudCotizador.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\SolicitudCotizador.pdb
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Antlr3.Runtime.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\EntityFramework.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\EntityFramework.SqlServer.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.Web.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Newtonsoft.Json.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Owin.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Helpers.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Mvc.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Optimization.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Razor.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.Razor.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\WebGrease.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.Web.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Helpers.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Mvc.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Optimization.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Razor.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.Razor.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Antlr3.Runtime.pdb
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Newtonsoft.Json.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\EntityFramework.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\EntityFramework.SqlServer.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.Helpers.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.Optimization.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.Razor.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\EntityFramework.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\EntityFramework.SqlServer.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Host.SystemWeb.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Security.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Security.Facebook.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Security.Google.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.Migrations.BasedeDatosInicial.resources
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.Migrations.Seagregodespacho.resources
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.csproj.GenerateResource.Cache
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.dll
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.pdb
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.Migrations.CambiosenColores.resources
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\ApplicationInsights.config
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\csc.exe
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\vbc.exe
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\VBCSCompiler.exe
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\SolicitudCotizador.dll.config
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\SolicitudCotizador.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\SolicitudCotizador.pdb
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Antlr3.Runtime.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\EntityFramework.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\EntityFramework.SqlServer.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.Web.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.ApplicationInsights.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.Core.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.EntityFramework.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.Owin.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Cookies.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Facebook.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Google.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.MicrosoftAccount.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.OAuth.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Twitter.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Newtonsoft.Json.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Owin.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Helpers.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Mvc.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Optimization.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Razor.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.Deployment.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.Razor.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\WebGrease.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.Web.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.ApplicationInsights.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Helpers.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Mvc.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Optimization.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.Razor.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.Deployment.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\System.Web.WebPages.Razor.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Antlr3.Runtime.pdb
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Newtonsoft.Json.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\EntityFramework.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\EntityFramework.SqlServer.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.Core.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.Owin.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.AspNet.Identity.EntityFramework.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Facebook.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Cookies.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.OAuth.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Google.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.Twitter.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.Helpers.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.Mvc.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.Optimization.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.Razor.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.WebPages.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.WebPages.Deployment.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\System.Web.WebPages.Razor.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\EntityFramework.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\EntityFramework.SqlServer.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.AspNet.Identity.Core.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.AspNet.Identity.Owin.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.AspNet.Identity.EntityFramework.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Host.SystemWeb.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Security.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Security.Facebook.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Security.Google.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.csprojResolveAssemblyReference.cache
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.Migrations.BasedeDatosInicial.resources
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.Migrations.Seagregodespacho.resources
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.Migrations.CambiosenColores.resources
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.Migrations.cambios.resources
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.csproj.GenerateResource.Cache
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.dll
+C:\Users\Admin\Desktop\Cotizador20102017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Release\SolicitudCotizador.pdb

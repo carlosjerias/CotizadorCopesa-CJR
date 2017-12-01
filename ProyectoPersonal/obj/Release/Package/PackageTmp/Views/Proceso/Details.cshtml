@@ -1,0 +1,34 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Proceso
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Proceso</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TipoProceso.NombreTipoProceso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TipoProceso.NombreTipoProceso)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.NombreProceso)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NombreProceso)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdProceso }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,58 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Embalaje
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Embalaje</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Base)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Base)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AltoCaja)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AltoCaja)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CajaEstandar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CajaEstandar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EncajadoxCaja)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EncajadoxCaja)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estado)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.idEmbalaje }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

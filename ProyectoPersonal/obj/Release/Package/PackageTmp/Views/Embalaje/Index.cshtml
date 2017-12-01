@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ProyectoPersonal.Models.Cotizador.Embalaje>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Base)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AltoCaja)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CajaEstandar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EncajadoxCaja)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Base)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AltoCaja)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CajaEstandar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EncajadoxCaja)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estado)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.idEmbalaje }) |
+            @Html.ActionLink("Details", "Details", new { id=item.idEmbalaje }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.idEmbalaje })
+        </td>
+    </tr>
+}
+
+</table>
