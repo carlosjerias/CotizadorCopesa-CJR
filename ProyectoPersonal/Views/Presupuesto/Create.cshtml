@@ -3,12 +3,13 @@
 
 <style>
     #sidebar {
-        width: 25%;
+        width: 28%;
         float: right;
         background: #ccc;
         margin-left: 10px;
         padding: 0 2px 2px 0;
     }
+    
 </style>
 <script>
 
@@ -61,250 +62,259 @@
             $("#Entradas16").text(data.EntradasPag16);
             $("#Entradas8").text(data.EntradasPag8);
             $("#Entradas4").text(data.EntradasPag4);
-            $("#64CostoFijo").text(data.CostoFijoPag64);
-            $("#48CostoFijo").text(data.CostoFijoPag48);
-            $("#32CostoFijo").text(data.CostoFijoPag32);
-            $("#24CostoFijo").text(data.CostoFijoPag24);
-            $("#16CostoFijo").text(data.CostoFijoPag16);
-            $("#8CostoFijo").text(data.CostoFijoPag8);
-            $("#4CostoFijo").text(data.CostoFijoPag4);
-            $("#64CostoVari").text(data.CostoVariablePag64);
-            $("#48CostoVari").text(data.CostoVariablePag48);
-            $("#32CostoVari").text(data.CostoVariablePag32);
-            $("#24CostoVari").text(data.CostoVariablePag24);
-            $("#16CostoVari").text(data.CostoVariablePag16);
-            $("#8CostoVari").text(data.CostoVariablePag8);
-            $("#4CostoVari").text(data.CostoVariablePag4);
-            $("#64TotCostoFijo").text(eval(data.EntradasPag64) * eval(data.CostoFijoPag64));
-            $("#48TotCostoFijo").text(eval(data.EntradasPag48) * eval(data.CostoFijoPag48));
-            $("#32TotCostoFijo").text(eval(data.EntradasPag32) * eval(data.CostoFijoPag32));
-            $("#24TotCostoFijo").text(eval(data.EntradasPag24) * eval(data.CostoFijoPag24));
-            $("#16TotCostoFijo").text(eval(data.EntradasPag16) * eval(data.CostoFijoPag16));
-            $("#8TotCostoFijo").text(eval(data.EntradasPag8) * eval(data.CostoFijoPag8));
-            $("#4TotCostoFijo").text(eval(data.EntradasPag4) * eval(data.CostoFijoPag4));
-            $("#64TotCostoVari").text(eval(data.EntradasPag64) * eval(data.CostoVariablePag64));
-            $("#48TotCostoVari").text(eval(data.EntradasPag48) * eval(data.CostoVariablePag48));
-            $("#32TotCostoVari").text(eval(data.EntradasPag32) * eval(data.CostoVariablePag32));
-            $("#24TotCostoVari").text(eval(data.EntradasPag24) * eval(data.CostoVariablePag24));
-            $("#16TotCostoVari").text(eval(data.EntradasPag16) * eval(data.CostoVariablePag16));
-            $("#8TotCostoVari").text(eval(data.EntradasPag8) * eval(data.CostoVariablePag8));
-            $("#4TotCostoVari").text(eval(data.EntradasPag4) * eval(data.CostoVariablePag4));
-            $("#64Total").text((eval(data.EntradasPag64) * eval(data.CostoFijoPag64)) + (eval(data.Tiraje) * eval(data.EntradasPag64) * eval(data.CostoVariablePag64)));
-            $("#48Total").text((eval(data.EntradasPag48) * eval(data.CostoFijoPag48)) + (eval(data.Tiraje) * eval(data.EntradasPag48) * eval(data.CostoVariablePag48)));
-            $("#32Total").text((eval(data.EntradasPag32) * eval(data.CostoFijoPag32)) + (eval(data.Tiraje) * eval(data.EntradasPag32) * eval(data.CostoVariablePag32)));
-            $("#24Total").text((eval(data.EntradasPag24) * eval(data.CostoFijoPag24)) + (eval(data.Tiraje) * eval(data.EntradasPag24) * eval(data.CostoVariablePag24)));
-            $("#16Total").text((eval(data.EntradasPag16) * eval(data.CostoFijoPag16)) + (eval(data.Tiraje) * eval(data.EntradasPag16) * eval(data.CostoVariablePag16)));
-            $("#8Total").text((eval(data.EntradasPag8) * eval(data.CostoFijoPag8)) + (eval(data.Tiraje) * eval(data.EntradasPag8) * eval(data.CostoVariablePag8)));
-            $("#4Total").text((eval(data.EntradasPag4) * eval(data.CostoFijoPag4)) + (eval(data.Tiraje) * eval(data.EntradasPag4) * eval(data.CostoVariablePag4)));
+            $("#64CostoFijo").text(formatNumber.new(data.CostoFijoPag64));
+            $("#48CostoFijo").text(formatNumber.new(data.CostoFijoPag48));
+            $("#32CostoFijo").text(formatNumber.new(data.CostoFijoPag32));
+            $("#24CostoFijo").text(formatNumber.new(data.CostoFijoPag24));
+            $("#16CostoFijo").text(formatNumber.new(data.CostoFijoPag16));
+            $("#8CostoFijo").text(formatNumber.new(data.CostoFijoPag8));
+            $("#4CostoFijo").text(formatNumber.new(data.CostoFijoPag4));
+            $("#64CostoVari").text(formatNumber.new(data.CostoVariablePag64));
+            $("#48CostoVari").text(formatNumber.new(data.CostoVariablePag48));
+            $("#32CostoVari").text(formatNumber.new(data.CostoVariablePag32));
+            $("#24CostoVari").text(formatNumber.new(data.CostoVariablePag24));
+            $("#16CostoVari").text(formatNumber.new(data.CostoVariablePag16));
+            $("#8CostoVari").text(formatNumber.new(data.CostoVariablePag8));
+            $("#4CostoVari").text(formatNumber.new(data.CostoVariablePag4));
+            $("#64TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag64) * eval(data.CostoFijoPag64)));
+            $("#48TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag48) * eval(data.CostoFijoPag48)));
+            $("#32TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag32) * eval(data.CostoFijoPag32)));
+            $("#24TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag24) * eval(data.CostoFijoPag24)));
+            $("#16TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag16) * eval(data.CostoFijoPag16)));
+            $("#8TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag8) * eval(data.CostoFijoPag8)));
+            $("#4TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag4) * eval(data.CostoFijoPag4)));
+            $("#64TotCostoVari").text(formatNumber.new(eval(data.EntradasPag64) * eval(data.CostoVariablePag64)));
+            $("#48TotCostoVari").text(formatNumber.new(eval(data.EntradasPag48) * eval(data.CostoVariablePag48)));
+            $("#32TotCostoVari").text(formatNumber.new(eval(data.EntradasPag32) * eval(data.CostoVariablePag32)));
+            $("#24TotCostoVari").text(formatNumber.new(eval(data.EntradasPag24) * eval(data.CostoVariablePag24)));
+            $("#16TotCostoVari").text(formatNumber.new(eval(data.EntradasPag16) * eval(data.CostoVariablePag16)));
+            $("#8TotCostoVari").text(formatNumber.new(eval(data.EntradasPag8) * eval(data.CostoVariablePag8)));
+            $("#4TotCostoVari").text(formatNumber.new(eval(data.EntradasPag4) * eval(data.CostoVariablePag4)));
+            $("#64Total").text(formatNumber.new((eval(data.EntradasPag64) * eval(data.CostoFijoPag64)) + (eval(data.Tiraje) * eval(data.EntradasPag64) * eval(data.CostoVariablePag64))));
+            $("#48Total").text(formatNumber.new((eval(data.EntradasPag48) * eval(data.CostoFijoPag48)) + (eval(data.Tiraje) * eval(data.EntradasPag48) * eval(data.CostoVariablePag48))));
+            $("#32Total").text(formatNumber.new((eval(data.EntradasPag32) * eval(data.CostoFijoPag32)) + (eval(data.Tiraje) * eval(data.EntradasPag32) * eval(data.CostoVariablePag32))));
+            $("#24Total").text(formatNumber.new((eval(data.EntradasPag24) * eval(data.CostoFijoPag24)) + (eval(data.Tiraje) * eval(data.EntradasPag24) * eval(data.CostoVariablePag24))));
+            $("#16Total").text(formatNumber.new((eval(data.EntradasPag16) * eval(data.CostoFijoPag16)) + (eval(data.Tiraje) * eval(data.EntradasPag16) * eval(data.CostoVariablePag16))));
+            $("#8Total").text(formatNumber.new((eval(data.EntradasPag8) * eval(data.CostoFijoPag8)) + (eval(data.Tiraje) * eval(data.EntradasPag8) * eval(data.CostoVariablePag8))));
+            $("#4Total").text(formatNumber.new((eval(data.EntradasPag4) * eval(data.CostoFijoPag4)) + (eval(data.Tiraje) * eval(data.EntradasPag4) * eval(data.CostoVariablePag4))));
             if (data.CostoFijoTapa > 0) {
                 $("#EntradasTapa").text("1");
             }
             else {
                 $("#EntradasTapa").text("0");
             }
-            $("#TapaCostoFijo").text(data.CostoFijoTapa);
-            $("#TapaTotCostoFijo").text(data.CostoFijoTapa);
-            $("#TapaCostoVari").text(data.CostoVariableTapa);
-            $("#TapaTotCostoVari").text(data.CostoVariableTapa);
-            $("#TapaTotal").text(eval(data.CostoFijoTapa) + (eval(data.Tiraje) * eval(data.CostoVariableTapa)));
+            $("#TapaCostoFijo").text(formatNumber.new(data.CostoFijoTapa));
+            $("#TapaTotCostoFijo").text(formatNumber.new(data.CostoFijoTapa));
+            $("#TapaCostoVari").text(formatNumber.new(data.CostoVariableTapa));
+            $("#TapaTotCostoVari").text(formatNumber.new(data.CostoVariableTapa));
+            $("#TapaTotal").text(formatNumber.new(eval(data.CostoFijoTapa) + (eval(data.Tiraje) * eval(data.CostoVariableTapa))));
             if (data.CostoFijoEncuadernacion > 0) {
                 $("#EncEntradas").text("1");
             } else {
                 $("#EncEntradas").text("0");
             }
-            $("#EncCostoFijo").text(data.CostoFijoEncuadernacion);
-            $("#EncTotCostoFijo").text(data.CostoFijoEncuadernacion);
-            $("#EncCostoVari").text(data.CostoVariableEncuadernacion);
-            $("#EncTotCostoVari").text(data.CostoVariableEncuadernacion);
-            $("#EncTotal").text(eval(data.CostoFijoEncuadernacion) + (eval(data.Tiraje) * eval(data.CostoVariableEncuadernacion)));
+            $("#EncCostoFijo").text(formatNumber.new(data.CostoFijoEncuadernacion));
+            $("#EncTotCostoFijo").text(formatNumber.new(data.CostoFijoEncuadernacion));
+            $("#EncCostoVari").text(formatNumber.new(data.CostoVariableEncuadernacion));
+            $("#EncTotCostoVari").text(formatNumber.new(data.CostoVariableEncuadernacion));
+            $("#EncTotal").text(formatNumber.new(eval(data.CostoFijoEncuadernacion) + (eval(data.Tiraje) * eval(data.CostoVariableEncuadernacion))));
             if (data.CostoFijoQuintoColor > 0) {
                 $("#QuintoEntradas").text("1");
             } else {
                 $("#QuintoEntradas").text("0");
             }
-            $("#QuintoCostoFijo").text(data.CostoFijoQuintoColor);
-            $("#QuintoTotCostoFijo").text(data.CostoFijoQuintoColor);
-            $("#QuintoCostoVari").text(data.CostoVariableQuintoColor);
-            $("#QuintoTotCostoVari").text(data.CostoVariableQuintoColor);
-            $("#QuintoTotal").text(eval(data.CostoFijoQuintoColor) + (eval(data.Tiraje) * eval(data.CostoVariableQuintoColor)));
+            $("#QuintoCostoFijo").text(formatNumber.new(data.CostoFijoQuintoColor));
+            $("#QuintoTotCostoFijo").text(formatNumber.new(data.CostoFijoQuintoColor));
+            $("#QuintoCostoVari").text(formatNumber.new(data.CostoVariableQuintoColor));
+            $("#QuintoTotCostoVari").text(formatNumber.new(data.CostoVariableQuintoColor));
+            $("#QuintoTotal").text(formatNumber.new(eval(data.CostoFijoQuintoColor) + (eval(data.Tiraje) * eval(data.CostoVariableQuintoColor))));
             if (data.CostoFijoBarnizAcuosoTapa > 0) {
                 $("#AcuosoEntradas").text("1");
             } else {
                 $("#AcuosoEntradas").text("0");
             }
-            $("#AcuosoCostoFijo").text(data.CostoFijoBarnizAcuosoTapa);
-            $("#AcuosoTotCostoFijo").text(data.CostoFijoBarnizAcuosoTapa);
-            $("#AcuosoCostoVari").text(data.CostoVariableBarnizAcuosoTapa);
-            $("#AcuosoTotCostoVari").text(data.CostoVariableBarnizAcuosoTapa);
-            $("#AcuosoTotal").text(eval(data.CostoFijoBarnizAcuosoTapa) + (eval(data.Tiraje) * eval(data.CostoVariableBarnizAcuosoTapa)));
+            $("#AcuosoCostoFijo").text(formatNumber.new(data.CostoFijoBarnizAcuosoTapa));
+            $("#AcuosoTotCostoFijo").text(formatNumber.new(data.CostoFijoBarnizAcuosoTapa));
+            $("#AcuosoCostoVari").text(formatNumber.new(data.CostoVariableBarnizAcuosoTapa));
+            $("#AcuosoTotCostoVari").text(formatNumber.new(data.CostoVariableBarnizAcuosoTapa));
+            $("#AcuosoTotal").text(formatNumber.new(eval(data.CostoFijoBarnizAcuosoTapa) + (eval(data.Tiraje) * eval(data.CostoVariableBarnizAcuosoTapa))));
             if (data.CostoVariableEmbolsado > 0) {
                 $("#EmbolsadoEntradas").text("1");
             } else {
                 $("#EmbolsadoEntradas").text("0");
             }
-            $("#EmbolsadoCostoFijo").text(data.CostoVariableEmbolsado);
-            $("#EmbolsadoCostoVari").text(data.CostoVariableEmbolsado);
-            $("#EmbolsadoTotCostoVari").text(data.CostoVariableEmbolsado);
-            $("#EmbolsadoTotal").text(eval(data.Tiraje) * eval(data.CostoVariableEmbolsado));
+            $("#EmbolsadoCostoFijo").text(formatNumber.new(data.CostoVariableEmbolsado));
+            $("#EmbolsadoCostoVari").text(formatNumber.new(data.CostoVariableEmbolsado));
+            $("#EmbolsadoTotCostoVari").text(formatNumber.new(data.CostoVariableEmbolsado));
+            $("#EmbolsadoTotal").text(formatNumber.new(eval(data.Tiraje) * eval(data.CostoVariableEmbolsado)));
             if (data.CostoVariableLaminado > 0) {
                 $("#LaminadoEntradas").text("1");
             } else {
                 $("#LaminadoEntradas").text("0");
             }
-            $("#LaminadoCostoFijo").text(0);
-            $("#LaminadoCostoVari").text(data.CostoVariableLaminado);
-            $("#LaminadoTotCostoVari").text(data.CostoVariableLaminado);
-            $("#LaminadoTotal").text(eval(data.Tiraje) * eval(data.CostoVariableLaminado));
+            $("#LaminadoCostoFijo").text(formatNumber.new(0));
+            $("#LaminadoCostoVari").text(formatNumber.new(data.CostoVariableLaminado));
+            $("#LaminadoTotCostoVari").text(formatNumber.new(data.CostoVariableLaminado));
+            $("#LaminadoTotal").text(formatNumber.new(eval(data.Tiraje) * eval(data.CostoVariableLaminado)));
             if (data.CostoFijoBarnizUV > 0) {
                 $("#BarnizUVEntradas").text("1");
             } else {
                 $("#BarnizUVEntradas").text("0");
             }
-            $("#BarnizUVCostoFijo").text(data.CostoFijoBarnizUV);
-            $("#BarnizUVTotCostoFijo").text(data.CostoFijoBarnizUV);
-            $("#BarnizUVCostoVari").text(data.CostoVariableBarnizUV);
-            $("#BarnizUVTotCostoVari").text(data.CostoVariableBarnizUV);
-            $("#BarnizUVTotal").text(eval(data.CostoFijoBarnizUV) + (eval(data.Tiraje) * eval(data.CostoVariableBarnizUV)));
+            $("#BarnizUVCostoFijo").text(formatNumber.new(data.CostoFijoBarnizUV));
+            $("#BarnizUVTotCostoFijo").text(formatNumber.new(data.CostoFijoBarnizUV));
+            $("#BarnizUVCostoVari").text(formatNumber.new(data.CostoVariableBarnizUV));
+            $("#BarnizUVTotCostoVari").text(formatNumber.new(data.CostoVariableBarnizUV));
+            $("#BarnizUVTotal").text(formatNumber.new(eval(data.CostoFijoBarnizUV) + (eval(data.Tiraje) * eval(data.CostoVariableBarnizUV))));
             if (data.CostoFijoTroquel > 0) {
                 $("#TroqueladoEntradas").text("1");
             } else {
                 $("#TroqueladoEntradas").text("0");
             }
-            $("#TroqueladoCostoFijo").text(data.CostoFijoTroquel);
-            $("#TroqueladoTotCostoFijo").text(data.CostoFijoTroquel);
-            $("#TroqueladoCostoVari").text(data.CostoVariableTroquel);
-            $("#TroqueladoTotCostoVari").text(data.CostoVariableTroquel);
-            $("#TroqueladoTotal").text(eval(data.CostoFijoTroquel) + (eval(data.Tiraje) * eval(data.CostoVariableTroquel)));
+            $("#TroqueladoCostoFijo").text(formatNumber.new(data.CostoFijoTroquel));
+            $("#TroqueladoTotCostoFijo").text(formatNumber.new(data.CostoFijoTroquel));
+            $("#TroqueladoCostoVari").text(formatNumber.new(data.CostoVariableTroquel));
+            $("#TroqueladoTotCostoVari").text(formatNumber.new(data.CostoVariableTroquel));
+            $("#TroqueladoTotal").text(formatNumber.new(eval(data.CostoFijoTroquel) + (eval(data.Tiraje) * eval(data.CostoVariableTroquel))));
             if (data.CostoFijoPlizado > 0) {
                 $("#PlizadoEntradas").text("1");
             } else {
                 $("#PlizadoEntradas").text("0");
             }
-            $("#PlizadoCostoFijo").text(data.CostoFijoPlizado);
-            $("#PlizadoTotCostoFijo").text(data.CostoFijoPlizado);
-            $("#PlizadoCostoVari").text(data.CostoVariablePlizado);
-            $("#PlizadoTotCostoVari").text(data.CostoVariablePlizado);
-            $("#PlizadoTotal").text(eval(data.CostoFijoPlizado) + (eval(data.Tiraje) * eval(data.CostoVariablePlizado)));
+            $("#PlizadoCostoFijo").text(formatNumber.new(data.CostoFijoPlizado));
+            $("#PlizadoTotCostoFijo").text(formatNumber.new(data.CostoFijoPlizado));
+            $("#PlizadoCostoVari").text(formatNumber.new(data.CostoVariablePlizado));
+            $("#PlizadoTotCostoVari").text(formatNumber.new(data.CostoVariablePlizado));
+            $("#PlizadoTotal").text(formatNumber.new(eval(data.CostoFijoPlizado) + (eval(data.Tiraje) * eval(data.CostoVariablePlizado))));
             if (data.CostoFijoCorteFrontal > 0) {
                 $("#CorteEntradas").text("1");
             } else {
                 $("#CorteEntradas").text("0");
             }
-            $("#CorteCostoFijo").text(data.CostoFijoCorteFrontal);
-            $("#CorteTotCostoFijo").text(data.CostoFijoCorteFrontal);
-            $("#CorteCostoVari").text(data.CostoVariableCorteFrontal);
-            $("#CorteTotCostoVari").text(data.CostoVariableCorteFrontal);
-            $("#CorteTotal").text(eval(data.CostoFijoCorteFrontal) + (eval(data.Tiraje) * eval(data.CostoVariableCorteFrontal)));
+            $("#CorteCostoFijo").text(formatNumber.new(data.CostoFijoCorteFrontal));
+            $("#CorteTotCostoFijo").text(formatNumber.new(data.CostoFijoCorteFrontal));
+            $("#CorteCostoVari").text(formatNumber.new(data.CostoVariableCorteFrontal));
+            $("#CorteTotCostoVari").text(formatNumber.new(data.CostoVariableCorteFrontal));
+            $("#CorteTotal").text(formatNumber.new(eval(data.CostoFijoCorteFrontal) + (eval(data.Tiraje) * eval(data.CostoVariableCorteFrontal))));
             if (data.CostoVariableAlzadoPlano > 0) {
                 $("#AlzadoPlanoEntradas").text("1");
             } else {
                 $("#AlzadoPlanoEntradas").text("0");
             }
-            $("#AlzadoPlanoCostoVari").text(data.CostoVariableAlzadoPlano);
-            $("#AlzadoPlanoTotCostoVari").text(data.CostoVariableAlzadoPlano);
-            $("#AlzadoPlanoTotal").text((eval(data.Tiraje) * eval(data.CostoVariableAlzadoPlano)));
+            $("#AlzadoPlanoCostoVari").text(formatNumber.new(data.CostoVariableAlzadoPlano));
+            $("#AlzadoPlanoTotCostoVari").text(formatNumber.new(data.CostoVariableAlzadoPlano));
+            $("#AlzadoPlanoTotal").text(formatNumber.new((eval(data.Tiraje) * eval(data.CostoVariableAlzadoPlano))));
             if (data.CostoVariableEmbolsadoManual > 0) {
                 $("#EmbolsadoManualEntradas").text("1");
             } else {
                 $("#EmbolsadoManualEntradas").text("0");
             }
-            $("#EmbolsadoManualCostoVari").text(data.CostoVariableEmbolsadoManual);
-            $("#EmbolsadoManualTotCostoVari").text(data.CostoVariableEmbolsadoManual);
-            $("#EmbolsadoManualTotal").text((eval(data.Tiraje) * eval(data.CostoVariableEmbolsadoManual)));
+            $("#EmbolsadoManualCostoVari").text(formatNumber.new(data.CostoVariableEmbolsadoManual));
+            $("#EmbolsadoManualTotCostoVari").text(formatNumber.new(data.CostoVariableEmbolsadoManual));
+            $("#EmbolsadoManualTotal").text(formatNumber.new((eval(data.Tiraje) * eval(data.CostoVariableEmbolsadoManual))));
 
             if (data.CostoVariableDesembolsado > 0) {
                 $("#DesembolsadoEntradas").text("1");
             } else {
                 $("#DesembolsadoEntradas").text("0");
             }
-            $("#DesembolsadoCostoVari").text(data.CostoVariableDesembolsado);
-            $("#DesembolsadoTotCostoVari").text(data.CostoVariableDesembolsado);
-            $("#DesembolsadoTotal").text((eval(data.Tiraje) * eval(data.CostoVariableDesembolsado)));
+            $("#DesembolsadoCostoVari").text(formatNumber.new(data.CostoVariableDesembolsado));
+            $("#DesembolsadoTotCostoVari").text(formatNumber.new(data.CostoVariableDesembolsado));
+            $("#DesembolsadoTotal").text(formatNumber.new((eval(data.Tiraje) * eval(data.CostoVariableDesembolsado))));
             if (data.CostoVariableAlzado > 0) {
                 $("#AlzadoEntradas").text("1");
             } else {
                 $("#AlzadoEntradas").text("0");
             }
-            $("#AlzadoCostoVari").text(data.CostoVariableAlzado);
-            $("#AlzadoTotCostoVari").text(data.CostoVariableAlzado);
-            $("#AlzadoTotal").text((eval(data.Tiraje) * eval(data.CostoVariableAlzado)));
+            $("#AlzadoCostoVari").text(formatNumber.new(data.CostoVariableAlzado));
+            $("#AlzadoTotCostoVari").text(formatNumber.new(data.CostoVariableAlzado));
+            $("#AlzadoTotal").text(formatNumber.new((eval(data.Tiraje) * eval(data.CostoVariableAlzado))));
             if (data.CostoVariableInsercion > 0) {
                 $("#InsercionEntradas").text("1");
             } else {
                 $("#InsercionEntradas").text("0");
             }
-            $("#InsercionCostoVari").text(data.CostoVariableInsercion);
-            $("#InsercionTotCostoVari").text(data.CostoVariableInsercion);
-            $("#InsercionTotal").text((eval(data.Tiraje) * eval(data.CostoVariableInsercion)));
+            $("#InsercionCostoVari").text(formatNumber.new(data.CostoVariableInsercion));
+            $("#InsercionTotCostoVari").text(formatNumber.new(data.CostoVariableInsercion));
+            $("#InsercionTotal").text(formatNumber.new((eval(data.Tiraje) * eval(data.CostoVariableInsercion))));
             if (data.CostoVariablePegado > 0) {
                 $("#PegadoEntradas").text("1");
             } else {
                 $("#PegadoEntradas").text("0");
             }
-            $("#PegadoCostoVari").text(data.CostoVariablePegado);
-            $("#PegadoTotCostoVari").text(data.CostoVariablePegado);
-            $("#PegadoTotal").text((eval(data.Tiraje) * eval(data.CostoVariablePegado)));
+            $("#PegadoCostoVari").text(formatNumber.new(data.CostoVariablePegado));
+            $("#PegadoTotCostoVari").text(formatNumber.new(data.CostoVariablePegado));
+            $("#PegadoTotal").text(formatNumber.new((eval(data.Tiraje) * eval(data.CostoVariablePegado))));
             if (data.CostoVariableFajado > 0) {
                 $("#FajadoEntradas").text("1");
             } else {
                 $("#FajadoEntradas").text("0");
             }
-            $("#FajadoCostoVari").text(data.CostoVariableFajado);
-            $("#FajadoTotCostoVari").text(data.CostoVariableFajado);
-            $("#FajadoTotal").text((eval(data.Tiraje) * eval(data.CostoVariableFajado)));
+            $("#FajadoCostoVari").text(formatNumber.new(data.CostoVariableFajado));
+            $("#FajadoTotCostoVari").text(formatNumber.new(data.CostoVariableFajado));
+            $("#FajadoTotal").text(formatNumber.new((eval(data.Tiraje) * eval(data.CostoVariableFajado))));
 
-            $("#AdhesivoEntradas").text(data.AdhesivoCms);
-            $("#AdhesivoCostoVari").text(data.CostoVariableAdhesivo);
-            $("#AdhesivoTotCostoVari").text(data.CostoVariableAdhesivoTotal);
-            $("#AdhesivoTotal").text((eval(data.Tiraje) * eval(data.CostoVariableAdhesivoTotal)));
+            $("#AdhesivoEntradas").text(formatNumber.new(data.AdhesivoCms));
+            $("#AdhesivoCostoVari").text(formatNumber.new(data.CostoVariableAdhesivo));
+            $("#AdhesivoTotCostoVari").text(formatNumber.new(data.CostoVariableAdhesivoTotal));
+            $("#AdhesivoTotal").text(formatNumber.new((eval(data.Tiraje) * eval(data.CostoVariableAdhesivoTotal))));
             if (data.CostoVariableSuministroCaja > 0) {
                 $("#SuministroEntradas").text("1");
             } else {
                 $("#SuministroEntradas").text("0");
             }
-            $("#SuministroCostoVari").text(data.CostoVariableSuministroCaja);
-            $("#SuministroTotCostoVari").text(data.CostoVariableSuministroCaja);
-            $("#SuministroTotal").text((eval(data.CostoVariableSuministroCaja)));
+            $("#SuministroCostoVari").text(formatNumber.new(data.CostoVariableSuministroCaja));
+            $("#SuministroTotCostoVari").text(formatNumber.new(data.CostoVariableSuministroCaja));
+            $("#SuministroTotal").text(formatNumber.new((eval(data.CostoVariableSuministroCaja))));
             if (data.CostoVariableInsercionCajaySellado > 0) {
                 $("#CajaySelloEntradas").text("1");
             } else {
                 $("#CajaySelloEntradas").text("0");
             }
-            $("#CajaySelloCostoVari").text(data.CostoVariableInsercionCajaySellado);
-            $("#CajaySelloTotCostoVari").text(data.CostoVariableInsercionCajaySellado);
-            $("#CajaySelloTotal").text((eval(data.CostoVariableInsercionCajaySellado)));
+            $("#CajaySelloCostoVari").text(formatNumber.new(data.CostoVariableInsercionCajaySellado));
+            $("#CajaySelloTotCostoVari").text(formatNumber.new(data.CostoVariableInsercionCajaySellado));
+            $("#CajaySelloTotal").text(formatNumber.new((eval(data.CostoVariableInsercionCajaySellado))));
             if (data.CostoVariableEnzunchado > 0) {
                 $("#EnzunchadoEntradas").text("1");
             } else {
                 $("#EnzunchadoEntradas").text("0");
             }
-            $("#EnzunchadoCostoVari").text(data.CostoVariableEnzunchado);
-            $("#EnzunchadoTotCostoVari").text(data.CostoVariableEnzunchado);
-            $("#EnzunchadoTotal").text((eval(data.CostoVariableEnzunchado)));
+            $("#EnzunchadoCostoVari").text(formatNumber.new(data.CostoVariableEnzunchado));
+            $("#EnzunchadoTotCostoVari").text(formatNumber.new(data.CostoVariableEnzunchado));
+            $("#EnzunchadoTotal").text(formatNumber.new((eval(data.CostoVariableEnzunchado))));
             if (data.CostoVariablePallet > 0) {
                 $("#PalletEntradas").text("1");
             } else {
                 $("#PalletEntradas").text("0");
             }
-            $("#PalletCostoVari").text(data.CostoVariablePallet);
-            $("#PalletTotCostoVari").text(data.CostoVariablePallet);
-            $("#PalletTotal").text((eval(data.CostoVariablePallet)));
+            $("#PalletCostoVari").text(formatNumber.new(data.CostoVariablePallet));
+            $("#PalletTotCostoVari").text(formatNumber.new(data.CostoVariablePallet));
+            $("#PalletTotal").text(formatNumber.new((eval(data.CostoVariablePallet))));
             if (data.CostoVariablePegadoSticker > 0) {
                 $("#PegadoStickerEntradas").text("1");
             } else {
                 $("#PegadoStickerEntradas").text("0");
             }
-            $("#PegadoStickerCostoVari").text(data.CostoVariablePegadoSticker);
-            $("#PegadoStickerTotCostoVari").text(data.CostoVariablePegadoSticker);
-            $("#PegadoStickerTotal").text((eval(data.Tiraje) * eval(data.CostoVariablePegadoSticker)));
+            $("#PegadoStickerCostoVari").text(formatNumber.new(data.CostoVariablePegadoSticker));
+            $("#PegadoStickerTotCostoVari").text(formatNumber.new(data.CostoVariablePegadoSticker));
+            $("#PegadoStickerTotal").text(formatNumber.new((eval(data.Tiraje) * eval(data.CostoVariablePegadoSticker))));
 
-            $("#ManufacturaTotCostoFijo").text(data.TotalNetoFijo);
-            $("#NetoTotCostoFijo").text(data.TotalNetoFijo);
-            $("#ManufacturaTotCostoVari").text(data.TotalNetoVari);
-            $("#NetoTotCostoVari").text(data.TotalNetoVari);
-            $("#ManufacturaTotal").text(data.TotalNetoTotal);
-            $("#NetoTotal").text(data.TotalNetoTotal);
-            $("#UnitarioTotal").text(data.PrecioUnitario);
+            $("#ManufacturaTotCostoFijo").text(formatNumber.new(data.TotalNetoFijo));
+            $("#NetoTotCostoFijo").text(formatNumber.new(data.TotalNetoFijo));
+            $("#ManufacturaTotCostoVari").text(formatNumber.new(data.TotalNetoVari));
+            $("#NetoTotCostoVari").text(formatNumber.new(data.TotalNetoVari));
+            $("#ManufacturaTotal").text(formatNumber.new(data.TotalNetoTotal));
+
+            $("#PapelInteriorCostoFijo").text(formatNumber.new(data.Interior.CostoPapelinteriorFijo));
+            $("#PapelInteriorCostoVari").text(formatNumber.new(data.Interior.CostoPapelInteriorVari));
+            $("#PapelInteriorTotal").text(formatNumber.new(eval(data.Interior.CostoPapelinteriorFijo) + eval(eval(data.Interior.CostoPapelInteriorVari) * eval(data.Tiraje))));
+            $("#PapelTapaCostoFijo").text(formatNumber.new(data.Tapa.CostoPapelTapaFijo));
+            $("#PapelTapaCostoVari").text(formatNumber.new(data.Tapa.CostoPapelTapaVari));
+            $("#PapelTapaTotal").text(formatNumber.new(eval(data.Tapa.CostoPapelTapaFijo) + eval(eval(data.Tapa.CostoPapelTapaVari) * eval(data.Tiraje))));
+                  
+
+            $("#NetoTotal").text(formatNumber.new(data.TotalNetoTotal));
+            $("#UnitarioTotal").text(formatNumber.new(data.PrecioUnitario));
 
             $("#OfertaImpF").text(formatNumber.new(data.TarifaFijaImpresion));
             $("#OfertaImpV").text(formatNumber.new(data.TarifaVariableImpresion));
@@ -374,39 +384,52 @@
                     <thead>
                         <tr>
                             <th style="background-color: rgba(0, 151, 152, 0.48);">Proceso</th>
-                            <th style="background-color: rgba(0, 151, 152, 0.48);">C.F.</th>
-                            <th style="background-color: rgba(0, 151, 152, 0.48);">C.V.</th>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);" class="tableOferta">C.F.</th>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);" class="tableOferta">C.V.</th>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);">C.T.</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>Impresión</td>
-                            <td class="text-right"><span id="OfertaImpF"></span></td>
-                            <td class="text-right"><span id="OfertaImpV"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaImpF"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaImpV"></span></td>
+                            <td class="text-right"><span id="OfertaImpT"></span></td>
                         </tr>
                         <tr>
                             <td>Papel</td>
-                            <td class="text-right"><span id="OfertaPapelF"></span></td>
-                            <td class="text-right"><span id="OfertaPapelV"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaPapelF"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaPapelV"></span></td>
+                            <td class="text-right"><span id="OfertaPapelT"></span></td>
                         </tr>
                         <tr>
                             <td>Encua.</td>
-                            <td class="text-right"><span id="OfertaEncF"></span></td>
-                            <td class="text-right"><span id="OfertaEncV"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaEncF"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaEncV"></span></td>
+                            <td class="text-right"><span id="OfertaEncT"></span></td>
                         </tr>
                         <tr>
                             <td>Terminación</td>
-                            <td class="text-right"><span id="OfertaTermF"></span></td>
-                            <td class="text-right"><span id="OfertaTermV"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaTermF"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaTermV"></span></td>
+                            <td class="text-right"><span id="OfertaTermT"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Despacho</td>
+                            <td class="text-right tableOferta"><span id="OfertaDespF"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaDespV"></span></td>
+                            <td class="text-right"><span id="OfertaDespT"></span></td>
                         </tr>
                         <tr>
                             <td>Total Neto</td>
-                            <td class="text-right"><span id="OfertaNetoF"></span></td>
-                            <td class="text-right"><span id="OfertaNetoV"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaNetoF"></span></td>
+                            <td class="text-right tableOferta"><span id="OfertaNetoV"></span></td>
+                            <td class="text-right"><span id="OfertaNetoT"></span></td>
                         </tr>
                         <tr>
                             <td>Precio unit.</td>
-                            <td></td>
+                            <td class="tableOferta"></td>
+                            <td class="tableOferta"></td>
                             <td class="text-right"><span id="OfertaPrecioUnit"></span></td>
                         </tr>
 
@@ -430,8 +453,9 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.NombrePresupuesto, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10 form-inline">
-                    @Html.DropDownListFor(model => model.CatalogoId, new SelectList(Model.Catalogo, "IdTipoCatalogo", "NombreTipoCatalogo"), "Tipo Catalogo", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.EditorFor(model => model.NombrePresupuesto, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" } })
+                    @Html.DropDownListFor(model => model.CatalogoId, new SelectList(Model.Catalogo, "IdTipoCatalogo", "NombreTipoCatalogo"), "Producto Nuevo", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.EditorFor(model => model.NombreCatalogo, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Producto Nuevo" } })
+                    @Html.EditorFor(model => model.NombrePresupuesto, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Nombre Presupuesto" } })
                     @Html.ValidationMessageFor(model => model.NombrePresupuesto, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
@@ -466,17 +490,17 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="divPapelEmpresaInt">
                 @Html.LabelFor(model => model.Empresa, "Empresa del Papel", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.EmpresaPapelInterior, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa") , "Papel Empresa", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.Empresa, "", new { @class = "text-danger", style = "display:inline" })
+                    @Html.DropDownListFor(model => model.EmpresaPapelInterior, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa") , htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    <div class="hidden" id="PPapelEmpresaInt" style="display:inline;color:#1a4e68;"><strong>papel sujeto a disponibilidad</strong></div>
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.SelectPapelIntId, "Papel de Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.SelectPapelIntId, new SelectList(Model.Papeles.Where(x=> x.Empresa.IdEmpresa == Model.EmpresaPapelInterior), "NombrePapel", "NombrePapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", style = "display:inline" })
+                    @Html.DropDownListFor(model => model.SelectPapelIntId, new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     @Html.ValidationMessageFor(model => model.SelectPapelIntId, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
@@ -484,7 +508,7 @@
         <fieldset>
             <legend>Información Tapa</legend>
             <div class="form-group">
-                @Html.LabelFor(model => model.CantidadTap, "Cantidad Tapas", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.CantidadTap, "Cantidad de páginas en tapa", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
 
                     @Html.DropDownList("CantidadTapa", new List<SelectListItem>
@@ -494,7 +518,7 @@
                     @Html.ValidationMessageFor(model => model.CantidadTap, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group hidden" id="DivCantidadModelos">
                 @Html.LabelFor(model => model.CantidadModelos, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
 
@@ -506,18 +530,18 @@
                     @Html.ValidationMessageFor(model => model.CantidadModelos, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group"  id="divPapelEmpresaTap">
                 @Html.LabelFor(model => model.Empresa, "Empresa del Papel", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.EmpresaPapelTapa, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa"), "Papel Empresa", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.Empresa, "", new { @class = "text-danger", style = "display:inline" })
+                    @Html.DropDownListFor(model => model.EmpresaPapelTapa, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa"), htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    <div class="hidden" id="PPapelEmpresaTap" style="display:inline;color:#1a4e68;"><strong>papel sujeto a disponibilidad</strong></div>
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.SelectPapelTapId, "Papel", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("TapaPapel", new SelectList(Model.Papeles, "NombrePapel", "NombrePapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", style = "display:inline" })
+                    @Html.DropDownList("TapaPapel", new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", style = "display:inline" })
                     @Html.ValidationMessageFor(model => model.SelectPapelTapId, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
@@ -547,7 +571,7 @@
                                                         new SelectListItem{ Text="Tiro", Value = "1" },
                                                         new SelectListItem{ Text="Retiro", Value = "2" },
                                                         new SelectListItem{ Text="Tiro y Retiro", Value = "3" }
-                                                     }, null, htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                                                     }, null, htmlAttributes: new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline" })
                     @Html.ValidationMessageFor(model => model.IdQuintoColor, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
@@ -595,134 +619,71 @@
             <legend>Manualidades</legend>
             <div class="form-group">
                 @Html.LabelFor(model => model.IdAlzadoElementoPlano, "Alzado Plano", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-10 form-inline">
                     @Html.DropDownList("ddlAlzadoPlano", new List<SelectListItem>
                                                     {
                                                         new SelectListItem{ Text="Si", Value = "2" }
                                                      }, "No",
                                                 htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdAlzadoElementoPlano, "", new { @class = "text-danger", style = "display:inline" })
+                    @Html.EditorFor(model => model.CantidadAlzadoPlano, new { htmlAttributes = new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Cantidad" } })
                 </div>
             </div>
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.IdEmbolsadoManual, "Embolsado Manual", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("ddlEmbolsadoManual", new List<SelectListItem>
-                                                        {
-                                                            new SelectListItem{ Text="No", Value = "1" },
-                                                            new SelectListItem{ Text="Si", Value = "2" }
-                                                         }, "Seleccione un Embolsado Manual",
-                                                    htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                        @Html.ValidationMessageFor(model => model.IdEmbolsadoManual, "", new { @class = "text-danger", style = "display:inline" })
-                    </div>
-                </div>*@
             <div class="form-group">
                 @Html.LabelFor(model => model.IdEmbolsadoManual, "Desembolsado simple", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-10 form-inline">
                     @Html.DropDownList("ddlDesembolsado", new List<SelectListItem>
                                                     {
                                                         new SelectListItem{ Text="Si", Value = "2" }
                                                      }, "No",
                                                 htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdEmbolsadoManual, "", new { @class = "text-danger", style = "display:inline" })
+                    @Html.EditorFor(model => model.CantidadDesembolsado, new { htmlAttributes = new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Cantidad" } })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.IdAlzado, "Alzado", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-10 form-inline">
                     @Html.DropDownList("ddlAlzado", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Alzado").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
                                                 htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdAlzado, "", new { @class = "text-danger", style = "display:inline" })
+                    @Html.EditorFor(model => model.CantidadAlzado, new { htmlAttributes = new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Cantidad" } })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.IdInsercion, "Inserción manual", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-10 form-inline">
                     @Html.DropDownList("ddlInsercion", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Insercion").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
                                                 htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdInsercion, "", new { @class = "text-danger", style = "display:inline" })
+                    @Html.EditorFor(model => model.CantidadInsercion, new { htmlAttributes = new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Cantidad" } })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.IdPegado, "Pegado de Sachet", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-10 form-inline">
                     @Html.DropDownList("ddlPegado", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Pegado").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
                                                 htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdPegado, "", new { @class = "text-danger", style = "display:inline" })
+                    @Html.EditorFor(model => model.CantidadPegado, new { htmlAttributes = new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Cantidad" } })
+                    @Html.DropDownList("ddlAdhesivo", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Adhesivo").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.IdFajado, "Fajado", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-10 form-inline">
                     @Html.DropDownList("ddlFajado", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Fajado").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
                                                 htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdFajado, "", new { @class = "text-danger", style = "display:inline" })
+                    @Html.EditorFor(model => model.CantidadFajado, new { htmlAttributes = new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Cantidad" } })
                 </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.IdAdhesivo, "Adhesivo", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("ddlAdhesivo", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Adhesivo").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
-                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdAdhesivo, "", new { @class = "text-danger", style = "display:inline" })
-                </div>
-            </div>
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.AdhesivoCms, "Adhesivo Centrimetros", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("ddlAdhesivoCms", new List<SelectListItem>
-                                                        {
-                                                            new SelectListItem{ Text="1 Cms", Value = "1" },
-                                                            new SelectListItem{ Text="2 Cms", Value = "2" },
-                                                            new SelectListItem{ Text="3 Cms", Value = "3" },
-                                                            new SelectListItem{ Text="4 Cms", Value = "4" },
-                                                            new SelectListItem{ Text="5 Cms", Value = "5" },
-                                                            new SelectListItem{ Text="6 Cms", Value = "6" },
-                                                            new SelectListItem{ Text="7 Cms", Value = "7" },
-                                                            new SelectListItem{ Text="8 Cms", Value = "8" },
-                                                            new SelectListItem{ Text="9 Cms", Value = "9" },
-                                                            new SelectListItem{ Text="10 Cms", Value = "10" }
-
-                                                         }, "Indique los cms.",
-                                                    htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                        @Html.ValidationMessageFor(model => model.AdhesivoCms, "", new { @class = "text-danger", style = "display:inline" })
-                    </div>
-                </div>*@
             <div class="form-group">
                 @Html.LabelFor(model => model.IdPegadoSticker, "Pegado Sticker", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-10 form-inline">
                     @Html.DropDownList("ddlPegadoSticker", new List<SelectListItem>
                                                     {
                                                         new SelectListItem{ Text="Si", Value = "2" }
                                                      }, "No",
                                                 htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdPegadoSticker, "", new { @class = "text-danger", style = "display:inline" })
+                    @Html.EditorFor(model => model.CantidadPegadoSticker, new { htmlAttributes = new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Cantidad" } })
                 </div>
             </div>
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.CantidadCajas, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.CantidadCajas, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" } })
-
-                        @Html.ValidationMessageFor(model => model.CantidadCajas, "", new { @class = "text-danger", style = "display:inline" })
-                    </div>
-                </div>*@
-            @*<div class="form-group">
-                    @Html.LabelFor(model => model.Enzunchadoxpqte, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.Enzunchadoxpqte, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" } })
-
-                        @Html.ValidationMessageFor(model => model.Enzunchadoxpqte, "", new { @class = "text-danger", style = "display:inline" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.CantidadPallet, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.CantidadPallet, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" } })
-
-                        @Html.ValidationMessageFor(model => model.CantidadPallet, "", new { @class = "text-danger", style = "display:inline" })
-                    </div>
-                </div>*@
         </fieldset>
         @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
         {
@@ -746,316 +707,316 @@
                         </tr>
                         <tr>
                             <td>64 Pag.</td>
-                            <td><span id="Entradas64"></span></td>
-                            <td><span id="64CostoFijo"></span></td>
-                            <td><span id="64CostoVari"></span></td>
-                            <td><span id="64TotCostoFijo"></span></td>
-                            <td><span id="64TotCostoVari"></span></td>
-                            <td><span id="64Total"></span></td>
+                            <td class="text-right"><span id="Entradas64"></span></td>
+                            <td class="text-right"><span id="64CostoFijo"></span></td>
+                            <td class="text-right"><span id="64CostoVari"></span></td>
+                            <td class="text-right"><span id="64TotCostoFijo"></span></td>
+                            <td class="text-right"><span id="64TotCostoVari"></span></td>
+                            <td class="text-right"><span id="64Total"></span></td>
                         </tr>
                         <tr>
                             <td>48 Pag.</td>
-                            <td><span id="Entradas48"></span></td>
-                            <td><span id="48CostoFijo"></span></td>
-                            <td><span id="48CostoVari"></span></td>
-                            <td><span id="48TotCostoFijo"></span></td>
-                            <td><span id="48TotCostoVari"></span></td>
-                            <td><span id="48Total"></span></td>
+                            <td class="text-right"><span id="Entradas48"></span></td>
+                            <td class="text-right"><span id="48CostoFijo"></span></td>
+                            <td class="text-right"><span id="48CostoVari"></span></td>
+                            <td class="text-right"><span id="48TotCostoFijo"></span></td>
+                            <td class="text-right"><span id="48TotCostoVari"></span></td>
+                            <td class="text-right"><span id="48Total"></span></td>
                         </tr>
                         <tr>
                             <td>32 Pag.</td>
-                            <td><span id="Entradas32"></span></td>
-                            <td><span id="32CostoFijo"></span></td>
-                            <td><span id="32CostoVari"></span></td>
-                            <td><span id="32TotCostoFijo"></span></td>
-                            <td><span id="32TotCostoVari"></span></td>
-                            <td><span id="32Total"></span></td>
+                            <td class="text-right"><span id="Entradas32"></span></td>
+                            <td class="text-right"><span id="32CostoFijo"></span></td>
+                            <td class="text-right"><span id="32CostoVari"></span></td>
+                            <td class="text-right"><span id="32TotCostoFijo"></span></td>
+                            <td class="text-right"><span id="32TotCostoVari"></span></td>
+                            <td class="text-right"><span id="32Total"></span></td>
                         </tr>
                         <tr>
                             <td>24 Pag.</td>
-                            <td><span id="Entradas24"></span></td>
-                            <td><span id="24CostoFijo"></span></td>
-                            <td><span id="24CostoVari"></span></td>
-                            <td><span id="24TotCostoFijo"></span></td>
-                            <td><span id="24TotCostoVari"></span></td>
-                            <td><span id="24Total"></span></td>
+                            <td class="text-right"><span id="Entradas24"></span></td>
+                            <td class="text-right"><span id="24CostoFijo"></span></td>
+                            <td class="text-right"><span id="24CostoVari"></span></td>
+                            <td class="text-right"><span id="24TotCostoFijo"></span></td>
+                            <td class="text-right"><span id="24TotCostoVari"></span></td>
+                            <td class="text-right"><span id="24Total"></span></td>
                         </tr>
                         <tr>
                             <td>16 Pag.</td>
-                            <td><span id="Entradas16"></span></td>
-                            <td><span id="16CostoFijo"></span></td>
-                            <td><span id="16CostoVari"></span></td>
-                            <td><span id="16TotCostoFijo"></span></td>
-                            <td><span id="16TotCostoVari"></span></td>
-                            <td><span id="16Total"></span></td>
+                            <td class="text-right"><span id="Entradas16"></span></td>
+                            <td class="text-right"><span id="16CostoFijo"></span></td>
+                            <td class="text-right"><span id="16CostoVari"></span></td>
+                            <td class="text-right"><span id="16TotCostoFijo"></span></td>
+                            <td class="text-right"><span id="16TotCostoVari"></span></td>
+                            <td class="text-right"><span id="16Total"></span></td>
                         </tr>
                         <tr>
                             <td>8 Pag.</td>
-                            <td><span id="Entradas8"></span></td>
-                            <td><span id="8CostoFijo"></span></td>
-                            <td><span id="8CostoVari"></span></td>
-                            <td><span id="8TotCostoFijo"></span></td>
-                            <td><span id="8TotCostoVari"></span></td>
-                            <td><span id="8Total"></span></td>
+                            <td class="text-right"><span id="Entradas8"></span></td>
+                            <td class="text-right"><span id="8CostoFijo"></span></td>
+                            <td class="text-right"><span id="8CostoVari"></span></td>
+                            <td class="text-right"><span id="8TotCostoFijo"></span></td>
+                            <td class="text-right"><span id="8TotCostoVari"></span></td>
+                            <td class="text-right"><span id="8Total"></span></td>
                         </tr>
                         <tr>
                             <td>4 Pag.</td>
-                            <td><span id="Entradas4"></span></td>
-                            <td><span id="4CostoFijo"></span></td>
-                            <td><span id="4CostoVari"></span></td>
-                            <td><span id="4TotCostoFijo"></span></td>
-                            <td><span id="4TotCostoVari"></span></td>
-                            <td><span id="4Total"></span></td>
+                            <td class="text-right"><span id="Entradas4"></span></td>
+                            <td class="text-right"><span id="4CostoFijo"></span></td>
+                            <td class="text-right"><span id="4CostoVari"></span></td>
+                            <td class="text-right"><span id="4TotCostoFijo"></span></td>
+                            <td class="text-right"><span id="4TotCostoVari"></span></td>
+                            <td class="text-right"><span id="4Total"></span></td>
                         </tr>
                         <tr>
                             <th colspan="7">Impresión Tapa</th>
                         </tr>
                         <tr>
                             <td>Impresión Tapa</td>
-                            <td><span id="EntradasTapa"></span></td>
-                            <td><span id="TapaCostoFijo"></span></td>
-                            <td><span id="TapaCostoVari"></span></td>
-                            <td><span id="TapaTotCostoFijo"></span></td>
-                            <td><span id="TapaTotCostoVari"></span></td>
-                            <td><span id="TapaTotal"></span></td>
+                            <td class="text-right"><span id="EntradasTapa"></span></td>
+                            <td class="text-right"><span id="TapaCostoFijo"></span></td>
+                            <td class="text-right"><span id="TapaCostoVari"></span></td>
+                            <td class="text-right"><span id="TapaTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="TapaTotCostoVari"></span></td>
+                            <td class="text-right"><span id="TapaTotal"></span></td>
                         </tr>
                         <tr>
                             <th colspan="7">Encuadernación</th>
                         </tr>
                         <tr>
-                            <td><span id="EncNombre"></span></td>
-                            <td><span id="EncEntradas"></span></td>
-                            <td><span id="EncCostoFijo"></span></td>
-                            <td><span id="EncCostoVari"></span></td>
-                            <td><span id="EncTotCostoFijo"></span></td>
-                            <td><span id="EncTotCostoVari"></span></td>
-                            <td><span id="EncTotal"></span></td>
+                            <td class="text-right"><span id="EncNombre"></span></td>
+                            <td class="text-right"><span id="EncEntradas"></span></td>
+                            <td class="text-right"><span id="EncCostoFijo"></span></td>
+                            <td class="text-right"><span id="EncCostoVari"></span></td>
+                            <td class="text-right"><span id="EncTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="EncTotCostoVari"></span></td>
+                            <td class="text-right"><span id="EncTotal"></span></td>
                         </tr>
                         <tr>
                             <th colspan="7">Otros Impresión</th>
                         </tr>
                         <tr>
-                            <td><span id="QuintoColorNombre"></span></td>
-                            <td><span id="QuintoEntradas"></span></td>
-                            <td><span id="QuintoCostoFijo"></span></td>
-                            <td><span id="QuintoCostoVari"></span></td>
-                            <td><span id="QuintoTotCostoFijo"></span></td>
-                            <td><span id="QuintoTotCostoVari"></span></td>
-                            <td><span id="QuintoTotal"></span></td>
+                            <td class="text-right"><span id="QuintoColorNombre"></span></td>
+                            <td class="text-right"><span id="QuintoEntradas"></span></td>
+                            <td class="text-right"><span id="QuintoCostoFijo"></span></td>
+                            <td class="text-right"><span id="QuintoCostoVari"></span></td>
+                            <td class="text-right"><span id="QuintoTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="QuintoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="QuintoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Barniz Acuoso(solo Tiro)</td>
-                            <td><span id="AcuosoEntradas"></span></td>
-                            <td><span id="AcuosoCostoFijo"></span></td>
-                            <td><span id="AcuosoCostoVari"></span></td>
-                            <td><span id="AcuosoTotCostoFijo"></span></td>
-                            <td><span id="AcuosoTotCostoVari"></span></td>
-                            <td><span id="AcuosoTotal"></span></td>
+                            <td class="text-right"><span id="AcuosoEntradas"></span></td>
+                            <td class="text-right"><span id="AcuosoCostoFijo"></span></td>
+                            <td class="text-right"><span id="AcuosoCostoVari"></span></td>
+                            <td class="text-right"><span id="AcuosoTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="AcuosoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="AcuosoTotal"></span></td>
                         </tr>
                         <tr>
                             <th colspan="7">Procesos Mecánicos</th>
                         </tr>
                         <tr>
                             <td>NombreEmbolsado</td>
-                            <td><span id="EmbolsadoEntradas"></span></td>
+                            <td class="text-right"><span id="EmbolsadoEntradas"></span></td>
                             <td></td>
-                            <td><span id="EmbolsadoCostoVari"></span></td>
+                            <td class="text-right"><span id="EmbolsadoCostoVari"></span></td>
                             <td></td>
-                            <td><span id="EmbolsadoTotCostoVari"></span></td>
-                            <td><span id="EmbolsadoTotal"></span></td>
+                            <td class="text-right"><span id="EmbolsadoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="EmbolsadoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>NombreLaminado</td>
-                            <td><span id="LaminadoEntradas"></span></td>
-                            <td><span id="LaminadoCostoFijo"></span></td>
-                            <td><span id="LaminadoCostoVari"></span></td>
-                            <td><span id="LaminadoTotCostoFijo"></span></td>
-                            <td><span id="LaminadoTotCostoVari"></span></td>
-                            <td><span id="LaminadoTotal"></span></td>
+                            <td class="text-right"><span id="LaminadoEntradas"></span></td>
+                            <td class="text-right"><span id="LaminadoCostoFijo"></span></td>
+                            <td class="text-right"><span id="LaminadoCostoVari"></span></td>
+                            <td class="text-right"><span id="LaminadoTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="LaminadoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="LaminadoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>NombreBarnizUV</td>
-                            <td><span id="BarnizUVEntradas"></span></td>
-                            <td><span id="BarnizUVCostoFijo"></span></td>
-                            <td><span id="BarnizUVCostoVari"></span></td>
-                            <td><span id="BarnizUVTotCostoFijo"></span></td>
-                            <td><span id="BarnizUVTotCostoVari"></span></td>
-                            <td><span id="BarnizUVTotal"></span></td>
+                            <td class="text-right"><span id="BarnizUVEntradas"></span></td>
+                            <td class="text-right"><span id="BarnizUVCostoFijo"></span></td>
+                            <td class="text-right"><span id="BarnizUVCostoVari"></span></td>
+                            <td class="text-right"><span id="BarnizUVTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="BarnizUVTotCostoVari"></span></td>
+                            <td class="text-right"><span id="BarnizUVTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Troquelados</td>
-                            <td><span id="TroqueladoEntradas"></span></td>
-                            <td><span id="TroqueladoCostoFijo"></span></td>
-                            <td><span id="TroqueladoCostoVari"></span></td>
-                            <td><span id="TroqueladoTotCostoFijo"></span></td>
-                            <td><span id="TroqueladoTotCostoVari"></span></td>
-                            <td><span id="TroqueladoTotal"></span></td>
+                            <td class="text-right"><span id="TroqueladoEntradas"></span></td>
+                            <td class="text-right"><span id="TroqueladoCostoFijo"></span></td>
+                            <td class="text-right"><span id="TroqueladoCostoVari"></span></td>
+                            <td class="text-right"><span id="TroqueladoTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="TroqueladoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="TroqueladoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Plizado</td>
-                            <td><span id="PlizadoEntradas"></span></td>
-                            <td><span id="PlizadoCostoFijo"></span></td>
-                            <td><span id="PlizadoCostoVari"></span></td>
-                            <td><span id="PlizadoTotCostoFijo"></span></td>
-                            <td><span id="PlizadoTotCostoVari"></span></td>
-                            <td><span id="PlizadoTotal"></span></td>
+                            <td class="text-right"><span id="PlizadoEntradas"></span></td>
+                            <td class="text-right"><span id="PlizadoCostoFijo"></span></td>
+                            <td class="text-right"><span id="PlizadoCostoVari"></span></td>
+                            <td class="text-right"><span id="PlizadoTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="PlizadoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="PlizadoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Corte Frontal</td>
-                            <td><span id="CorteEntradas"></span></td>
-                            <td><span id="CorteCostoFijo"></span></td>
-                            <td><span id="CorteCostoVari"></span></td>
-                            <td><span id="CorteTotCostoFijo"></span></td>
-                            <td><span id="CorteTotCostoVari"></span></td>
-                            <td><span id="CorteTotal"></span></td>
+                            <td class="text-right"><span id="CorteEntradas"></span></td>
+                            <td class="text-right"><span id="CorteCostoFijo"></span></td>
+                            <td class="text-right"><span id="CorteCostoVari"></span></td>
+                            <td class="text-right"><span id="CorteTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="CorteTotCostoVari"></span></td>
+                            <td class="text-right"><span id="CorteTotal"></span></td>
                         </tr>
                         <tr>
                             <th colspan="7">Manualidades</th>
                         </tr>
                         <tr>
                             <td>Alzados de elementos planos</td>
-                            <td><span id="AlzadoPlanoEntradas"></span></td>
+                            <td class="text-right"><span id="AlzadoPlanoEntradas"></span></td>
                             <td></td>
-                            <td><span id="AlzadoPlanoCostoVari"></span></td>
+                            <td class="text-right"><span id="AlzadoPlanoCostoVari"></span></td>
                             <td></td>
-                            <td><span id="AlzadoPlanoTotCostoVari"></span></td>
-                            <td><span id="AlzadoPlanoTotal"></span></td>
+                            <td class="text-right"><span id="AlzadoPlanoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="AlzadoPlanoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Embolsado manual de Revista</td>
-                            <td><span id="EmbolsadoManualEntradas"></span></td>
+                            <td class="text-right"><span id="EmbolsadoManualEntradas"></span></td>
                             <td></td>
-                            <td><span id="EmbolsadoManualCostoVari"></span></td>
+                            <td class="text-right"><span id="EmbolsadoManualCostoVari"></span></td>
                             <td></td>
-                            <td><span id="EmbolsadoManualTotCostoVari"></span></td>
-                            <td><span id="EmbolsadoManualTotal"></span></td>
+                            <td class="text-right"><span id="EmbolsadoManualTotCostoVari"></span></td>
+                            <td class="text-right"><span id="EmbolsadoManualTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Desembolsado simple</td>
-                            <td><span id="DesembolsadoEntradas"></span></td>
+                            <td class="text-right"><span id="DesembolsadoEntradas"></span></td>
                             <td></td>
-                            <td><span id="DesembolsadoCostoVari"></span></td>
+                            <td class="text-right"><span id="DesembolsadoCostoVari"></span></td>
                             <td></td>
-                            <td><span id="DesembolsadoTotCostoVari"></span></td>
-                            <td><span id="DesembolsadoTotal"></span></td>
+                            <td class="text-right"><span id="DesembolsadoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="DesembolsadoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Alzado</td>
-                            <td><span id="AlzadoEntradas"></span></td>
+                            <td class="text-right"><span id="AlzadoEntradas"></span></td>
                             <td></td>
-                            <td><span id="AlzadoCostoVari"></span></td>
+                            <td class="text-right"><span id="AlzadoCostoVari"></span></td>
                             <td></td>
-                            <td><span id="AlzadoTotCostoVari"></span></td>
-                            <td><span id="AlzadoTotal"></span></td>
+                            <td class="text-right"><span id="AlzadoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="AlzadoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Inserción manual de elemento plano</td>
-                            <td><span id="InsercionEntradas"></span></td>
+                            <td class="text-right"><span id="InsercionEntradas"></span></td>
                             <td></td>
-                            <td><span id="InsercionCostoVari"></span></td>
+                            <td class="text-right"><span id="InsercionCostoVari"></span></td>
                             <td></td>
-                            <td><span id="InsercionTotCostoVari"></span></td>
-                            <td><span id="InsercionTotal"></span></td>
+                            <td class="text-right"><span id="InsercionTotCostoVari"></span></td>
+                            <td class="text-right"><span id="InsercionTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Pegado</td>
-                            <td><span id="PegadoEntradas"></span></td>
+                            <td class="text-right"><span id="PegadoEntradas"></span></td>
                             <td></td>
-                            <td><span id="PegadoCostoVari"></span></td>
+                            <td class="text-right"><span id="PegadoCostoVari"></span></td>
                             <td></td>
-                            <td><span id="PegadoTotCostoVari"></span></td>
-                            <td><span id="PegadoTotal"></span></td>
+                            <td class="text-right"><span id="PegadoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="PegadoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Fajado</td>
-                            <td><span id="FajadoEntradas"></span></td>
+                            <td class="text-right"><span id="FajadoEntradas"></span></td>
                             <td></td>
-                            <td><span id="FajadoCostoVari"></span></td>
+                            <td class="text-right"><span id="FajadoCostoVari"></span></td>
                             <td></td>
-                            <td><span id="FajadoTotCostoVari"></span></td>
-                            <td><span id="FajadoTotal"></span></td>
+                            <td class="text-right"><span id="FajadoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="FajadoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Adhesivo para pegado de sachet</td>
-                            <td><span id="AdhesivoEntradas"></span></td>
+                            <td class="text-right"><span id="AdhesivoEntradas"></span></td>
                             <td></td>
-                            <td><span id="AdhesivoCostoVari"></span></td>
+                            <td class="text-right"><span id="AdhesivoCostoVari"></span></td>
                             <td></td>
-                            <td><span id="AdhesivoTotCostoVari"></span></td>
-                            <td><span id="AdhesivoTotal"></span></td>
+                            <td class="text-right"><span id="AdhesivoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="AdhesivoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Suministro de cajas</td>
-                            <td><span id="SuministroEntradas"></span></td>
+                            <td class="text-right"><span id="SuministroEntradas"></span></td>
                             <td></td>
-                            <td><span id="SuministroCostoVari"></span></td>
+                            <td class="text-right"><span id="SuministroCostoVari"></span></td>
                             <td></td>
-                            <td><span id="SuministroTotCostoVari"></span></td>
-                            <td><span id="SuministroTotal"></span></td>
+                            <td class="text-right"><span id="SuministroTotCostoVari"></span></td>
+                            <td class="text-right"><span id="SuministroTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Inserción de elementos en caja y sellado de caja</td>
-                            <td><span id="CajaySelloEntradas"></span></td>
+                            <td class="text-right"><span id="CajaySelloEntradas"></span></td>
                             <td></td>
-                            <td><span id="CajaySelloCostoVari"></span></td>
+                            <td class="text-right"><span id="CajaySelloCostoVari"></span></td>
                             <td></td>
-                            <td><span id="CajaySelloTotCostoVari"></span></td>
-                            <td><span id="CajaySelloTotal"></span></td>
+                            <td class="text-right"><span id="CajaySelloTotCostoVari"></span></td>
+                            <td class="text-right"><span id="CajaySelloTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Enzunchado x paquete</td>
-                            <td><span id="EnzunchadoEntradas"></span></td>
+                            <td class="text-right"><span id="EnzunchadoEntradas"></span></td>
                             <td></td>
-                            <td><span id="EnzunchadoCostoVari"></span></td>
+                            <td class="text-right"><span id="EnzunchadoCostoVari"></span></td>
                             <td></td>
-                            <td><span id="EnzunchadoTotCostoVari"></span></td>
-                            <td><span id="EnzunchadoTotal"></span></td>
+                            <td class="text-right"><span id="EnzunchadoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="EnzunchadoTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Pallet</td>
-                            <td><span id="PalletEntradas"></span></td>
+                            <td class="text-right"><span id="PalletEntradas"></span></td>
                             <td></td>
-                            <td><span id="PalletCostoVari"></span></td>
+                            <td class="text-right"><span id="PalletCostoVari"></span></td>
                             <td></td>
-                            <td><span id="PalletTotCostoVari"></span></td>
-                            <td><span id="PalletTotal"></span></td>
+                            <td class="text-right"><span id="PalletTotCostoVari"></span></td>
+                            <td class="text-right"><span id="PalletTotal"></span></td>
                         </tr>
                         <tr>
                             <td>Pegado de Sticker</td>
-                            <td><span id="PegadoStickerEntradas"></span></td>
+                            <td class="text-right"><span id="PegadoStickerEntradas"></span></td>
                             <td></td>
-                            <td><span id="PegadoStickerCostoVari"></span></td>
+                            <td class="text-right"><span id="PegadoStickerCostoVari"></span></td>
                             <td></td>
-                            <td><span id="PegadoStickerTotCostoVari"></span></td>
-                            <td><span id="PegadoStickerTotal"></span></td>
+                            <td class="text-right"><span id="PegadoStickerTotCostoVari"></span></td>
+                            <td class="text-right"><span id="PegadoStickerTotal"></span></td>
                         </tr>
                         <tr>
                             <th colspan="4">Manufactura $</th>
-                            <td><span id="ManufacturaTotCostoFijo"></span></td>
-                            <td><span id="ManufacturaTotCostoVari"></span></td>
-                            <td><span id="ManufacturaTotal"></span></td>
+                            <td class="text-right"><span id="ManufacturaTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="ManufacturaTotCostoVari"></span></td>
+                            <td class="text-right"><span id="ManufacturaTotal"></span></td>
                         </tr>
                         <tr>
                             <th colspan="4">Papel Interior</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td class="text-right"><span id="PapelInteriorCostoFijo"></span></td>
+                            <td class="text-right"><span id="PapelInteriorCostoVari"></span></td>
+                            <td class="text-right"><span id="PapelInteriorTotal"></span></td>
                         </tr>
                         <tr>
                             <th colspan="4">Papel Tapa $</th>
-                            <td>0</td>
-                            <td>0</td>
-                            <td>0</td>
+                            <td class="text-right"><span id="PapelTapaCostoFijo"></span></td>
+                            <td class="text-right"><span id="PapelTapaCostoVari"></span></td>
+                            <td class="text-right"><span id="PapelTapaTotal"></span></td>
                         </tr>
                         <tr>
                             <th colspan="4">Total Neto $</th>
-                            <td><span id="NetoTotCostoFijo"></span></td>
-                            <td><span id="NetoTotCostoVari"></span></td>
-                            <td><span id="NetoTotal"></span></td>
+                            <td class="text-right"><span id="NetoTotCostoFijo"></span></td>
+                            <td class="text-right"><span id="NetoTotCostoVari"></span></td>
+                            <td class="text-right"><span id="NetoTotal"></span></td>
                         </tr>
                         <tr>
                             <th colspan="6">Precio Unitario Neto $</th>
-                            <td><span id="UnitarioTotal"></span></td>
+                            <td class="text-right"><span id="UnitarioTotal"></span></td>
                         </tr>
                     </tbody>
                 </table>
@@ -1063,11 +1024,8 @@
         }
     </div>
 
-
-
-
 }
-
+ 
 
 
 @section Scripts {
@@ -1093,22 +1051,161 @@
             });
         }
     });
-    $("#TapaPapel").change(function () {
+    $("#EmpresaPapelTapa").change(function () {
         var selectedPapelTap = $(this).val();
         if (selectedPapelTap != null && selectedPapelTap != '') {
-            $.getJSON('@Url.Action("SeleccionarPapel", "Presupuesto")', { NombrePapel: selectedPapelTap }, function (Gramajes) {
-                var GramajeSelect = $('#GramajeTapId');
+            $.getJSON('@Url.Action("SeleccionarPapel", "Presupuesto")', { EmpresaID: selectedPapelTap }, function (Papel) {
+                var GramajeSelect = $('#TapaPapel');
                 GramajeSelect.empty();
 
                 var optionhtml1 = '<option value="' +
-                 0 + '">' + "Seleccione un Gramaje" + '</option>';
+                 0 + '">' + "Seleccione un Papel" + '</option>';
                 GramajeSelect.append(optionhtml1);
-                $.each(Gramajes, function (i) {
+                $.each(Papel, function (i) {
                     var optionhtml = '<option value="' +
-                                        Gramajes[i].Value + '">' + Gramajes[i].Text + '</option>';
+                                        Papel[i].Value + '">' + Papel[i].Text + '</option>';
                     GramajeSelect.append(optionhtml);
                 });
             });
         }
     });
+    $("#CatalogoId").change(function () {
+        var selectedCatalogoId = $(this).val();
+        
+        if (selectedCatalogoId != null && selectedCatalogoId != '') {
+            $("input#NombreCatalogo").addClass("hidden");
+            $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == "Copesa"); }).trigger("change").attr("disabled", "disabled");
+            $("div#divPapelEmpresaInt").addClass("hidden");
+            $("div#divPapelEmpresaTap").addClass("hidden");
+            $("select#EmpresaPapelTapa option").each(function () { this.selected = (this.text == "Copesa"); }).trigger("change").attr("disabled", "disabled");
+                
+        }
+        else {
+            $("input#NombreCatalogo").removeClass("hidden");
+            $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == "Aimpresores"); }).trigger("change").removeAttr("disabled");
+            $("div#divPapelEmpresaInt").removeClass("hidden");
+            $("div#divPapelEmpresaTap").removeClass("hidden");
+            $("select#EmpresaPapelTapa option").each(function () { this.selected = (this.text == "Aimpresores"); }).trigger("change").removeAttr("disabled");
+                
+        }
+        
+    });
+    $("select#EmpresaPapelInterior").change(function () {
+        var selectedEmpresa = $("select#EmpresaPapelInterior option:selected").text();
+        
+        if (selectedEmpresa == "Aimpresores") {
+            
+            $("div#PPapelEmpresaInt").removeClass("hidden");
+        }
+        else {
+            $("div#PPapelEmpresaInt").addClass("hidden");
+        }
+    });
+    $("select#EmpresaPapelTapa").change(function () {
+        var selectedEmpresa = $("select#EmpresaPapelTapa option:selected").text();
+
+        if (selectedEmpresa == "Aimpresores") {
+
+            $("div#PPapelEmpresaTap").removeClass("hidden");
+        }
+        else {
+            $("div#PPapelEmpresaTap").addClass("hidden");
+        }
+    });
+    $("#CantidadTapa").change(function () {
+        var selectedCantidadInt = $(this).val();
+        
+        if (selectedCantidadInt != null && selectedCantidadInt != '') {
+            $("div#DivCantidadModelos").removeClass("hidden");
+            
+        }
+        else {
+            $("div#DivCantidadModelos").addClass("hidden");
+
+        }
+    });
+    $("#CantidadInt").change(function () {
+        var selectedCantidadInt = $(this).val();
+        if (selectedCantidadInt != null && selectedCantidadInt != '') {
+            if (selectedCantidadInt <= 64) {
+                $("select#SelectEnc option").each(function () { this.selected = (this.text == "Corchete"); });
+                
+            }
+            else {
+                $("select#SelectEnc option").each(function () { this.selected = (this.text == "Hotmelt"); });
+                
+            }
+        }
+    });
+    $("select#ddlAlzadoPlano").change(function () {
+        var selectedCantidad = $(this).val();
+        if (selectedCantidad != null && selectedCantidad != '') {
+            var tiraje = $("input#Tiraje").val();
+            $("input#CantidadAlzadoPlano").removeClass("hidden").val(tiraje);
+        }
+        else {
+            $("input#CantidadAlzadoPlano").addClass("hidden").val(0);
+        }
+    });
+    $("select#ddlDesembolsado").change(function () {
+        var selectedCantidad = $(this).val();
+        if (selectedCantidad != null && selectedCantidad != '') {
+            var tiraje = $("input#Tiraje").val();
+            $("input#CantidadDesembolsado").removeClass("hidden").val(tiraje);
+        }
+        else {
+            $("input#CantidadDesembolsado").addClass("hidden").val(0);
+        }
+    });
+    $("select#ddlAlzado").change(function () {
+        var selectedCantidad = $(this).val();
+        if (selectedCantidad != null && selectedCantidad != '') {
+            var tiraje = $("input#Tiraje").val();
+            $("input#CantidadAlzado").removeClass("hidden").val(tiraje);
+        }
+        else {
+            $("input#CantidadAlzado").addClass("hidden").val(0);
+        }
+    });
+    $("select#ddlInsercion").change(function () {
+        var selectedCantidad = $(this).val();
+        if (selectedCantidad != null && selectedCantidad != '') {
+            var tiraje = $("input#Tiraje").val();
+            $("input#CantidadInsercion").removeClass("hidden").val(tiraje);
+        }
+        else {
+            $("input#CantidadInsercion").addClass("hidden").val(0);
+        }
+    });
+    $("select#ddlPegado").change(function () {
+        var selectedCantidad = $(this).val();
+        if (selectedCantidad != null && selectedCantidad != '') {
+            var tiraje = $("input#Tiraje").val();
+            $("input#CantidadPegado").removeClass("hidden").val(tiraje);
+        }
+        else {
+            $("input#CantidadPegado").addClass("hidden").val(0);
+        }
+    });
+    $("select#ddlFajado").change(function () {
+        var selectedCantidad = $(this).val();
+        if (selectedCantidad != null && selectedCantidad != '') {
+            var tiraje = $("input#Tiraje").val();
+            $("input#CantidadFajado").removeClass("hidden").val(tiraje);
+        }
+        else {
+            $("input#CantidadFajado").addClass("hidden").val(0);
+        }
+    });
+    $("select#ddlPegadoSticker").change(function () {
+        var selectedCantidad = $(this).val();
+        if (selectedCantidad != null && selectedCantidad != '') {
+            var tiraje = $("input#Tiraje").val();
+            $("input#CantidadPegadoSticker").removeClass("hidden").val(tiraje);
+        }
+        else {
+            $("input#CantidadPegadoSticker").addClass("hidden").val(0);
+        }
+    });
+    //
 </script>

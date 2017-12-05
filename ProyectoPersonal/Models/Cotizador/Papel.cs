@@ -26,5 +26,7 @@ namespace ProyectoPersonal.Models.Cotizador
         public int Paginas { get; set; }
         public int EmpresaId { get; set; }
         public Empresa Empresa { get; set; }
+        [NotMapped]
+        public string NombreCompletoPapel { get { return NombrePapel + " " + Gramaje; } }
     }
 }

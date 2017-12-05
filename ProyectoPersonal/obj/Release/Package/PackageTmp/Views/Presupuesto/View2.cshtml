@@ -1,0 +1,346 @@
+﻿@model ProyectoPersonal.Models.Cotizador.PresupuestoView
+<link href="~/Content/Template/dark_cyan.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "View2";
+}
+<style>
+    #sidebar {
+        width: 25%;
+        float: right;
+        background: #ccc;
+        margin-left: 10px;
+        padding: 0 2px 2px 0;
+    }
+</style>
+
+<script type="text/javascript">
+
+    function OnSuccess(data) {
+        var arraylectura = data.split(',')
+        $("#OfertaPresupuesto").text(n(data.split(',')));
+
+    }
+
+
+    function OnFailure(data) {
+        $("#OfertaPresupuesto").text("");
+        $("#OfertaImp").text("");
+        $("#OfertaPapel").text("");
+        $("#OfertaEnc").text("");
+        $("#OfertaTerm").text("");
+        $("#OfertaNeto").text("");
+        $("#OfertaPrecioUnit").text("");
+        $("#btnGuardar").prop('disabled', true);
+    }
+
+</script>
+@using (Ajax.BeginForm(null, new AjaxOptions()
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess",
+    OnFailure = "OnFailure"
+}))
+{
+    @Html.AntiForgeryToken()
+    <div id="sidebar" class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-center" id="myModalLabel">Nuestra Oferta</h4>
+            </div>
+            <div class="modal-body">
+                <p>Presupuesto <span id="OfertaPresupuesto"></span></p>
+                <table class="table table-bordered table-condensed table-striped" style="padding-right: 15px;">
+                    <thead>
+                        <tr>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);">Proceso</th>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);">C.F.</th>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);">C.V.</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Impresión</td>
+                            <td class="text-right"><span id="OfertaImpF"></span></td>
+                            <td class="text-right"><span id="OfertaImpV"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Papel</td>
+                            <td class="text-right"><span id="OfertaPapelF"></span></td>
+                            <td class="text-right"><span id="OfertaPapelV"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Encua.</td>
+                            <td class="text-right"><span id="OfertaEncF"></span></td>
+                            <td class="text-right"><span id="OfertaEncV"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Terminación</td>
+                            <td class="text-right"><span id="OfertaTermF"></span></td>
+                            <td class="text-right"><span id="OfertaTermV"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Total Neto</td>
+                            <td class="text-right"><span id="OfertaNetoF"></span></td>
+                            <td class="text-right"><span id="OfertaNetoV"></span></td>
+                        </tr>
+                        <tr>
+                            <td>Precio unit.</td>
+                            <td></td>
+                            <td class="text-right"><span id="OfertaPrecioUnit"></span></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <p>El valor de la UF es @ViewBag.ValorUF.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="@Url.Action("index","Presupuesto")"><span class="btn btn-sm btn-default fa fa-history"> Volver</span></a>
+
+                <button id="btnGuardar" type="button" disabled class="btn btn-sm btn-default" formaction="NewCalcular" >
+                    <i class="icon-check"></i> Crear
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="form-horizontal form" style="width:70%">
+        <fieldset>
+            <legend>Información Presupuesto</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Presupuesto.NombrePresupuesto, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 form-inline">
+                    @Html.DropDownListFor(model => model.TipoCatalogoId, new SelectList(ViewBag.TiposCatalogos, "IdTipoCatalogo", "NombreTipoCatalogo"), "Tipo Catalogo", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.EditorFor(model => model.Presupuesto.NombrePresupuesto, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" } })
+                    @*@Html.ValidationMessageFor(model => model.Presupuesto.NombrePresupuesto, "", new { @class = "text-danger", style = "display:inline" })*@
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Formatos, "Formato", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.FormatoId, new SelectList(ViewBag.Formatos, "NombreFormato", "NombreFormato"), "Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+
+                    @*@Html.ValidationMessageFor(model => model.Formatos, "", new { @class = "text-danger", style = "display:inline" })*@
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Presupuesto.Tiraje, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Presupuesto.Tiraje, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" } })
+
+                    @Html.ValidationMessageFor(model => model.Presupuesto.Tiraje, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+
+        </fieldset>
+        <fieldset>
+            <legend>Información Interior</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Interior.CantidadPaginas, "Cantidad Páginas", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.Interior.CantidadPaginas, new SelectList(ViewBag.CantidadInt, "Value", "Text"), "Seleccione Cantidad", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.Interior.CantidadPaginas, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Empresas, "Papel de Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.EmpresaPapelInteriorId, new SelectList(ViewBag.EmpresaPapelInteriorId, "IdEmpresa", "NombreEmpresa"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.Empresas, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Interior.Papel.NombrePapel, "Papel de Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.PapelInteriorId, new SelectList(ViewBag.Papeles, "IdPapel", "NombrePapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.Interior.Papel.NombrePapel, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Información Tapa</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Tapas.CantidadPaginas, "Cantidad Tapas", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.DropDownListFor(model => model.Tapas.CantidadPaginas, new List<SelectListItem>
+                                                    {
+                                                        new SelectListItem{ Text="4", Value = "4" }
+                                                     }, "Seleccione Cantidad", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.Tapas.CantidadPaginas, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CantidadModelosTapas,"Cant. Modelos", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+
+                    @Html.DropDownListFor(model => model.CantidadModelosTapas, new List<SelectListItem>
+                                                    {
+                                                        new SelectListItem{ Text="1", Value = "1" },
+                                                        new SelectListItem{ Text="2", Value = "2" }
+                                                     }, htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.CantidadModelosTapas, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Empresas, "Papel de Empresa", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.EmpresaPapelTapaId, new SelectList(ViewBag.EmpresaPapelTapaId, "IdEmpresa", "NombreEmpresa"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.Empresas, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Tapas.Papel.NombrePapel, "Papel", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.PapelTapaId, new SelectList(ViewBag.Papeles, "IdPapel", "NombrePapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.Tapas.Papel.NombrePapel, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Encuadernación</legend>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Encuadernaciones, "Encuadernación", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.EncuadernacionId, new SelectList(ViewBag.Encuadernaciones, "IdEncuadernacion", "NombreEncuadernacion"), "Seleccione Una Encuadernación", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+
+                    @Html.ValidationMessageFor(model => model.Encuadernaciones, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Terminaciones adicionales para Tapas</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Quinto Color", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 form-inline">
+                    @Html.DropDownListFor(model => model.SubProcesoQuintoColorId, new SelectList(ViewBag.SubProcesoQuintoColorId, "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.DropDownListFor(model => model.PasadasQuintoColor, new List<SelectListItem>
+                                                    {
+                                                        new SelectListItem{ Text="Tiro", Value = "1" },
+                                                        new SelectListItem{ Text="Retiro", Value = "2" },
+                                                        new SelectListItem{ Text="Tiro y Retiro", Value = "3" }
+                                                     }, null, htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Barniz Acuoso", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoAcuosoId, new List<SelectListItem>
+                                                    {
+                                                        new SelectListItem{ Text="Tiro", Value = "2" },
+                                                        new SelectListItem{ Text="Retiro", Value = "3" },
+                                                        new SelectListItem{ Text="Tiro y Retiro", Value = "4" }
+                                                     }, "No", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Embolsado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoEmbolsadoId, new SelectList(ViewBag.SubProcesoEmbolsadoId, "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Laminado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoLaminadoId, new SelectList(ViewBag.SubProcesoLaminadoId, "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Barniz UV", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoBarnizUVId, new SelectList(ViewBag.SubProcesoBarnizUVId, "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+
+
+        </fieldset>
+        <fieldset>
+            <legend>Manualidades</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Alzado Plano", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoAlzadoPlanoId, new List<SelectListItem>
+                                                    {
+                                                        new SelectListItem{ Text="Si", Value = "2" }
+                                                     }, "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Desembolsado simple", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoDesembolsadoId, new List<SelectListItem>
+                                                    {
+                                                        new SelectListItem{ Text="Si", Value = "2" }
+                                                     }, "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Alzado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoAlzadoId, new SelectList(ViewBag.SubProcesoAlzadoId, "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Inserción manual", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoInsercionId, new SelectList(ViewBag.SubProcesoInsercionId, "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Pegado de Sachet", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoSachetId, new SelectList(ViewBag.SubProcesoSachetId, "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Fajado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoFajadoId, new SelectList(ViewBag.SubProcesoFajadoId, "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Adhesivo", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoAdhesivoId, new SelectList(ViewBag.SubProcesoAdhesivoId, "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.SubProcesos, "Pegado Sticker", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.SubProcesoStickerId, new List<SelectListItem>
+                                                    {
+                                                        new SelectListItem{ Text="Si", Value = "2" }
+                                                     }, "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.SubProcesos, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+        </fieldset>
+    </div>
+}

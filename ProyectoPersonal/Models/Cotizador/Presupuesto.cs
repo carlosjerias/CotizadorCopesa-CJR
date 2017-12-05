@@ -163,6 +163,8 @@ namespace ProyectoPersonal.Models.Cotizador
         [DisplayFormat(DataFormatString = "{0:n}")]
         public double TarifaFijaTerminacion { get; set; }
         [DisplayFormat(DataFormatString = "{0:n}")]
+        public double TarifaFijaDespacho { get; set; }
+        [DisplayFormat(DataFormatString = "{0:n}")]
         public double TarifaVariableTerminacion { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaCreacion { get; set; }
@@ -179,15 +181,22 @@ namespace ProyectoPersonal.Models.Cotizador
         [NotMapped]
         [Display(Name = "Nombre")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [StringLength(250, MinimumLength = 4, ErrorMessage = "El campo {0} debe tener de longitud de {2} a {1}.")]
+        [StringLength(250, MinimumLength = 2, ErrorMessage = "El campo {0} debe tener de longitud de {2} a {1}.")]
         public string NombrePresupuesto { get; set; }
 
         public List<TipoCatalogo> Catalogo { get; set; }
         public int CatalogoId { get; set; }
+        public string NombreCatalogo { get; set; }
         public List<Empresa> Empresa { get; set; }
         public int EmpresaPapelInterior { get; set; }
         public int EmpresaPapelTapa { get; set; }
-
+        public int CantidadAlzadoPlano { get; set; }
+        public int CantidadDesembolsado { get; set; }
+        public int CantidadAlzado { get; set; }
+        public int CantidadInsercion { get; set; }
+        public int CantidadPegado { get; set; }
+        public int CantidadFajado { get; set; }
+        public int CantidadPegadoSticker { get; set; }
 
         [NotMapped]
         public List<Encuadernacion> Encuadernaciones { get; set; }

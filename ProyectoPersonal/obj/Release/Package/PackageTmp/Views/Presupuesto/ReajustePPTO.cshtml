@@ -1,0 +1,468 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Presupuesto
+
+@{
+    ViewBag.Title = "ReajustePPTO";
+}
+
+<h2>ReajustePPTO</h2>
+<link href="~/Content/Template/dark_cyan.css" rel="stylesheet" />
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.IdPresupuesto)
+        <fieldset>
+            <div class="form-inline">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group" style="margin-bottom: 15px;width:100% !important;">
+                            @Html.LabelFor(model => model.NombrePresupuesto, htmlAttributes: new { @class = "control-label col-md-1" })
+                            <div class="col-md-11">
+                                @Html.EditorFor(model => model.NombrePresupuesto, new { htmlAttributes = new { @class = "form-control", @style = "width:100% !important; max-width:100% !important;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4" style="margin-bottom: 15px;">
+                        @Html.LabelFor(model => model.Tiraje, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control text-right", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })
+
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4" style="margin-bottom: 15px;">
+                        @Html.LabelFor(model => model.Encuadernacion.NombreEncuadernacion, "Cliente", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @*@Html.DropDownListFor(model => model.SelectEnc, new SelectList(Model.Encuadernaciones, "IdEncuadernacion", "NombreEncuadernacion"), "Seleccione Una Encuadernación", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" })*@
+                            @Html.EditorFor(model => model.NombrePresupuesto, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4" style="margin-bottom: 15px;">
+                        @Html.LabelFor(model => model.Formato, "Formato", htmlAttributes: new { @class = "control-label col-md-3", @style = "margin-right:5px;" })
+                        <div class="col-md-7 form-inline" style="margin-right:0;">
+                            @*@Html.DropDownList("SelectFormato", new SelectList(Model.Formatos.Select(x => x.NombreFormato).Distinct().ToList()), "Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" })*@
+                            @Html.EditorFor(model => model.Formato.FormatoCerradoX, new { htmlAttributes = new { @class = "form-control", @style = "width:40%;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } }) X
+                            @Html.EditorFor(model => model.Formato.FormatoCerradoY, new { htmlAttributes = new { @class = "form-control", @style = "width:40%;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })
+                        </div>
+                    </div>
+                   
+                    
+
+                    <div class="form-group col-md-4" style="margin-bottom: 15px;">
+                        @Html.LabelFor(model => model.Interior.Papel.Maquina.NombreMaquina, "Interior", htmlAttributes: new { @class = "control-label col-md-3", @style = "margin-right:5px;" })
+                        <div class="col-md-7 ">
+                            @*@Html.DropDownList("SelectFormato", new SelectList(Model.Formatos.Select(x => x.NombreFormato).Distinct().ToList()), "Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" })*@
+                            @Html.EditorFor(model => model.MaquinaInterior.NombreMaquina, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4" style="margin-bottom: 15px;">
+                        @Html.LabelFor(model => model.Tapa.Papel.Maquina.NombreMaquina, "Tapa", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @*@Html.DropDownListFor(model => model.SelectEnc, new SelectList(Model.Encuadernaciones, "IdEncuadernacion", "NombreEncuadernacion"), "Seleccione Una Encuadernación", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" })*@
+                            @Html.EditorFor(model => model.MaquinaTapa.NombreMaquina, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })
+                        </div>
+                    </div>
+                    <div class="form-group col-md-4" style="margin-bottom: 15px;">
+                        @Html.LabelFor(model => model.Moneda,"Valor UF", htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.Moneda.Valor, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })
+
+                        </div>
+                    </div>
+                </div>
+            </div>  
+        </fieldset>
+        <fieldset>
+            <legend>Descripción de Procesos</legend>
+
+            <table class="table table-condensed table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Descripción de Procesos</th>
+                        <th>#Entradas</th>
+                        <th>CF</th>
+                        <th>CV</th>
+                        <th>Total CF</th>
+                        <th>Total CV</th>
+                        <th>Total Final</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th colspan="7">Impresión Pliegos de Interior</th>
+                    </tr>
+                    <tr>
+                        <td>64 Pag.</td>
+                        <td>@Html.EditorFor(model => model.EntradasPag64, new { htmlAttributes = new { @class = "form-control",@style= "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.DisplayFor(model => model.CostoFijoPag64)</td>
+                        <td>@Html.DisplayFor(model => model.CostoVariablePag64)</td>
+                        <td><span id="64TotCostoFijo"></span></td>
+                        <td><span id="64TotCostoVari"></span></td>
+                        <td><span id="64Total"></span></td>
+                    </tr>
+                    <tr>
+                        <td>48 Pag.</td>
+                        <td>@Html.EditorFor(model => model.EntradasPag48, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.DisplayFor(model => model.CostoFijoPag48)</td>
+                        <td>@Html.DisplayFor(model => model.CostoVariablePag48)</td>
+                        <td><span id="48TotCostoFijo"></span></td>
+                        <td><span id="48TotCostoVari"></span></td>
+                        <td><span id="48Total"></span></td>
+                    </tr>
+                    <tr>
+                        <td>32 Pag.</td>
+                        <td>@Html.EditorFor(model => model.EntradasPag32, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.DisplayFor(model => model.CostoFijoPag32)</td>
+                        <td>@Html.DisplayFor(model => model.CostoVariablePag32)</td>
+                        <td><span id="32TotCostoFijo"></span></td>
+                        <td><span id="32TotCostoVari"></span></td>
+                        <td><span id="32Total"></span></td>
+                    </tr>
+                    <tr>
+                        <td>24 Pag.</td>
+                        <td>@Html.EditorFor(model => model.EntradasPag24, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.DisplayFor(model => model.CostoFijoPag24)</td>
+                        <td>@Html.DisplayFor(model => model.CostoVariablePag24)</td>
+                        <td><span id="24TotCostoFijo"></span></td>
+                        <td><span id="24TotCostoVari"></span></td>
+                        <td><span id="24Total"></span></td>
+                    </tr>
+                    <tr>
+                        <td>16 Pag.</td>
+                        <td>@Html.EditorFor(model => model.EntradasPag16, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.DisplayFor(model => model.CostoFijoPag16)</td>
+                        <td>@Html.DisplayFor(model => model.CostoVariablePag16)</td>
+                        <td><span id="16TotCostoFijo"></span></td>
+                        <td><span id="16TotCostoVari"></span></td>
+                        <td><span id="16Total"></span></td>
+                    </tr>
+                    <tr>
+                        <td>8 Pag.</td>
+                        <td>@Html.EditorFor(model => model.EntradasPag8, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.DisplayFor(model => model.CostoFijoPag8)</td>
+                        <td>@Html.DisplayFor(model => model.CostoVariablePag8)</td>
+                        <td><span id="8TotCostoFijo"></span></td>
+                        <td><span id="8TotCostoVari"></span></td>
+                        <td><span id="8Total"></span></td>
+                    </tr>
+                    <tr>
+                        <td>4 Pag.</td>
+                        <td>@Html.EditorFor(model => model.EntradasPag4, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.DisplayFor(model => model.CostoFijoPag4)</td>
+                        <td>@Html.DisplayFor(model => model.CostoVariablePag4)</td>
+                        <td><span id="4TotCostoFijo"></span></td>
+                        <td><span id="4TotCostoVari"></span></td>
+                        <td><span id="4Total"></span></td>
+                    </tr>
+                    <tr>
+                        <th colspan="7">Impresión Tapa</th>
+                    </tr>
+                    <tr>
+                        <td>Impresión Tapa</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td><span id="64TotCostoFijo"></span></td>
+                        <td><span id="64TotCostoVari"></span></td>
+                        <td><span id="TapaTotCostoFijo"></span></td>
+                        <td><span id="TapaTotCostoVari"></span></td>
+                        <td><span id="TapaTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <th colspan="7">Encuadernación</th>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Encuadernacion.NombreEncuadernacion, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.DisplayFor(model => model.CostoFijoTapa)</td>
+                        <td>@Html.DisplayFor(model => model.CostoVariableTapa)</td>
+                        <td><span id="EncCostoVari"></span></td>
+                        <td><span id="EncTotCostoFijo"></span></td>
+                        <td><span id="EncTotCostoVari"></span></td>
+                        <td><span id="EncTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <th colspan="7">Otros Impresión</th>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td><span id="QuintoTotCostoFijo"></span></td>
+                        <td><span id="QuintoTotCostoVari"></span></td>
+                        <td><span id="QuintoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td><span id="AcuosoTotCostoFijo"></span></td>
+                        <td><span id="AcuosoTotCostoVari"></span></td>
+                        <td><span id="AcuosoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <th colspan="7">Procesos Mecánicos</th>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="EmbolsadoCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="EmbolsadoTotCostoVari"></span></td>
+                        <td><span id="EmbolsadoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td><span id="LaminadoCostoFijo"></span></td>
+                        <td><span id="LaminadoCostoVari"></span></td>
+                        <td><span id="LaminadoTotCostoFijo"></span></td>
+                        <td><span id="LaminadoTotCostoVari"></span></td>
+                        <td><span id="LaminadoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td><span id="BarnizUVCostoFijo"></span></td>
+                        <td><span id="BarnizUVCostoVari"></span></td>
+                        <td><span id="BarnizUVTotCostoFijo"></span></td>
+                        <td><span id="BarnizUVTotCostoVari"></span></td>
+                        <td><span id="BarnizUVTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Troquelados</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td><span id="TroqueladoCostoFijo"></span></td>
+                        <td><span id="TroqueladoCostoVari"></span></td>
+                        <td><span id="TroqueladoTotCostoFijo"></span></td>
+                        <td><span id="TroqueladoTotCostoVari"></span></td>
+                        <td><span id="TroqueladoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Plizado</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td><span id="PlizadoCostoFijo"></span></td>
+                        <td><span id="PlizadoCostoVari"></span></td>
+                        <td><span id="PlizadoTotCostoFijo"></span></td>
+                        <td><span id="PlizadoTotCostoVari"></span></td>
+                        <td><span id="PlizadoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Corte Frontal</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td><span id="CorteCostoFijo"></span></td>
+                        <td><span id="CorteCostoVari"></span></td>
+                        <td><span id="CorteTotCostoFijo"></span></td>
+                        <td><span id="CorteTotCostoVari"></span></td>
+                        <td><span id="CorteTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <th colspan="7">Manualidades</th>
+                    </tr>
+                    <tr>
+                        <td>Alzados de elementos planos</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="AlzadoPlanoCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="AlzadoPlanoTotCostoVari"></span></td>
+                        <td><span id="AlzadoPlanoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Embolsado manual de Revista</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="EmbolsadoManualCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="EmbolsadoManualTotCostoVari"></span></td>
+                        <td><span id="EmbolsadoManualTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Desembolsado simple</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="DesembolsadoCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="DesembolsadoTotCostoVari"></span></td>
+                        <td><span id="DesembolsadoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="AlzadoCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="AlzadoTotCostoVari"></span></td>
+                        <td><span id="AlzadoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="InsercionCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="InsercionTotCostoVari"></span></td>
+                        <td><span id="InsercionTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="PegadoCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="PegadoTotCostoVari"></span></td>
+                        <td><span id="PegadoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="FajadoCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="FajadoTotCostoVari"></span></td>
+                        <td><span id="FajadoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="AdhesivoCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="AdhesivoTotCostoVari"></span></td>
+                        <td><span id="AdhesivoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Suministro de cajas</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="SuministroCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="SuministroTotCostoVari"></span></td>
+                        <td><span id="SuministroTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Inserción de elementos en caja y sellado de caja</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="CajaySelloCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="CajaySelloTotCostoVari"></span></td>
+                        <td><span id="CajaySelloTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Enzunchado x paquete</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="EnzunchadoCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="EnzunchadoTotCostoVari"></span></td>
+                        <td><span id="EnzunchadoTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Pallet</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="PalletCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="PalletTotCostoVari"></span></td>
+                        <td><span id="PalletTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <td>Pegado de Sticker</td>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td></td>
+                        <td><span id="PegadoStickerCostoVari"></span></td>
+                        <td></td>
+                        <td><span id="PegadoStickerTotCostoVari"></span></td>
+                        <td><span id="PegadoStickerTotal"></span></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Manufactura $</th>
+                        <td><span id="ManufacturaTotCostoFijo">0</span></td>
+                        <td><span id="ManufacturaTotCostoVari">0</span></td>
+                        <td><span id="ManufacturaTotal">0</span></td>
+                    </tr>
+                    <tr>
+                        <th colspan="6">Manufactura Descuento %</th>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                    </tr>
+                    <tr>
+                        <th>Papel Interior</th>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td colspan="3"></td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Papel Kilos</td>
+                        <td>0</td>
+                        <td colspan="5"></td>
+                    </tr>
+                    <tr>
+                        <td>Tiradas</td>
+                        <td>0</td>
+                        <td colspan="5"></td>
+                    </tr>
+                    <tr>
+                        <td>Papel Precio</td>
+                        <td>0</td>
+                        <td colspan="5"></td>
+                    </tr>
+                    <tr>
+                        <th>Papel Tapa $</th>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                        <td colspan="3"></td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Papel Kilos</td>
+                        <td>0</td>
+                        <td colspan="5"></td>
+                    </tr>
+                    <tr>
+                        <td>Tiradas</td>
+                        <td>0</td>
+                        <td colspan="5"></td>
+                    </tr>
+                    <tr>
+                        <td>Papel Precio</td>
+                        <td>0</td>
+                        <td colspan="5"></td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Total Neto $</th>
+                        <td><span id="NetoTotCostoFijo">0</span></td>
+                        <td><span id="NetoTotCostoVari">0</span></td>
+                        <td><span id="NetoTotal">0</span></td>
+                    </tr>
+                    <tr>
+                        <th colspan="6">Total Neto Descuento %</th>
+                        <td>@Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", @style = "width: 110px;", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })</td>
+                    </tr>
+                    <tr>
+                        <th colspan="6">Precio Unitario Neto $</th>
+                        <td><span id="UnitarioTotal">0</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

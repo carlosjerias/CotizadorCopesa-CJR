@@ -42,3 +42,14 @@ textarea {
 .dropdown-menu {
     z-index:105 !important;
 }
+@media (min-width: 1201px) {
+    .tableOferta {
+        display: none !important;
+    }
+}
+@media (min-width: 1900px)
+{
+    .tableOferta {
+        display: table-cell !important;
+    }
+}

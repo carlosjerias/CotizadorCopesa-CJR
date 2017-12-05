@@ -18,7 +18,7 @@ namespace ProyectoPersonal.Models.Cotizador
         public int SubProcesoId { get; set; }
         [ForeignKey("SubProcesoId")]
         public virtual SubProceso SubProceso { get; set; }
-
+        public int CantidadEjemplaresProceso { get; set; }
         public double ValorFijoSubProceso { get; set; }
         public double ValorVariableSubProceso { get; set; }
         public double ValorTotalSubProceso { get; set; }

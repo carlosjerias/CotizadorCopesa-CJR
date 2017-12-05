@@ -17,6 +17,8 @@ namespace ProyectoPersonal.Models.Cotizador
         public float KilosPapel { get; set; }
         public float Entradas { get; set; }
         public float Tiradas { get; set; }
+        public double CostoPapelTapaFijo { get; set; }
+        public double CostoPapelTapaVari { get; set; }
         public int? MaquinaId { get; set; }
         public Maquina Maquina { get; set; }
     }

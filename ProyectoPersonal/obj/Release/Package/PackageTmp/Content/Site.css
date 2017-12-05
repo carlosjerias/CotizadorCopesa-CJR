@@ -22,6 +22,8 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
 @media (min-width: 1201px) {
     .container {
         width: 99%;
@@ -39,4 +41,15 @@ textarea {
         }
 .dropdown-menu {
     z-index:105 !important;
+}
+@media (min-width: 1201px) {
+    .tableOferta {
+        display: none !important;
+    }
+}
+@media (min-width: 1900px)
+{
+    .tableOferta {
+        display: table-cell !important;
+    }
 }

@@ -294,6 +294,18 @@
     <Compile Include="Migrations\201711292027491_Papel Empresa.Designer.cs">
       <DependentUpon>201711292027491_Papel Empresa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712051300534_se adiciono el campo cantidad pres_subPRoceso.cs" />
+    <Compile Include="Migrations\201712051300534_se adiciono el campo cantidad pres_subPRoceso.Designer.cs">
+      <DependentUpon>201712051300534_se adiciono el campo cantidad pres_subPRoceso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712051333017_se adiciono el campo totaldespacho a PPTO.cs" />
+    <Compile Include="Migrations\201712051333017_se adiciono el campo totaldespacho a PPTO.Designer.cs">
+      <DependentUpon>201712051333017_se adiciono el campo totaldespacho a PPTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712051440063_cambios generales.cs" />
+    <Compile Include="Migrations\201712051440063_cambios generales.Designer.cs">
+      <DependentUpon>201712051440063_cambios generales.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cotizador\Doblez.cs" />
@@ -579,6 +591,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201711292027491_Papel Empresa.resx">
       <DependentUpon>201711292027491_Papel Empresa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712051300534_se adiciono el campo cantidad pres_subPRoceso.resx">
+      <DependentUpon>201712051300534_se adiciono el campo cantidad pres_subPRoceso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712051333017_se adiciono el campo totaldespacho a PPTO.resx">
+      <DependentUpon>201712051333017_se adiciono el campo totaldespacho a PPTO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712051440063_cambios generales.resx">
+      <DependentUpon>201712051440063_cambios generales.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
