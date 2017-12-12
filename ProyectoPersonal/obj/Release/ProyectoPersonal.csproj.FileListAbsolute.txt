@@ -343,3 +343,12 @@ C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPers
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.csproj.GenerateResource.Cache
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.dll
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.pdb
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.seadicionoelcampocantidadpres_subPRoceso.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.seadicionoelcampototaldespachoaPPTO.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.cambiosgenerales.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.tarifaManufactura.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.seagregoFormatoSeleccionadoaCatalogo.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.CamposStandar.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.SecambioacatalogodeEmbalaje.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.cambiosenCatalogoparaautomatizarelsistema.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.cambios.resources

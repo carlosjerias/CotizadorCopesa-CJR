@@ -16,7 +16,6 @@ namespace ProyectoPersonal.Models.Cotizador
         public int PalletEstandar { get; set; }
         public double EncajadoxCaja { get; set; }
         public double Enzunchado { get; set; }
-        
         public bool Estado { get; set; }
     }
 

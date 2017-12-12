@@ -32,7 +32,7 @@ namespace ProyectoPersonal.Models.Cotizador
 
         public int? TapaId { get; set; }
         public Tapa Tapa { get; set; }
-
+        
 
         public double TotalNetoFijo { get; set; }
         public double TotalNetoVari { get; set; }
@@ -78,7 +78,7 @@ namespace ProyectoPersonal.Models.Cotizador
         [NotMapped]
         public int CostoVariableCajas { get; set; }
 
-        public int CostoVariablePallet { get; set; }
+        public double CostoVariablePallet { get; set; }
         [NotMapped]
         [ScriptIgnore]
         public Maquina MaquinaInterior { get; set; }
@@ -90,6 +90,8 @@ namespace ProyectoPersonal.Models.Cotizador
         public int CantidadCajas { get; set; }
         [Display(Name = "Cantidad de Enzunchado x pqte")]
         public int Enzunchadoxpqte { get; set; }
+        public int CantidadenBolsa { get; set; }
+        public double LibrosxCajas { get; set; }
         [Display(Name = "Cantidad de Pallet")]
         public int CantidadPallet { get; set; }
         [NotMapped]
@@ -166,6 +168,10 @@ namespace ProyectoPersonal.Models.Cotizador
         public double TarifaFijaDespacho { get; set; }
         [DisplayFormat(DataFormatString = "{0:n}")]
         public double TarifaVariableTerminacion { get; set; }
+        [DisplayFormat(DataFormatString = "{0:n}")]
+        public double ManufacturaFijo { get; set; }
+        [DisplayFormat(DataFormatString = "{0:n}")]
+        public double ManufacturaVari { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaCreacion { get; set; }
 
@@ -185,7 +191,9 @@ namespace ProyectoPersonal.Models.Cotizador
         public string NombrePresupuesto { get; set; }
 
         public List<TipoCatalogo> Catalogo { get; set; }
-        public int CatalogoId { get; set; }
+        [NotMapped]
+        public int? CatalogoId { get; set; }
+        [NotMapped]
         public string NombreCatalogo { get; set; }
         public List<Empresa> Empresa { get; set; }
         public int EmpresaPapelInterior { get; set; }
@@ -202,7 +210,7 @@ namespace ProyectoPersonal.Models.Cotizador
         public List<Encuadernacion> Encuadernaciones { get; set; }
         [NotMapped]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [Display(Name = "Emcuadernación")]
+        [Display(Name = "Encuadernación")]
         public string SelectEnc { get; set; }
         [NotMapped]
         [Display(Name = "Tiraje")]
@@ -218,6 +226,7 @@ namespace ProyectoPersonal.Models.Cotizador
         [NotMapped]
         public List<Papel> Papeles { get; set; }
         [NotMapped]
+        [Display(Name = "Papel de Cliente")]
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string SelectPapelIntId { get; set; }
         [NotMapped]
@@ -292,9 +301,12 @@ namespace ProyectoPersonal.Models.Cotizador
         [NotMapped]
         public int CantidadPallet { get; set; }
         [NotMapped]
-        public int CostoVariablePallet { get; set; }
+        public double CostoVariablePallet { get; set; }
         [NotMapped]
         public int CantidadModelos { get; set; }
+        public int CantidadEnCajas { get; set; }
+        public int CantidadEnZuncho { get; set; }
+        public int CantidadEnBolsa { get; set; }
     }
 
     public class PresupuestoView

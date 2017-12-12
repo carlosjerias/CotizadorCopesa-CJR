@@ -163,7 +163,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/27/2012 14:00:52</publishTime>
     </File>
     <File Include="bin/ProyectoPersonal.dll">
-      <publishTime>12/04/2017 16:21:05</publishTime>
+      <publishTime>12/12/2017 15:16:50</publishTime>
     </File>
     <File Include="bin/RazorPDF.Legacy.dll">
       <publishTime>12/28/2014 04:59:54</publishTime>
@@ -402,6 +402,9 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="Scripts/modernizr-2.6.2.js">
       <publishTime>09/04/2017 17:56:11</publishTime>
     </File>
+    <File Include="Scripts/printThis.js">
+      <publishTime>12/05/2017 13:35:53</publishTime>
+    </File>
     <File Include="Scripts/respond.js">
       <publishTime>09/04/2017 17:56:11</publishTime>
     </File>
@@ -451,7 +454,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>10/10/2017 09:54:51</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>10/10/2017 18:16:15</publishTime>
+      <publishTime>12/05/2017 13:32:57</publishTime>
     </File>
     <File Include="Views/Account/ConfirmEmail.cshtml">
       <publishTime>10/08/2017 22:00:40</publishTime>
@@ -667,7 +670,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/09/2017 12:31:51</publishTime>
     </File>
     <File Include="Views/Presupuesto/Create.cshtml">
-      <publishTime>12/04/2017 15:13:23</publishTime>
+      <publishTime>12/12/2017 13:20:55</publishTime>
     </File>
     <File Include="Views/Presupuesto/Delete.cshtml">
       <publishTime>10/11/2017 17:08:04</publishTime>
@@ -679,10 +682,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>10/11/2017 17:09:47</publishTime>
     </File>
     <File Include="Views/Presupuesto/Index.cshtml">
-      <publishTime>11/17/2017 11:13:50</publishTime>
+      <publishTime>12/06/2017 12:01:02</publishTime>
     </File>
     <File Include="Views/Presupuesto/OfertaComercial.cshtml">
-      <publishTime>11/17/2017 11:16:51</publishTime>
+      <publishTime>12/11/2017 12:44:06</publishTime>
     </File>
     <File Include="Views/Presupuesto/ReajustePPTO.cshtml">
       <publishTime>11/27/2017 16:13:46</publishTime>
@@ -796,7 +799,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/04/2017 17:55:41</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/04/2017 16:21:08</publishTime>
+      <publishTime>12/05/2017 15:51:00</publishTime>
     </File>
   </ItemGroup>
 </Project>

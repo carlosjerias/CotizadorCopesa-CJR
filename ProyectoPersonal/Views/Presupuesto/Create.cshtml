@@ -1,6 +1,6 @@
 ﻿@model ProyectoPersonal.Models.Cotizador.PresupuestoForm
 <link href="~/Content/Template/dark_cyan.css" rel="stylesheet" />
-
+<script src="~/Scripts/printThis.js"></script>
 <style>
     #sidebar {
         width: 28%;
@@ -53,7 +53,7 @@
         }
         else {
 
-            $("#OfertaPresupuesto").text(data.NombrePresupuesto);
+            $("#OfertaPresupuesto").text( data.NombrePresupuesto);
 
             $("#Entradas64").text(data.EntradasPag64);
             $("#Entradas48").text(data.EntradasPag48);
@@ -299,33 +299,63 @@
             $("#PegadoStickerTotCostoVari").text(formatNumber.new(data.CostoVariablePegadoSticker));
             $("#PegadoStickerTotal").text(formatNumber.new((eval(data.Tiraje) * eval(data.CostoVariablePegadoSticker))));
 
-            $("#ManufacturaTotCostoFijo").text(formatNumber.new(data.TotalNetoFijo));
+            $("#ManufacturaTotCostoFijo").text(formatNumber.new(data.ManufacturaFijo));
             $("#NetoTotCostoFijo").text(formatNumber.new(data.TotalNetoFijo));
-            $("#ManufacturaTotCostoVari").text(formatNumber.new(data.TotalNetoVari));
+            $("#ManufacturaTotCostoVari").text(formatNumber.new(data.ManufacturaVari));
             $("#NetoTotCostoVari").text(formatNumber.new(data.TotalNetoVari));
-            $("#ManufacturaTotal").text(formatNumber.new(data.TotalNetoTotal));
+            $("#ManufacturaTotal").text(formatNumber.new(eval(data.ManufacturaFijo) + (eval(data.ManufacturaVari) * eval(data.Tiraje))));
 
             $("#PapelInteriorCostoFijo").text(formatNumber.new(data.Interior.CostoPapelinteriorFijo));
             $("#PapelInteriorCostoVari").text(formatNumber.new(data.Interior.CostoPapelInteriorVari));
             $("#PapelInteriorTotal").text(formatNumber.new(eval(data.Interior.CostoPapelinteriorFijo) + eval(eval(data.Interior.CostoPapelInteriorVari) * eval(data.Tiraje))));
-            $("#PapelTapaCostoFijo").text(formatNumber.new(data.Tapa.CostoPapelTapaFijo));
-            $("#PapelTapaCostoVari").text(formatNumber.new(data.Tapa.CostoPapelTapaVari));
-            $("#PapelTapaTotal").text(formatNumber.new(eval(data.Tapa.CostoPapelTapaFijo) + eval(eval(data.Tapa.CostoPapelTapaVari) * eval(data.Tiraje))));
-                  
-
+            var SuministradoCliente = "Papel es suministrado por el cliente; ";
+            if (data.Tapa !== null) {
+                $("#PapelTapaCostoFijo").text(formatNumber.new(data.Tapa.CostoPapelTapaFijo));
+                $("#PapelTapaCostoVari").text(formatNumber.new(data.Tapa.CostoPapelTapaVari));
+                $("#PapelTapaTotal").text(formatNumber.new(eval(data.Tapa.CostoPapelTapaFijo) + eval(eval(data.Tapa.CostoPapelTapaVari) * eval(data.Tiraje))));
+                
+                if (data.Tapa.CostoPapelTapaFijo == 0) {
+                    $("#PapelTapDescripcion").text(SuministradoCliente + " Consumo de kilos Aprox. " + data.Tapa.KilosPapel + " KG");
+                }
+                else {
+                    $("#PapelTapDescripcion").text("Consumo de kilos Aprox. " + data.Tapa.KilosPapel + " KG");
+                }
+                
+            }
+            if (data.CantidadCajas > 0) {
+                $("#MensajeCajas").text(data.CantidadCajas + " Cajas, " + data.LibrosxCajas + " ejemplares por cada caja");
+            }
+            else {
+                $("#MensajeCajas").text("");
+            }
             $("#NetoTotal").text(formatNumber.new(data.TotalNetoTotal));
             $("#UnitarioTotal").text(formatNumber.new(data.PrecioUnitario));
+            if (data.Interior.CostoPapelinteriorFijo == 0) {
+                $("#PapelIntDescripcion").text(SuministradoCliente + " Consumo de kilos Aprox. " + data.Interior.KilosPapel + " KG");
+            }
+            else {
+                $("#PapelIntDescripcion").text("Consumo de kilos Aprox. " + data.Interior.KilosPapel + " KG");
+            }
+            
+            
 
             $("#OfertaImpF").text(formatNumber.new(data.TarifaFijaImpresion));
             $("#OfertaImpV").text(formatNumber.new(data.TarifaVariableImpresion));
+            $("#OfertaImpT").text(formatNumber.new(eval(data.TarifaFijaImpresion) + (eval(data.TarifaVariableImpresion) * eval(data.Tiraje))));
             $("#OfertaPapelF").text(formatNumber.new(eval(data.TarifaFijaPapel)));
             $("#OfertaPapelV").text(formatNumber.new(eval(data.TarifaVariablePapel)));
+            $("#OfertaPapelT").text(formatNumber.new(eval(data.TarifaFijaPapel) + (eval(data.TarifaVariablePapel) * eval(data.Tiraje))));
             $("#OfertaEncF").text(formatNumber.new(data.TarifaFijaEncuadernacion));
             $("#OfertaEncV").text(formatNumber.new(data.TarifaVariableEncuadernacion));
+            $("#OfertaEncT").text(formatNumber.new(eval(data.TarifaFijaEncuadernacion) + (eval(data.TarifaVariableEncuadernacion) * eval(data.Tiraje))));
             $("#OfertaTermF").text(formatNumber.new(eval(data.TarifaFijaTerminacion)));
             $("#OfertaTermV").text(formatNumber.new(eval(data.TarifaVariableTerminacion)));
+            $("#OfertaTermT").text(formatNumber.new(eval(data.TarifaFijaTerminacion) + (eval(data.TarifaVariableTerminacion) * eval(data.Tiraje))));
+            $("#OfertaDespV").text(formatNumber.new(eval(data.TarifaFijaDespacho)));
+            $("#OfertaDespT").text(formatNumber.new(eval(data.TarifaFijaDespacho)* eval(data.Tiraje)));
             $("#OfertaNetoF").text(formatNumber.new(data.TotalNetoFijo));
             $("#OfertaNetoV").text(formatNumber.new(data.TotalNetoVari));
+            $("#OfertaNetoT").text(formatNumber.new(data.TotalNetoTotal));
             $("#OfertaPrecioUnit").text(formatNumber.new(data.PrecioUnitario));
             $("#btnGuardar").prop('disabled', false);
         }
@@ -340,7 +370,11 @@
         $("#OfertaPrecioUnit").text("");
         $("#btnGuardar").prop('disabled', true);
     }
-
+    $(document).ready(function () {
+        $("button#print_btn").click(function () {
+            $('#muestra').printThis();
+        });
+    });
 </script>
 <script>
     var formatNumber = {
@@ -417,7 +451,7 @@
                         <tr>
                             <td>Despacho</td>
                             <td class="text-right tableOferta"><span id="OfertaDespF"></span></td>
-                            <td class="text-right tableOferta"><span id="OfertaDespV"></span></td>
+                            <td class="text-right tableOferta"></td>
                             <td class="text-right"><span id="OfertaDespT"></span></td>
                         </tr>
                         <tr>
@@ -440,8 +474,8 @@
             <div class="modal-footer">
                 <a href="@Url.Action("index","Presupuesto")"><span class="btn btn-sm btn-default fa fa-history"> Volver</span></a>
 
-                <button id="btnGuardar" type="button" disabled class="btn btn-sm btn-default" formaction="Guardar"
-                        @*onclick="$(this.form).attr('action', 'Guardar').submit();"*@>
+                <button id="btnGuardar" type="button" disabled class="btn btn-sm btn-default" 
+                        onclick="$(this.form).attr('action', 'Guardar').submit();">
                     <i class="icon-check"></i> Crear
                 </button>
             </div>
@@ -453,7 +487,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.NombrePresupuesto, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10 form-inline">
-                    @Html.DropDownListFor(model => model.CatalogoId, new SelectList(Model.Catalogo, "IdTipoCatalogo", "NombreTipoCatalogo"), "Producto Nuevo", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.DropDownList("CatalogoId", new SelectList(Model.Catalogo, "IdTipoCatalogo", "NombreTipoCatalogo"), "Producto Nuevo", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     @Html.EditorFor(model => model.NombreCatalogo, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Producto Nuevo" } })
                     @Html.EditorFor(model => model.NombrePresupuesto, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Nombre Presupuesto" } })
                     @Html.ValidationMessageFor(model => model.NombrePresupuesto, "", new { @class = "text-danger", style = "display:inline" })
@@ -464,7 +498,7 @@
                 @Html.LabelFor(model => model.SelectFormato, "Formato", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("SelectFormato", new SelectList(Model.Formatos.Select(x => x.NombreFormato).Distinct().ToList()), "Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" })
-
+                    mm.
                     @Html.ValidationMessageFor(model => model.SelectFormato, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
@@ -491,7 +525,7 @@
             </div>
 
             <div class="form-group" id="divPapelEmpresaInt">
-                @Html.LabelFor(model => model.Empresa, "Empresa del Papel", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Empresa, "Proveedor del Papel", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.EmpresaPapelInterior, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa") , htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     <div class="hidden" id="PPapelEmpresaInt" style="display:inline;color:#1a4e68;"><strong>papel sujeto a disponibilidad</strong></div>
@@ -499,9 +533,10 @@
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.SelectPapelIntId, "Papel de Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
+                <div class="col-md-10 form-inline">
                     @Html.DropDownListFor(model => model.SelectPapelIntId, new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     @Html.ValidationMessageFor(model => model.SelectPapelIntId, "", new { @class = "text-danger", style = "display:inline" })
+                    <div style="display:inline;color:#1a4e68;"><strong  id="PapelIntDescripcion" ></strong></div>
                 </div>
             </div>
         </fieldset>
@@ -531,7 +566,7 @@
                 </div>
             </div>
             <div class="form-group"  id="divPapelEmpresaTap">
-                @Html.LabelFor(model => model.Empresa, "Empresa del Papel", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Empresa, "Proveedor del Papel", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.EmpresaPapelTapa, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa"), htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     <div class="hidden" id="PPapelEmpresaTap" style="display:inline;color:#1a4e68;"><strong>papel sujeto a disponibilidad</strong></div>
@@ -540,9 +575,10 @@
 
             <div class="form-group">
                 @Html.LabelFor(model => model.SelectPapelTapId, "Papel", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("TapaPapel", new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", style = "display:inline" })
+                <div class="col-md-10 form-inline">
+                    @Html.DropDownList("TapaPapel", new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     @Html.ValidationMessageFor(model => model.SelectPapelTapId, "", new { @class = "text-danger", style = "display:inline" })
+                    <div style="display:inline;color:#1a4e68;"><strong id="PapelTapDescripcion"></strong></div>
                 </div>
             </div>
 
@@ -556,6 +592,35 @@
                     @Html.DropDownListFor(model => model.SelectEnc, new SelectList(Model.Encuadernaciones, "IdEncuadernacion", "NombreEncuadernacion"), "Seleccione Una Encuadernación", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" })
 
                     @Html.ValidationMessageFor(model => model.SelectEnc, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Despacho / Distribucción</legend>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.CantidadEnCajas, "Cantidad en Cajas", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CantidadEnCajas, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" } })
+
+                    @Html.ValidationMessageFor(model => model.CantidadEnCajas, "", new { @class = "text-danger", style = "display:inline" })
+                    <div style="display:inline;color:#1a4e68;"><strong id="MensajeCajas"></strong></div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CantidadEnZuncho, "Cantidad en Zuncho", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CantidadEnZuncho, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" } })
+
+                    @Html.ValidationMessageFor(model => model.CantidadEnZuncho, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.CantidadEnBolsa, "Cantidad en Bolsa", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.CantidadEnBolsa, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" } })
+
+                    @Html.ValidationMessageFor(model => model.CantidadEnBolsa, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
         </fieldset>
@@ -661,8 +726,9 @@
                     @Html.DropDownList("ddlPegado", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Pegado").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
                                                 htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     @Html.EditorFor(model => model.CantidadPegado, new { htmlAttributes = new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Cantidad" } })
-                    @Html.DropDownList("ddlAdhesivo", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Adhesivo").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
-                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @*@Html.DropDownList("ddlAdhesivo", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Adhesivo").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })*@
+                    <div class="hidden" id="MensajeInserto" style="display:inline;color:#1a4e68;"><strong >la caja calculada es la standard y por tanto implica una modificación en la facturación producto  del cambio de caja.</strong></div>
                 </div>
             </div>
             <div class="form-group">
@@ -685,11 +751,12 @@
                 </div>
             </div>
         </fieldset>
-        @if (Request.IsAuthenticated && User.IsInRole("Administrador"))
+        @if (Request.IsAuthenticated && (User.IsInRole("Administrador")|| User.IsInRole("SuperUser")))
         {
             <fieldset>
                 <legend>Totales</legend>
-                <table class="table table-condensed table-bordered table-striped">
+                <div class="text-right"><button type="button" class="btn btn-default" id="print_btn">Imprimir detalle</button></div>
+                <table class="table table-condensed table-bordered table-striped" id="muestra">
                     <thead>
                         <tr>
                             <th>Descripción de Procesos</th>
@@ -1050,6 +1117,15 @@
                 });
             });
         }
+        var selectedEmpresa = $("select#EmpresaPapelInterior option:selected").text();
+
+        if (selectedEmpresa == "Aimpresores") {
+
+            $("div#PPapelEmpresaInt").removeClass("hidden");
+        }
+        else {
+            $("div#PPapelEmpresaInt").addClass("hidden");
+        }
     });
     $("#EmpresaPapelTapa").change(function () {
         var selectedPapelTap = $(this).val();
@@ -1068,40 +1144,6 @@
                 });
             });
         }
-    });
-    $("#CatalogoId").change(function () {
-        var selectedCatalogoId = $(this).val();
-        
-        if (selectedCatalogoId != null && selectedCatalogoId != '') {
-            $("input#NombreCatalogo").addClass("hidden");
-            $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == "Copesa"); }).trigger("change").attr("disabled", "disabled");
-            $("div#divPapelEmpresaInt").addClass("hidden");
-            $("div#divPapelEmpresaTap").addClass("hidden");
-            $("select#EmpresaPapelTapa option").each(function () { this.selected = (this.text == "Copesa"); }).trigger("change").attr("disabled", "disabled");
-                
-        }
-        else {
-            $("input#NombreCatalogo").removeClass("hidden");
-            $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == "Aimpresores"); }).trigger("change").removeAttr("disabled");
-            $("div#divPapelEmpresaInt").removeClass("hidden");
-            $("div#divPapelEmpresaTap").removeClass("hidden");
-            $("select#EmpresaPapelTapa option").each(function () { this.selected = (this.text == "Aimpresores"); }).trigger("change").removeAttr("disabled");
-                
-        }
-        
-    });
-    $("select#EmpresaPapelInterior").change(function () {
-        var selectedEmpresa = $("select#EmpresaPapelInterior option:selected").text();
-        
-        if (selectedEmpresa == "Aimpresores") {
-            
-            $("div#PPapelEmpresaInt").removeClass("hidden");
-        }
-        else {
-            $("div#PPapelEmpresaInt").addClass("hidden");
-        }
-    });
-    $("select#EmpresaPapelTapa").change(function () {
         var selectedEmpresa = $("select#EmpresaPapelTapa option:selected").text();
 
         if (selectedEmpresa == "Aimpresores") {
@@ -1112,12 +1154,49 @@
             $("div#PPapelEmpresaTap").addClass("hidden");
         }
     });
+    $("#CatalogoId").change(function () {
+        var selectedCatalogoId = $(this).val();
+
+        if (selectedCatalogoId != null && selectedCatalogoId != '') {
+            
+            $.ajax({
+                url: "/Presupuesto/SeleccionarCatalogo",
+                type: "POST",
+                data: { 'IDCatalogo': selectedCatalogoId },
+                success: function (result) {
+                    var formato = result.split(',');
+                    $("#SelectFormato option").each(function () { this.selected = (this.text == formato[0]); }).trigger("change");
+                    
+                    $("input#NombreCatalogo").addClass("hidden");
+                    $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == "Copesa"); }).attr("disabled", "disabled");
+                    $("div#divPapelEmpresaInt").addClass("hidden");
+                    $("div#divPapelEmpresaTap").addClass("hidden");
+                    $("select#EmpresaPapelTapa option").each(function () { this.selected = (this.text == "Copesa"); }).attr("disabled", "disabled");
+                    $("select#TapaPapel option").each(function () { this.selected = (this.text == formato[2]); });
+                    $("select#SelectPapelIntId option").each(function () { this.selected = (this.text == formato[1]); }).trigger("change");
+                    
+                }
+            });     
+        }
+        else {
+            $("input#NombreCatalogo").removeClass("hidden");
+            $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == "Aimpresores"); }).trigger("change").removeAttr("disabled");
+            $("div#divPapelEmpresaInt").removeClass("hidden");
+            $("div#divPapelEmpresaTap").removeClass("hidden");
+            $("select#EmpresaPapelTapa option").each(function () { this.selected = (this.text == "Aimpresores"); }).trigger("change").removeAttr("disabled");
+
+        }
+
+    });
+    $("#SelectPapelIntId").change(function () {
+
+    });
     $("#CantidadTapa").change(function () {
         var selectedCantidadInt = $(this).val();
-        
+
         if (selectedCantidadInt != null && selectedCantidadInt != '') {
             $("div#DivCantidadModelos").removeClass("hidden");
-            
+
         }
         else {
             $("div#DivCantidadModelos").addClass("hidden");
@@ -1129,11 +1208,11 @@
         if (selectedCantidadInt != null && selectedCantidadInt != '') {
             if (selectedCantidadInt <= 64) {
                 $("select#SelectEnc option").each(function () { this.selected = (this.text == "Corchete"); });
-                
+
             }
             else {
                 $("select#SelectEnc option").each(function () { this.selected = (this.text == "Hotmelt"); });
-                
+
             }
         }
     });
@@ -1172,9 +1251,11 @@
         if (selectedCantidad != null && selectedCantidad != '') {
             var tiraje = $("input#Tiraje").val();
             $("input#CantidadInsercion").removeClass("hidden").val(tiraje);
+            
         }
         else {
             $("input#CantidadInsercion").addClass("hidden").val(0);
+            
         }
     });
     $("select#ddlPegado").change(function () {
@@ -1182,9 +1263,11 @@
         if (selectedCantidad != null && selectedCantidad != '') {
             var tiraje = $("input#Tiraje").val();
             $("input#CantidadPegado").removeClass("hidden").val(tiraje);
+            $("div#MensajeInserto").removeClass("hidden");
         }
         else {
             $("input#CantidadPegado").addClass("hidden").val(0);
+            $("div#MensajeInserto").addClass("hidden");
         }
     });
     $("select#ddlFajado").change(function () {
@@ -1202,10 +1285,146 @@
         if (selectedCantidad != null && selectedCantidad != '') {
             var tiraje = $("input#Tiraje").val();
             $("input#CantidadPegadoSticker").removeClass("hidden").val(tiraje);
+            
         }
         else {
             $("input#CantidadPegadoSticker").addClass("hidden").val(0);
         }
     });
-    //
+    $("input#Tiraje").change(function () {
+        var CantidadEjemplares = $(this).val();
+        if(CantidadEjemplares>0)
+        {
+            $("input#CantidadEnCajas").val(CantidadEjemplares).trigger("change");
+            $("input#CantidadEnZuncho").val(0);
+            $("input#CantidadEnBolsa").val(0);
+        }
+    });
+    $("input#CantidadEnCajas").change(function () {
+        var CantidadenCajas =eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        if (CantidadenCajas >= Tiraje) {
+            $("input#CantidadEnCajas").val(Tiraje).trigger("change");
+            $("input#CantidadEnZuncho").val(0);
+            $("input#CantidadEnBolsa").val(0);
+        }
+        else if (CantidadenCajas == "") {
+            $("input#CantidadEnCajas").val(0);
+            var bolsa = $("input#CantidadEnBolsa").val();
+            $("input#CantidadEnZuncho").val(Tiraje - bolsa).trigger("change");
+        }
+        else {
+            var quitar = Tiraje - CantidadenCajas - eval($("input#CantidadEnBolsa").val());
+            $("input#CantidadEnZuncho").val(quitar).trigger("change");
+        }
+    });
+    $("input#CantidadEnZuncho").change(function () {
+        var CantidadenZuncho = eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        
+        if (CantidadenZuncho >= Tiraje) {
+            $("input#CantidadEnZuncho").val(Tiraje).trigger("change");
+            $("input#CantidadEnCajas").val(0);
+            $("input#CantidadEnBolsa").val(0);
+        }
+        else if (CantidadenZuncho == "") {
+            $("input#CantidadEnZuncho").val(0);
+            var bolsa = $("input#CantidadEnBolsa").val();
+            $("input#CantidadEnCajas").val(Tiraje - bolsa).trigger("change");
+        }
+        else {
+            var quitar = Tiraje - CantidadenZuncho - eval($("input#CantidadEnBolsa").val());
+            $("input#CantidadEnCajas").val(quitar).trigger("change");
+        }
+    });
+    $("input#CantidadEnBolsa").change(function () {
+        var CantidadenBolsa = eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        if (CantidadenBolsa >= Tiraje) {
+            $("input#CantidadEnBolsa").val(Tiraje).trigger("change");
+            $("input#CantidadEnCajas").val(0);
+            $("input#CantidadEnZuncho").val(0);
+        }
+        else if (CantidadenBolsa == "") {
+            $("input#CantidadEnBolsa").val(0);
+            var zuncho = $("input#CantidadEnZuncho").val();
+            $("input#CantidadEnCajas").val(Tiraje - zuncho).trigger("change");
+        }
+         
+        else {
+            var quitar = Tiraje - CantidadenBolsa - eval($("input#CantidadEnZuncho").val());
+            $("input#CantidadEnCajas").val(quitar).trigger("change");
+          
+        }
+    });
+    $("input#CantidadAlzadoPlano").change(function () {
+        var Cantidad = eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        if (Cantidad >= Tiraje) {
+            $(this).val(Tiraje);
+        }
+        else if (Cantidad <= 0 || Cantidad == null) {
+            $(this).val(0);
+        }
+    });
+    $("input#CantidadDesembolsado").change(function () {
+        var Cantidad = eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        if (Cantidad >= Tiraje) {
+            $(this).val(Tiraje);
+        }
+        else if (Cantidad <= 0 || Cantidad == null) {
+            $(this).val(0);
+        }
+    });
+    $("input#CantidadAlzado").change(function () {
+        var Cantidad = eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        if (Cantidad >= Tiraje) {
+            $(this).val(Tiraje);
+        }
+        else if (Cantidad <= 0 || Cantidad == null) {
+            $(this).val(0);
+        }
+    });
+    $("input#CantidadInsercion").change(function () {
+        var Cantidad = eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        if (Cantidad >= Tiraje) {
+            $(this).val(Tiraje);
+        }
+        else if (Cantidad <= 0 || Cantidad == null) {
+            $(this).val(0);
+        }
+    });
+    $("input#CantidadPegado").change(function () {
+        var Cantidad = eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        if (Cantidad >= Tiraje) {
+            $(this).val(Tiraje);
+        }
+        else if (Cantidad <= 0 || Cantidad == null) {
+            $(this).val(0);
+        }
+    });
+    $("input#CantidadFajado").change(function () {
+        var Cantidad = eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        if (Cantidad >= Tiraje) {
+            $(this).val(Tiraje);
+        }
+        else if (Cantidad <= 0 || Cantidad == null) {
+            $(this).val(0);
+        }
+    });
+    $("input#CantidadPegadoSticker").change(function () {
+        var Cantidad = eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        if (Cantidad >= Tiraje) {
+            $(this).val(Tiraje);
+        }
+        else if (Cantidad <= 0 || Cantidad == null) {
+            $(this).val(0);
+        }
+    });
 </script>
