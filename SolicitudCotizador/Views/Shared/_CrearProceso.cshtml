@@ -3,8 +3,22 @@
 @{ 
     Layout = null;
 }
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+<script>
+    function OnSuccess(data) {
 
-@using (Html.BeginForm("Create","Proceso"))
+    }
+    function OnFailure(data) {
+        alert("Error");
+    }
+
+</script>
+@using (Ajax.BeginForm("Create","Proceso", new AjaxOptions()
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess",
+    OnFailure = "OnFailure"
+}))
 {
     @Html.AntiForgeryToken()
 
@@ -67,7 +81,7 @@
             <hr />
         </div>
         <div class="modal-footer">
-            <input type="submit" value="Agregar" class="btn btn-default" onclick="@Url.Action("Create", "Proceso")"/>
+            <input type="submit" value="Agregar" class="btn btn-default" />
             <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         </div>
     </div>

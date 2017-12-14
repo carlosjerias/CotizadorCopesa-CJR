@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Create";
 }
+<script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 @Styles.Render("~/Content/CssDatePicker")
 <style>
     .bootstrap-datetimepicker-widget tr:hover {
@@ -70,7 +71,7 @@
             <fieldset>
                 <legend>Información Presupuesto</legend>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NombreProducto, htmlAttributes: new { @class = "control-label col-md-2" })
+                    @Html.LabelFor(model => model.NombreProducto,"Nombre Trabajo", htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
                         @Html.EditorFor(model => model.NombreProducto, new { htmlAttributes = new { @class = "form-control" } })
                         @Html.ValidationMessageFor(model => model.NombreProducto, "", new { @class = "text-danger" })
@@ -95,13 +96,6 @@
                         @Html.EditorFor(model => model.FormatoAbiertoY, new { htmlAttributes = new { @class = "form-control", @style = "width:70px", @placeholder = "Largo" } })
                         mm.
                         @Html.ValidationMessageFor(model => model.FormatoAbiertoX, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(model => model.EncuadernacionId, "Encuadernación", htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.DropDownList("EncuadernacionId", null, "No", htmlAttributes: new { @class = "form-control" })
-                        @Html.ValidationMessageFor(model => model.EncuadernacionId, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
@@ -143,7 +137,7 @@
                 <div class="form-group">
                     @Html.LabelFor(model => model.CantidadInterior, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
-                        @Html.EditorFor(model => model.CantidadInterior, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.DropDownListFor(model => model.CantidadInterior, new SelectList(ViewBag.CantidadInt, "Value", "Text"), "Seleccione Cantidad", htmlAttributes: new { @class = "form-control", style = "display:inline" })
                         @Html.ValidationMessageFor(model => model.CantidadInterior, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -170,6 +164,16 @@
                     </div>
                 </div>
                
+            </fieldset>
+            <fieldset>
+                <legend>Encuadernación</legend>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.EncuadernacionId, "Encuadernación", htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownList("EncuadernacionId", null, "No", htmlAttributes: new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.EncuadernacionId, "", new { @class = "text-danger" })
+                    </div>
+                </div>
             </fieldset>
             <fieldset>
                 <legend>Otros Procesos</legend>
@@ -220,6 +224,7 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 @Scripts.Render("~/bundles/JsDatePicker")
+<script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
 <script>
 
         $(function () {

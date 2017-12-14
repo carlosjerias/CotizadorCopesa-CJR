@@ -18,7 +18,7 @@ namespace SolicitudCotizador.Models
         public List<Colores> Coloress { get; set; }
         [DataType(DataType.MultilineText)]
         public string Observacion { get; set; }
-        public int SolicitudId { get; set; }
+        public int? SolicitudId { get; set; }
         public Solicitud Solicitud { get; set; }
     }
 }

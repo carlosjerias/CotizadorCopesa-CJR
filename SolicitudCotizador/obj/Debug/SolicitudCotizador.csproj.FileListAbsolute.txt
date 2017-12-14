@@ -103,18 +103,18 @@ C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\Solici
 C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Debug\SolicitudCotizador.csprojResolveAssemblyReference.cache
 C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Debug\SolicitudCotizador.Migrations.Seagregodespacho.resources
 C:\Users\Admin\Desktop\CotizadorFinal 06-10-2017\CotizadorFinal\Cotizador\SolicitudCotizador\obj\Debug\SolicitudCotizador.Migrations.CambiosenColores.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\VBCSCompiler.exe
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\ApplicationInsights.config
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\csc.exe
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
-C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.dll
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\Microsoft.CSharp.Core.targets
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\Microsoft.VisualBasic.Core.targets
-C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\System.Collections.Immutable.dll
-C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\System.Reflection.Metadata.dll
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\vbc.exe
-C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\VBCSCompiler.exe
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\roslyn\VBCSCompiler.exe.config
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\SolicitudCotizador.dll.config
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\bin\SolicitudCotizador.dll
@@ -209,3 +209,4 @@ C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\obj\Debug\SolicitudCot
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\obj\Debug\SolicitudCotizador.csproj.GenerateResource.Cache
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\obj\Debug\SolicitudCotizador.dll
 C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\obj\Debug\SolicitudCotizador.pdb
+C:\Users\Admin\Desktop\CotizadorCopesa\SolicitudCotizador\obj\Debug\SolicitudCotizador.Migrations.Cambiosenlaproceso.resources

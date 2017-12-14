@@ -42,7 +42,7 @@ namespace SolicitudCotizador.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Proceso>().
-                HasRequired(x => x.Solicitud).WithMany(y => y.Procesos)
+                HasOptional(x => x.Solicitud).WithMany(y => y.Procesos)
                 .HasForeignKey(x => x.SolicitudId);
 
             modelBuilder.Entity<Solicitud>().

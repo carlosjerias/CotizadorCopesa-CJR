@@ -90,7 +90,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
             #region EntradasxFormato
 
             int NumeroDoblez = 0;
-            if ((CantidadPaginasInt / 64) > 0)
+            if (((CantidadPaginasInt / 64) > 0) && (FormatoId != "230 x 300"))
             {
                 detalle.EntradasPag64 = (CantidadPaginasInt / 64);
                 NumeroDoblez = 64;
@@ -154,7 +154,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
                         break;
                 }
             }
-            else if ((CantidadPaginasInt / 48) > 0)
+            else if (((CantidadPaginasInt / 48) > 0) && (FormatoId != "230 x 300"))
             {
                 detalle.EntradasPag48 = (CantidadPaginasInt / 48);
                 NumeroDoblez = 48;
@@ -202,7 +202,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
                         break;
                 }
             }
-            else if ((CantidadPaginasInt / 32) > 0)
+            else if (((CantidadPaginasInt / 32) > 0) && (FormatoId != "230 x 300"))
             {
                 detalle.EntradasPag32 = (CantidadPaginasInt / 32);
                 NumeroDoblez = 32;
@@ -234,7 +234,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
                         break;
                 }
             }
-            else if ((CantidadPaginasInt / 24) > 0)
+            else if (((CantidadPaginasInt / 24) > 0) && (FormatoId != "230 x 300"))
             {
                 detalle.EntradasPag24 = (CantidadPaginasInt / 24);
                 NumeroDoblez = 24;
@@ -552,7 +552,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 detalle.Interior.CantidadPaginas = CantidadPaginasInt;
                 detalle.Interior.PapelId = (int)idPapelInterior;
                 
-                detalle.Interior.Entradas = (float)((((detalle.EntradasPag64 + detalle.EntradasPag48 + detalle.EntradasPag32 + detalle.EntradasPag24 + detalle.EntradasPag16 + detalle.EntradasPag12 + detalle.EntradasPag8 + detalle.EntradasPag4) * detalle.MaquinaInterior.MermaFija) / 1000.0) 
+                detalle.Interior.Entradas = (float)((((detalle.EntradasPag64 + detalle.EntradasPag48 + detalle.EntradasPag32 + detalle.EntradasPag24 + detalle.EntradasPag16 + detalle.EntradasPag12 + detalle.EntradasPag8 + detalle.EntradasPag4) * detalle.MaquinaInterior.MermaFija)/1000.0) 
                                                         * (((papelInterior.Gramaje * detalle.Formato.Interior_Alto * detalle.Formato.Interior_Ancho) / 10000.0)));
 
                 detalle.Interior.CostoPapelinteriorFijo = Math.Ceiling(detalle.Interior.Entradas * papelInterior.PrecioKilos);
@@ -561,16 +561,16 @@ namespace ProyectoPersonal.Controllers.Cotizador
 
                 detalle.Interior.CostoPapelInteriorVari = (Math.Ceiling(((papelInterior.PrecioKilos * detalle.Interior.Tiradas)/Convert.ToDouble(Tiraje))*100.0)/100.0);
 
-                detalle.Interior.KilosPapel = (float)((((Tiraje * (Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez)) * detalle.MaquinaInterior.MermaVariable) 
-                    + ((detalle.EntradasPag64 + detalle.EntradasPag48 + detalle.EntradasPag32 + detalle.EntradasPag24 + detalle.EntradasPag16 + detalle.EntradasPag12 + detalle.EntradasPag8 + detalle.EntradasPag4) * detalle.MaquinaInterior.MermaFija))/1000.0)
-                                            * ((papelInterior.Gramaje * detalle.Formato.Interior_Alto * detalle.Formato.Interior_Ancho) / 10000.0));
+                detalle.Interior.KilosPapel = (float)(((Tiraje * (Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez)) * detalle.MaquinaInterior.MermaVariable) 
+                    + ((detalle.EntradasPag64 + detalle.EntradasPag48 + detalle.EntradasPag32 + detalle.EntradasPag24 + detalle.EntradasPag16 + detalle.EntradasPag12 + detalle.EntradasPag8 + detalle.EntradasPag4) * detalle.MaquinaInterior.MermaFija))
+                                            * ((papelInterior.Gramaje * detalle.Formato.Interior_Alto * detalle.Formato.Interior_Ancho) / 10000000.0));
                 if ((CantidadPaginasTap > 0 && idPapelTap != 0 && idPapelTap != null))
                 {
                     detalle.Tapa = new Tapa();
                     detalle.Tapa.CantidadPaginas = (CantidadPaginasTap > 0) ? Convert.ToInt32(CantidadPaginasTap) : 0;
                     detalle.Tapa.PapelId = (int)idPapelTap;
 
-                    detalle.Tapa.Entradas = (float)(((1 * detalle.MaquinaTapa.MermaFija) / 1000.0) * ((papelTapa.Gramaje * detalle.Formato.TapaDiptica_Alto * detalle.Formato.TapaDiptica_Ancho) / 10000.0));
+                    detalle.Tapa.Entradas = (float)(((1 * detalle.MaquinaTapa.MermaFija * CantidadModelos) / 1000.0) * ((papelTapa.Gramaje * detalle.Formato.TapaDiptica_Alto * detalle.Formato.TapaDiptica_Ancho) / 10000.0));
 
                     detalle.Tapa.CostoPapelTapaFijo = Math.Ceiling(detalle.Tapa.Entradas * papelTapa.PrecioKilos);
                                         
@@ -578,7 +578,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
 
                     detalle.Tapa.CostoPapelTapaVari = (Math.Ceiling(((papelTapa.PrecioKilos * detalle.Tapa.Tiradas)/Convert.ToDouble(Tiraje))*100.0)/100.0);
 
-                    detalle.Tapa.KilosPapel = (float)((((Tiraje * (1.0 / CantidadPaginasTap) * detalle.MaquinaTapa.MermaVariable) + (1 * detalle.MaquinaTapa.MermaFija)) / 1000.0) * ((papelTapa.Gramaje * detalle.Formato.TapaDiptica_Alto * detalle.Formato.TapaDiptica_Ancho) / 10000.0));
+                    detalle.Tapa.KilosPapel = (float)((((Tiraje * (1.0 / CantidadPaginasTap) * detalle.MaquinaTapa.MermaVariable) + (1 * detalle.MaquinaTapa.MermaFija * CantidadModelos)) / 1000.0) * ((papelTapa.Gramaje * detalle.Formato.TapaDiptica_Alto * detalle.Formato.TapaDiptica_Ancho) / 10000000.0));
                 };
                 float PesoInterior = (float)((((detalle.Formato.FormatoCerradoX/10.0) * (detalle.Formato.FormatoCerradoY / 10.0) * papelInterior.Gramaje) / 10000000.0) * (CantidadPaginasInt / 2));
                 float Pesotapa = (float)((((detalle.Formato.FormatoCerradoX / 10.0) * (detalle.Formato.FormatoCerradoY / 10.0) * ((papelTapa != null) ?papelTapa.Gramaje: 0)) / 10000000.0) * (4 / 2));
@@ -628,7 +628,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
         [Authorize(Roles = "Administrador,SuperUser,User")]
         public ActionResult SeleccionarPapel(int EmpresaID)
         {
-            List<Papel> lista = db.Papel.Where(x => x.EmpresaId == EmpresaID).ToList();
+            List<Papel> lista = db.Papel.Where(x => x.EmpresaId == EmpresaID).OrderBy(x=> x.NombrePapel).ThenBy(x=>x.Gramaje).ToList();
             return Json(new SelectList(lista, "IdPapel", "NombreCompletoPapel"),
                 JsonRequestBehavior.AllowGet
             );
@@ -648,7 +648,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
             PresupuestoForm pres = new PresupuestoForm();
             pres.Encuadernaciones = db.Encuadernacion.ToList();
             pres.Formatos = db.Formato.ToList();
-            pres.Papeles = db.Papel.Where(x=> x.EmpresaId==2).ToList();
+            pres.Papeles = db.Papel.Where(x=> x.EmpresaId==2).OrderBy(x => x.NombrePapel).ThenBy(x => x.Gramaje).ToList();
             pres.SubProcesos = db.SubProceso.Include("Proceso").ToList();
             pres.Catalogo = db.Catalogo.ToList();
             pres.Empresa = db.Empresa.ToList();

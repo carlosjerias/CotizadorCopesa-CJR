@@ -45,6 +45,12 @@ namespace SolicitudCotizador.Controllers
             
             ViewBag.ColoresID1 = new SelectList(db.Colores, "NumeroColor", "NumeroColor");
             ViewBag.ColoresID2 = new SelectList(db.Colores, "NumeroColor", "NumeroColor");
+            List<SelectListItem> s = new List<SelectListItem>();
+            for (int i = 4; i <= 400; i = i + 4)
+            {
+                s.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+            }
+            ViewBag.CantidadInt = s;
             return View();
         }
 

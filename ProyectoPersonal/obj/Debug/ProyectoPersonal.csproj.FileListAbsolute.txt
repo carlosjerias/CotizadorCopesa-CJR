@@ -688,8 +688,8 @@ C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPerson
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.CamposStandar.resources
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.SecambioacatalogodeEmbalaje.resources
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.cambiosenCatalogoparaautomatizarelsistema.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.cambios.resources
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.csproj.GenerateResource.Cache
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.dll
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.pdb
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.csprojResolveAssemblyReference.cache
-C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.cambios.resources

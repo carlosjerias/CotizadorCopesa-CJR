@@ -163,7 +163,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/27/2012 14:00:52</publishTime>
     </File>
     <File Include="bin/ProyectoPersonal.dll">
-      <publishTime>12/12/2017 15:16:50</publishTime>
+      <publishTime>12/14/2017 10:26:40</publishTime>
     </File>
     <File Include="bin/RazorPDF.Legacy.dll">
       <publishTime>12/28/2014 04:59:54</publishTime>

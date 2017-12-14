@@ -51,26 +51,24 @@ namespace SolicitudCotizador.Controllers
         // más información vea http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Proceso proceso, int ColoresID1, int ColoresID2)
+        public string Create(Proceso proceso, int ColoresID1, int ColoresID2)
         {
             if (ColoresID1 != 0 || ColoresID2 != 0)
             {
-                var Color1 = db.Colores.Where(x => x.NumeroColor == ColoresID1).FirstOrDefault();
-                var Color2 = db.Colores.Where(x => x.NumeroColor == ColoresID2).FirstOrDefault();
-                List<Colores> lista = new List<Colores>();
-                lista.Add(Color1);
-                lista.Add(Color2);
-                proceso.Coloress = lista;
+                var Color1 = new Colores(){ NumeroColor = ColoresID1, ProcesoId = proceso.IdProceso };
+                var Color2 = new Colores() { NumeroColor = ColoresID2, ProcesoId = proceso.IdProceso };
+                List<Colores> colores = new List<Colores>();
+                
 
                 if (ModelState.IsValid)
                 {
                     db.Proceso.Add(proceso);
+                    db.Colores.AddRange(colores);
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return "OK";
                 }
             }
-            ViewBag.SolicitudId = new SelectList(db.Solicitud, "IdSolicitud", "NombreProducto", proceso.SolicitudId);
-            return View(proceso);
+            return "Error";
         }
 
         // GET: Proceso/Edit/5
