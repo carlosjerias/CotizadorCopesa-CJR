@@ -61,8 +61,17 @@ namespace SolicitudCotizador.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "IdSolicitud,NombreProducto,FormatoId,EncuadernacionId,FechaProduccion,Embalaje,DespachoId,CantidadPaginasTotales,ColoresTotales")] Solicitud solicitud)
         {
+            var cliente = (db.Cliente.Where(x => x.RutCliente == solicitud.RutCliente.ToString()).FirstOrDefault() == null) ? 
+                                                        new Cliente() { RutCliente = solicitud.RutCliente.ToString(), NombreCliente = solicitud.NombreCliente, ContactoCliente = solicitud.Contacto, EmailCliente = solicitud.Correo,
+                                                                        CodCliente = solicitud.RutDigitoVerificador, Telefono = solicitud.Telefono } : 
+                                                        db.Cliente.Where(x => x.RutCliente == solicitud.RutCliente.ToString()).FirstOrDefault();
+            solicitud.ClienteId = cliente.IdCliente;
             if (ModelState.IsValid)
             {
+                if (cliente.IdCliente != 0)
+                {
+                    db.Cliente.Add(cliente);
+                }
                 db.Solicitud.Add(solicitud);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -147,6 +156,13 @@ namespace SolicitudCotizador.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        //[Authorize(Roles = "Administrador,SuperUser,User")]
+        public ActionResult BusquedaClienteporRut(string Rut)
+        {
+            var Cliente = db.Cliente.Where(x=>x.RutCliente == Rut);
+            return Json(Cliente, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -315,26 +315,33 @@
                 $("#PapelTapaTotal").text(formatNumber.new(eval(data.Tapa.CostoPapelTapaFijo) + eval(eval(data.Tapa.CostoPapelTapaVari) * eval(data.Tiraje))));
                 
                 if (data.Tapa.CostoPapelTapaFijo == 0) {
-                    $("#PapelTapDescripcion").text(SuministradoCliente + " Consumo de kilos Aprox. " + data.Tapa.KilosPapel + " KG");
+                    $("#PapelTapDescripcion").text(SuministradoCliente + " Consumo de kilos Aprox. " + formatNumber.new(data.Tapa.KilosPapel) + " KG");
                 }
                 else {
-                    $("#PapelTapDescripcion").text("Consumo de kilos Aprox. " + data.Tapa.KilosPapel + " KG");
+                    $("#PapelTapDescripcion").text("Consumo de kilos Aprox. " + formatNumber.new(data.Tapa.KilosPapel) + " KG");
                 }
                 
             }
             if (data.CantidadCajas > 0) {
-                $("#MensajeCajas").text(data.CantidadCajas + " Cajas, " + data.LibrosxCajas + " ejemplares por cada caja");
+                $("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas, " + data.LibrosxCajas + " ejemplares por cada caja");
             }
             else {
                 $("#MensajeCajas").text("");
             }
+            var CantidaddeZuncho = Math.ceil(eval(eval(data.Enzunchadoxpqte) / eval(data.LibrosxCajas * 2)));
+            if (data.Enzunchadoxpqte > 0) {
+                $("#MensajeZuncho").text(formatNumber.new(CantidaddeZuncho) + " Zuncho, " + eval(data.LibrosxCajas * 2) + " ejemplares por cada zuncho");
+            }
+            else {
+                $("#MensajeZuncho").text();
+            }
             $("#NetoTotal").text(formatNumber.new(data.TotalNetoTotal));
             $("#UnitarioTotal").text(formatNumber.new(data.PrecioUnitario));
             if (data.Interior.CostoPapelinteriorFijo == 0) {
-                $("#PapelIntDescripcion").text(SuministradoCliente + " Consumo de kilos Aprox. " + data.Interior.KilosPapel + " KG");
+                $("#PapelIntDescripcion").text(SuministradoCliente + " Consumo de kilos Aprox. " + formatNumber.new(data.Interior.KilosPapel) + " KG");
             }
             else {
-                $("#PapelIntDescripcion").text("Consumo de kilos Aprox. " + data.Interior.KilosPapel + " KG");
+                $("#PapelIntDescripcion").text("Consumo de kilos Aprox. " + formatNumber.new(data.Interior.KilosPapel) + " KG");
             }
             
             
@@ -352,7 +359,7 @@
             $("#OfertaTermV").text(formatNumber.new(eval(data.TarifaVariableTerminacion)));
             $("#OfertaTermT").text(formatNumber.new(eval(data.TarifaFijaTerminacion) + (eval(data.TarifaVariableTerminacion) * eval(data.Tiraje))));
             $("#OfertaDespV").text(formatNumber.new(eval(data.TarifaFijaDespacho)));
-            $("#OfertaDespT").text(formatNumber.new(eval(data.TarifaFijaDespacho)* eval(data.Tiraje)));
+            $("#OfertaDespT").text(formatNumber.new(Math.round(eval(data.TarifaFijaDespacho)* eval(data.Tiraje))));
             $("#OfertaNetoF").text(formatNumber.new(data.TotalNetoFijo));
             $("#OfertaNetoV").text(formatNumber.new(data.TotalNetoVari));
             $("#OfertaNetoT").text(formatNumber.new(data.TotalNetoTotal));
@@ -420,56 +427,56 @@
                             <th style="background-color: rgba(0, 151, 152, 0.48);">Proceso</th>
                             <th style="background-color: rgba(0, 151, 152, 0.48);" class="tableOferta">C.F.</th>
                             <th style="background-color: rgba(0, 151, 152, 0.48);" class="tableOferta">C.V.</th>
-                            <th style="background-color: rgba(0, 151, 152, 0.48);">C.T.</th>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);">Costo Total</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
                             <td>Impresión</td>
-                            <td class="text-right tableOferta"><span id="OfertaImpF"></span></td>
-                            <td class="text-right tableOferta"><span id="OfertaImpV"></span></td>
-                            <td class="text-right"><span id="OfertaImpT"></span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaImpF">0</span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaImpV">0</span></td>
+                            <td class="text-right">$<span id="OfertaImpT">0</span></td>
                         </tr>
                         <tr>
                             <td>Papel</td>
-                            <td class="text-right tableOferta"><span id="OfertaPapelF"></span></td>
-                            <td class="text-right tableOferta"><span id="OfertaPapelV"></span></td>
-                            <td class="text-right"><span id="OfertaPapelT"></span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaPapelF">0</span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaPapelV">0</span></td>
+                            <td class="text-right">$<span id="OfertaPapelT">0</span></td>
                         </tr>
                         <tr>
-                            <td>Encua.</td>
-                            <td class="text-right tableOferta"><span id="OfertaEncF"></span></td>
-                            <td class="text-right tableOferta"><span id="OfertaEncV"></span></td>
-                            <td class="text-right"><span id="OfertaEncT"></span></td>
+                            <td>Encuadernación</td>
+                            <td class="text-right tableOferta">$<span id="OfertaEncF">0</span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaEncV">0</span></td>
+                            <td class="text-right">$<span id="OfertaEncT">0</span></td>
                         </tr>
                         <tr>
                             <td>Terminación</td>
-                            <td class="text-right tableOferta"><span id="OfertaTermF"></span></td>
-                            <td class="text-right tableOferta"><span id="OfertaTermV"></span></td>
-                            <td class="text-right"><span id="OfertaTermT"></span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaTermF">0</span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaTermV">0</span></td>
+                            <td class="text-right">$<span id="OfertaTermT">0</span></td>
                         </tr>
                         <tr>
                             <td>Despacho</td>
-                            <td class="text-right tableOferta"><span id="OfertaDespF"></span></td>
                             <td class="text-right tableOferta"></td>
-                            <td class="text-right"><span id="OfertaDespT"></span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaDespF">0</span></td>
+                            <td class="text-right">$<span id="OfertaDespT">0</span></td>
                         </tr>
                         <tr>
                             <td>Total Neto</td>
-                            <td class="text-right tableOferta"><span id="OfertaNetoF"></span></td>
-                            <td class="text-right tableOferta"><span id="OfertaNetoV"></span></td>
-                            <td class="text-right"><span id="OfertaNetoT"></span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaNetoF">0</span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaNetoV">0</span></td>
+                            <td class="text-right">$<span id="OfertaNetoT">0</span></td>
                         </tr>
                         <tr>
                             <td>Precio unit.</td>
                             <td class="tableOferta"></td>
                             <td class="tableOferta"></td>
-                            <td class="text-right"><span id="OfertaPrecioUnit"></span></td>
+                            <td class="text-right">$<span id="OfertaPrecioUnit">0</span></td>
                         </tr>
 
                     </tbody>
                 </table>
-                <p>El valor de la UF es @ViewBag.ValorUF.</p>
+                <p>El valor de la UF es $ @ViewBag.ValorUF.</p>
             </div>
             <div class="modal-footer">
                 <a href="@Url.Action("index","Presupuesto")"><span class="btn btn-sm btn-default fa fa-history"> Volver</span></a>
@@ -584,6 +591,63 @@
 
         </fieldset>
         <fieldset>
+            <legend>Terminaciones adicionales para Tapas</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdQuintoColor, "Quinto Color", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 form-inline">
+                    @Html.DropDownList("ddlQuintoColor", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Quinto Color").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.DropDownList("ddlQuintoColorPasadas", new List<SelectListItem>
+                                                    {
+                                                        new SelectListItem{ Text="Tiro", Value = "1" },
+                                                        new SelectListItem{ Text="Retiro", Value = "2" },
+                                                        new SelectListItem{ Text="Tiro y Retiro", Value = "3" }
+                                                     }, null, htmlAttributes: new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.IdQuintoColor, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdBarnizAcuoso, "Barniz Acuoso", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ddlBarnizAcuoso", new List<SelectListItem>
+                                                    {
+                                                        new SelectListItem{ Text="Tiro", Value = "2" },
+                                                        new SelectListItem{ Text="Retiro", Value = "3" },
+                                                        new SelectListItem{ Text="Tiro y Retiro", Value = "4" }
+                                                     }, "No", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.IdBarnizAcuoso, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdLaminado, "Laminado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ddlLaminado", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Laminado").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.IdLaminado, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdBarnizUV, "Barniz UV", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ddlBarnizUV", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Barniz UV").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.IdBarnizUV, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdTroquel, "Troquel", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ddlTroquel", new List<SelectListItem>
+                                                    {
+                                                        new SelectListItem{ Text="Si", Value = "2" },
+                                                     }, "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.IdTroquel, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+
+        </fieldset>
+        <fieldset>
             <legend>Encuadernación</legend>
 
             <div class="form-group">
@@ -592,6 +656,14 @@
                     @Html.DropDownListFor(model => model.SelectEnc, new SelectList(Model.Encuadernaciones, "IdEncuadernacion", "NombreEncuadernacion"), "Seleccione Una Encuadernación", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" })
 
                     @Html.ValidationMessageFor(model => model.SelectEnc, "", new { @class = "text-danger", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdEmbolsado, "Embolsado", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("ddlEmbolsado", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Embolsado").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
+                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.IdEmbolsado, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
         </fieldset>
@@ -613,6 +685,8 @@
                     @Html.EditorFor(model => model.CantidadEnZuncho, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" } })
 
                     @Html.ValidationMessageFor(model => model.CantidadEnZuncho, "", new { @class = "text-danger", style = "display:inline" })
+                    <div style="display:inline;color:#1a4e68;"><strong id="MensajeZuncho"></strong></div>
+                    
                 </div>
             </div>
             <div class="form-group">
@@ -624,62 +698,7 @@
                 </div>
             </div>
         </fieldset>
-        <fieldset>
-            <legend>Terminaciones adicionales para Tapas</legend>
-            <div class="form-group">
-                @Html.LabelFor(model => model.IdQuintoColor, "Quinto Color", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10 form-inline">
-                    @Html.DropDownList("ddlQuintoColor", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Quinto Color").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
-                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.DropDownList("ddlQuintoColorPasadas", new List<SelectListItem>
-                                                    {
-                                                        new SelectListItem{ Text="Tiro", Value = "1" },
-                                                        new SelectListItem{ Text="Retiro", Value = "2" },
-                                                        new SelectListItem{ Text="Tiro y Retiro", Value = "3" }
-                                                     }, null, htmlAttributes: new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdQuintoColor, "", new { @class = "text-danger", style = "display:inline" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.IdBarnizAcuoso, "Barniz Acuoso", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("ddlBarnizAcuoso", new List<SelectListItem>
-                                                    {
-                                                        new SelectListItem{ Text="No", Value = "1" },
-                                                        new SelectListItem{ Text="Tiro", Value = "2" },
-                                                        new SelectListItem{ Text="Retiro", Value = "3" },
-                                                        new SelectListItem{ Text="Tiro y Retiro", Value = "4" }
-                                                     }, "No", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdBarnizAcuoso, "", new { @class = "text-danger", style = "display:inline" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.IdEmbolsado, "Embolsado", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("ddlEmbolsado", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Embolsado").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
-                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdEmbolsado, "", new { @class = "text-danger", style = "display:inline" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.IdLaminado, "Laminado", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("ddlLaminado", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Laminado").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
-                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdLaminado, "", new { @class = "text-danger", style = "display:inline" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.IdBarnizUV, "Barniz UV", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownList("ddlBarnizUV", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Barniz UV").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
-                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.IdBarnizUV, "", new { @class = "text-danger", style = "display:inline" })
-                </div>
-            </div>
-
-
-        </fieldset>
+       
         <fieldset>
             <legend>Manualidades</legend>
             <div class="form-group">
@@ -1207,14 +1226,15 @@
         var selectedCantidadInt = $(this).val();
         if (selectedCantidadInt != null && selectedCantidadInt != '') {
             if (selectedCantidadInt <= 64) {
-                $("select#SelectEnc option").each(function () { this.selected = (this.text == "Corchete"); });
-
+                $("select#SelectEnc option").each(function () { this.selected = (this.text == "Corchete"); }).trigger("change");
+                
             }
             else {
-                $("select#SelectEnc option").each(function () { this.selected = (this.text == "Hotmelt"); });
+                $("select#SelectEnc option").each(function () { this.selected = (this.text == "Hotmelt"); }).trigger("change");
 
             }
         }
+        $("#CantidadInt").focus();
     });
     $("select#ddlAlzadoPlano").change(function () {
         var selectedCantidad = $(this).val();
@@ -1293,69 +1313,66 @@
     });
     $("input#Tiraje").change(function () {
         var CantidadEjemplares = $(this).val();
-        if(CantidadEjemplares>0)
+        var CantidadenCajas = eval($("input#CantidadEnCajas").val());
+        var CantidadenZuncho = eval($("input#CantidadEnZuncho").val());
+        var CantidadenBolsa = eval($("input#CantidadEnBolsa").val());
+        if (CantidadenCajas == 0 && CantidadenZuncho == 0 && CantidadenBolsa == 0)
         {
-            $("input#CantidadEnCajas").val(CantidadEjemplares).trigger("change");
-            $("input#CantidadEnZuncho").val(0);
-            $("input#CantidadEnBolsa").val(0);
+            $("input#CantidadEnCajas").val(eval(CantidadEjemplares));
+        }
+        else{
+            if (eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnZuncho").val())) > 0) {
+                $("input#CantidadEnCajas").val(eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnZuncho").val()))).trigger("change");
+            }
+            else if (eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnCajas").val())) > 0) {
+                $("input#CantidadEnZuncho").val(eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnCajas").val()))).trigger("change");
+            }
+            else{
+                $("input#CantidadEnBolsa").val(eval(CantidadEjemplares - eval($("input#CantidadEnZuncho").val()) - eval($("input#CantidadEnCajas").val()))).trigger("change");
+            }
         }
     });
     $("input#CantidadEnCajas").change(function () {
         var CantidadenCajas =eval($(this).val());
         var Tiraje = eval($("input#Tiraje").val());
         if (CantidadenCajas >= Tiraje) {
-            $("input#CantidadEnCajas").val(Tiraje).trigger("change");
             $("input#CantidadEnZuncho").val(0);
             $("input#CantidadEnBolsa").val(0);
-        }
-        else if (CantidadenCajas == "") {
-            $("input#CantidadEnCajas").val(0);
-            var bolsa = $("input#CantidadEnBolsa").val();
-            $("input#CantidadEnZuncho").val(Tiraje - bolsa).trigger("change");
+            $("input#CantidadEnCajas").val(Tiraje);
         }
         else {
-            var quitar = Tiraje - CantidadenCajas - eval($("input#CantidadEnBolsa").val());
-            $("input#CantidadEnZuncho").val(quitar).trigger("change");
+            AsignarDespacho(Tiraje, CantidadenCajas, $("input#CantidadEnZuncho").val(), $("input#CantidadEnBolsa").val(), "Cajas");
+            
         }
+        $("#SelectPapelIntId").trigger("change");
     });
     $("input#CantidadEnZuncho").change(function () {
         var CantidadenZuncho = eval($(this).val());
         var Tiraje = eval($("input#Tiraje").val());
         
         if (CantidadenZuncho >= Tiraje) {
-            $("input#CantidadEnZuncho").val(Tiraje).trigger("change");
             $("input#CantidadEnCajas").val(0);
             $("input#CantidadEnBolsa").val(0);
-        }
-        else if (CantidadenZuncho == "") {
-            $("input#CantidadEnZuncho").val(0);
-            var bolsa = $("input#CantidadEnBolsa").val();
-            $("input#CantidadEnCajas").val(Tiraje - bolsa).trigger("change");
+            $("input#CantidadEnZuncho").val(Tiraje);
         }
         else {
-            var quitar = Tiraje - CantidadenZuncho - eval($("input#CantidadEnBolsa").val());
-            $("input#CantidadEnCajas").val(quitar).trigger("change");
+            AsignarDespacho(Tiraje, $("input#CantidadEnCajas").val(), CantidadenZuncho, $("input#CantidadEnBolsa").val(),"Zuncho");
         }
+        $("#SelectPapelIntId").trigger("change");
     });
     $("input#CantidadEnBolsa").change(function () {
         var CantidadenBolsa = eval($(this).val());
         var Tiraje = eval($("input#Tiraje").val());
         if (CantidadenBolsa >= Tiraje) {
-            $("input#CantidadEnBolsa").val(Tiraje).trigger("change");
             $("input#CantidadEnCajas").val(0);
             $("input#CantidadEnZuncho").val(0);
+            $("input#CantidadEnBolsa").val(Tiraje);
         }
-        else if (CantidadenBolsa == "") {
-            $("input#CantidadEnBolsa").val(0);
-            var zuncho = $("input#CantidadEnZuncho").val();
-            $("input#CantidadEnCajas").val(Tiraje - zuncho).trigger("change");
-        }
-         
         else {
-            var quitar = Tiraje - CantidadenBolsa - eval($("input#CantidadEnZuncho").val());
-            $("input#CantidadEnCajas").val(quitar).trigger("change");
-          
+            AsignarDespacho(Tiraje, $("input#CantidadEnCajas").val(), $("input#CantidadEnZuncho").val(), CantidadenBolsa, "Bolsa");
+            
         }
+        $("#SelectPapelIntId").trigger("change");
     });
     $("input#CantidadAlzadoPlano").change(function () {
         var Cantidad = eval($(this).val());
@@ -1427,4 +1444,52 @@
             $(this).val(0);
         }
     });
+
+
+    function AsignarDespacho(Tiraje, Cajas, Zuncho, Bolsa, quecambio) {
+        if (quecambio == "Cajas") {
+            if (eval(Tiraje) >= (eval(Cajas) + eval(Zuncho) + eval(Bolsa))) {
+                $("input#CantidadEnZuncho").val(eval(Tiraje) - (eval(Cajas) + eval(Bolsa)));
+            }
+            else{
+                if ((eval(Tiraje) - (eval(Cajas) + eval(Bolsa))) >= 0) {
+                    $("input#CantidadEnZuncho").val(eval(Tiraje) - (eval(Cajas) + eval(Bolsa)));
+                    alert(2);
+                }
+                else {
+                    $("input#CantidadEnZuncho").val(0);
+                    $("input#CantidadEnBolsa").val(eval(Tiraje) - eval(Cajas));
+                }
+            }
+        }
+        if (quecambio == "Zuncho") {
+            if (eval(Tiraje) >= (eval(Cajas) + eval(Zuncho) + eval(Bolsa))) {
+                $("input#CantidadEnBolsa").val(eval(Tiraje) - (eval(Cajas) + eval(Zuncho)));
+            }
+            else {
+                if ((eval(Tiraje) - (eval(Cajas) + eval(Zuncho))) >= 0) {
+                    $("input#CantidadEnBolsa").val(eval(Tiraje) - (eval(Cajas) + eval(Zuncho)));
+                }
+                else {
+                    $("input#CantidadEnBolsa").val(0);
+                    $("input#CantidadEnCajas").val(eval(Tiraje) - eval(Zuncho));
+                }
+            }
+        }
+        if (quecambio == "Bolsa") {
+            if (eval(Tiraje) >= (eval(Cajas) + eval(Zuncho) + eval(Bolsa))) {
+                $("input#CantidadEnCajas").val(eval(Tiraje) - (eval(Zuncho) + eval(Bolsa)));
+                //Bolsa se agregan lo que falta
+            }
+            else {
+                if ((eval(Tiraje) - (eval(Bolsa) + eval(Zuncho))) >= 0) {
+                    $("input#CantidadEnCajas").val(eval(Tiraje) - (eval(Bolsa) + eval(Zuncho)));
+                }
+                else {
+                    $("input#CantidadEnCajas").val(0);
+                    $("input#CantidadEnZuncho").val(eval(Tiraje) - eval(Bolsa));
+                }
+            }
+        }
+    }
 </script>

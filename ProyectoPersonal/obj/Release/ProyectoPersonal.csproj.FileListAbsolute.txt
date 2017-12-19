@@ -352,3 +352,4 @@ C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPers
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.SecambioacatalogodeEmbalaje.resources
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.cambiosenCatalogoparaautomatizarelsistema.resources
 C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.cambios.resources
+C:\Users\Admin\Desktop\CotizadorCopesa\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.SeagregaProduccion.resources

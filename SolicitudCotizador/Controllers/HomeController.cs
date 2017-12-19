@@ -10,7 +10,7 @@ namespace SolicitudCotizador.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("index","Solicituds");
         }
 
         public ActionResult About()

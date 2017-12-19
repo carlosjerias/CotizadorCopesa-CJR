@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "Create";
 }
+@Scripts.Render("~/bundles/jquery")
 <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
 @Styles.Render("~/Content/CssDatePicker")
 <style>
@@ -32,13 +33,6 @@
             <fieldset>
                 <legend>Información Cliente</legend>
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NombreCliente, htmlAttributes: new { @class = "control-label col-md-2" })
-                    <div class="col-md-10">
-                        @Html.EditorFor(model => model.NombreCliente, new { htmlAttributes = new { @class = "form-control" } })
-                        @Html.ValidationMessageFor(model => model.NombreCliente, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
                     @Html.LabelFor(model => model.RutCliente, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10 form-inline">
                         @Html.EditorFor(model => model.RutCliente, new { htmlAttributes = new { @class = "form-control", @style = "width: 120px;" } })-
@@ -46,6 +40,14 @@
                         @Html.ValidationMessageFor(model => model.RutCliente, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                <div class="form-group">
+                    @Html.LabelFor(model => model.NombreCliente, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.NombreCliente, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.NombreCliente, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                
                 <div class="form-group">
                     @Html.LabelFor(model => model.Contacto, htmlAttributes: new { @class = "control-label col-md-2" })
                     <div class="col-md-10">
@@ -273,5 +275,41 @@
                 console.log($("#FechaProduccionSemana").val());
             });
         });
+</script>
+<script>
+    $("input#RutCliente").change(function () {
+        var selectedRut = $(this).val();
+
+        if (selectedRut != null && selectedRut != '') {
+
+            $.ajax({
+                url: "/Solicituds/BusquedaClienteporRut",
+                type: "POST",
+                data: { 'Rut': selectedRut },
+                success: function (result) {
+                    
+                    $("input#RutDigitoVerificador").val(result[0].CodCliente);
+                    $("input#NombreCliente").val(result[0].NombreCliente);
+                    $("input#Contacto").val(result[0].ContactoCliente);
+                    $("input#Correo").val(result[0].EmailCliente);
+                    $("input#Telefono").val(result[0].Telefono);
+                }
+            });
+        }
+        
+    });
+    $("#CantidadInterior").change(function () {
+        var selectedCantidadInt = $(this).val();
+        if (selectedCantidadInt != null && selectedCantidadInt != '') {
+            if (selectedCantidadInt <= 64) {
+                $("select#EncuadernacionId option").each(function () { this.selected = (this.text == "Dos Corchete al Lomo"); });
+
+            }
+            else {
+                $("select#EncuadernacionId option").each(function () { this.selected = (this.text == "Entapado Hotmelt"); });
+
+            }
+        }
+    });
 </script>
 }

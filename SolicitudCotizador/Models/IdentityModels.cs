@@ -33,6 +33,7 @@ namespace SolicitudCotizador.Models
         public DbSet<Encuadernacion> Encuadernacion { get; set; }
         public DbSet<Colores> Colores { get; set; }
         public DbSet<Despacho> Despacho { get; set; }
+        public DbSet<Cliente> Cliente { get; set; }
 
         public static ApplicationDbContext Create()
         {
@@ -44,6 +45,10 @@ namespace SolicitudCotizador.Models
             modelBuilder.Entity<Proceso>().
                 HasOptional(x => x.Solicitud).WithMany(y => y.Procesos)
                 .HasForeignKey(x => x.SolicitudId);
+
+            modelBuilder.Entity<Solicitud>().
+                HasRequired(x => x.Cliente).WithMany(y => y.Solicitudes)
+                .HasForeignKey(x=>x.ClienteId);
 
             modelBuilder.Entity<Solicitud>().
                 HasRequired(x => x.Encuadernacion).WithMany(y => y.Solicitudes)

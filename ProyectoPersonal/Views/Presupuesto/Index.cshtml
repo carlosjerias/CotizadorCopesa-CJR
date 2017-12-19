@@ -119,10 +119,14 @@
                         @Html.DisplayFor(modelItem => item.TotalNetoTotal)
                     </td>
                     <td>
-                        <a href="@Url.Action("Edit","Presupuesto", new { id = item.IdPresupuesto })"><span title="Editar" class="fa fa-edit"></span></a> |
-                        <a href="@Url.Action("Details","Presupuesto", new { id = item.IdPresupuesto })"><span title="Detalle" class="glyphicon glyphicon-th-list"></span></a> |
-                        <a href="@Url.Action("Delete", "Presupuesto", new { id = item.IdPresupuesto })"><span title="Eliminar" class="fa fa-trash"></span></a>
+                        <a href="@Url.Action("Edit", "Presupuesto", new { id = item.IdPresupuesto })"><span title="Editar" class="fa fa-edit"></span></a> |
                         <a href="@Url.Action("PDF", "Presupuesto", new { id = item.IdPresupuesto })" target="_blank"><span title="PDF" class="fa fa-file-pdf-o"></span></a>
+                        @if (Request.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("SuperUser")))
+                        {
+                            <span> | </span><a href = "@Url.Action("ReajustePPTO", "Presupuesto", new { id = item.IdPresupuesto })" ><span title = "Detalle" class="glyphicon glyphicon-th-list"></span></a> 
+                        }
+                        | <a href="@Url.Action("Delete", "Presupuesto", new { id = item.IdPresupuesto })"><span title="Eliminar" class="fa fa-trash"></span></a>
+                        
                     </td>
                 </tr>
             }

@@ -11,7 +11,9 @@
 {
     @Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
+    <div class="form-horizontal" style="zoom: 0.80;
+    zoom: 80%;
+    -ms-zoom: 80%;">
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         @Html.HiddenFor(model => model.IdPresupuesto)
@@ -53,14 +55,14 @@
                     
 
                     <div class="form-group col-md-4" style="margin-bottom: 15px;">
-                        @Html.LabelFor(model => model.Interior.Papel.Maquina.NombreMaquina, "Interior", htmlAttributes: new { @class = "control-label col-md-3", @style = "margin-right:5px;" })
+                        @Html.LabelFor(model => model.Interior.Maquina.NombreMaquina, "Interior", htmlAttributes: new { @class = "control-label col-md-3", @style = "margin-right:5px;" })
                         <div class="col-md-7 ">
                             @*@Html.DropDownList("SelectFormato", new SelectList(Model.Formatos.Select(x => x.NombreFormato).Distinct().ToList()), "Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" })*@
                             @Html.EditorFor(model => model.MaquinaInterior.NombreMaquina, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })
                         </div>
                     </div>
                     <div class="form-group col-md-4" style="margin-bottom: 15px;">
-                        @Html.LabelFor(model => model.Tapa.Papel.Maquina.NombreMaquina, "Tapa", htmlAttributes: new { @class = "control-label col-md-3" })
+                        @Html.LabelFor(model => model.Tapa.Maquina.NombreMaquina, "Tapa", htmlAttributes: new { @class = "control-label col-md-3" })
                         <div class="col-md-9">
                             @*@Html.DropDownListFor(model => model.SelectEnc, new SelectList(Model.Encuadernaciones, "IdEncuadernacion", "NombreEncuadernacion"), "Seleccione Una Encuadernación", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" })*@
                             @Html.EditorFor(model => model.MaquinaTapa.NombreMaquina, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })

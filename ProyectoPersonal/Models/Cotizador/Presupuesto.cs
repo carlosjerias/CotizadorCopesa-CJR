@@ -260,6 +260,8 @@ namespace ProyectoPersonal.Models.Cotizador
         [NotMapped]
         public int IdQuintoColor { get; set; }
         [NotMapped]
+        public int IdTroquel { get; set; }
+        [NotMapped]
         public int IdEmbolsado { get; set; }
         [NotMapped]
         public int IdAlzadoElementoPlano { get; set; }

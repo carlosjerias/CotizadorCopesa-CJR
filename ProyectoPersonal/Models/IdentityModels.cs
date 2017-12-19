@@ -83,7 +83,7 @@ namespace ProyectoPersonal.Models
         public DbSet<Presupuesto_SubProceso> Presupuesto_SubProceso { get; set; }
         public DbSet<Embalaje> Embalaje { get; set; }
         public DbSet<TipoCatalogo> Catalogo { get; set; }
-
+        public DbSet<Produccion> Produccion { get; set; }
 
         public static ApplicationDbContext Create()
         {
