@@ -9,7 +9,7 @@
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
-<table class="table">
+<table id="CustomerGrid" class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.TipoMoneda.NombreTipoMoneda)
@@ -35,11 +35,47 @@
             @Html.DisplayFor(modelItem => item.FechaValor)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.IdMoneda }) |
-            @Html.ActionLink("Details", "Details", new { id=item.IdMoneda }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.IdMoneda })
+            @Html.ActionLink("Edit", "Edit", new { id = item.IdMoneda }) |
+            @Html.ActionLink("Details", "Details", new { id = item.IdMoneda }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.IdMoneda })|
+            <a class="details" href="javascript:;">View</a>
         </td>
     </tr>
 }
 
 </table>
+<div id="dialog" style="display: none">
+</div>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/jquery-ui.js" type="text/javascript"></script>
+<link href="http://ajax.aspnetcdn.com/ajax/jquery.ui/1.8.9/themes/blitzer/jquery-ui.css"
+      rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+        $(function () {
+            $("#dialog").dialog({
+                autoOpen: false,
+                modal: true,
+                title: "View Details"
+            });
+            $("#CustomerGrid .details").click(function () {
+                var PresuId = $(this).closest("tr").find("td").eq(2).html();
+                $.ajax({
+                    type: "POST",
+                    url: "/Presupuesto/VistaEliminaPresupuesto",
+                    data: '{id: "' + PresuId + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (response) {
+                        $('#dialog').html(response);
+                        $('#dialog').dialog('open');
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+            });
+        });
+</script>

@@ -11,11 +11,15 @@ using ProyectoPersonal.Models.Cotizador;
 using Rotativa;
 using Microsoft.AspNet.Identity;
 using MvcRazorToPdf;
+using System.Net.Mail;
+using System.IO;
+using ProyectoPersonal.Models.Gerencia;
 
 namespace ProyectoPersonal.Controllers.Cotizador
 {
     public class PresupuestoController : Controller
     {
+        private Alertas alertas = new Alertas();
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Presupuesto
@@ -59,12 +63,12 @@ namespace ProyectoPersonal.Controllers.Cotizador
                                         int? TapaPapel, int? ddlQuintoColor, int? ddlBarnizAcuoso, int? ddlEmbolsado, int? ddlLaminado, int? ddlBarnizUV, int? ddlAlzadoPlano, int? ddlEmbolsadoManual,
                                         int? ddlPegadoSticker, int? ddlFajado, int? ddlPegado, int? ddlInsercion, int? ddlAlzado, int? ddlDesembolsado, int? ddlAdhesivo, //int? ddlAdhesivoCms,int CantidadCajas,
                                         int CantidadModelos, int ddlQuintoColorPasadas, int? CatalogoId, string NombreCatalogo, int CantidadAlzadoPlano, int CantidadDesembolsado, int CantidadAlzado, int CantidadInsercion,
-                                        int CantidadPegado, int CantidadFajado, int CantidadPegadoSticker, int CantidadEnCajas, int CantidadEnZuncho, int CantidadEnBolsa, string ddlTroquel)
+                                        int CantidadPegado, int CantidadFajado, int CantidadPegadoSticker, int CantidadEnCajas, int CantidadEnZuncho, int CantidadEnBolsa, string ddlTroquel, int CantidadTerminacionEmbolsado)
         {
             Presupuesto pres = ProcesarCalculo(SelectFormato, SelectEnc, CantidadInt, (CantidadTapa != null) ? Convert.ToInt32(CantidadTapa) : 0, "Plana", Tiraje, ddlQuintoColor, TapaPapel, SelectPapelIntId, ddlBarnizAcuoso, ddlEmbolsado, ddlLaminado, ddlBarnizUV
                                             , ddlAlzadoPlano, ddlEmbolsadoManual, ddlPegadoSticker, ddlFajado, ddlPegado, ddlInsercion, ddlAlzado, ddlDesembolsado, ddlAdhesivo, 4//, CantidadCajas
                                             , CantidadModelos, ddlQuintoColorPasadas, CantidadAlzadoPlano, CantidadDesembolsado, CantidadAlzado, CantidadInsercion, CantidadPegado, CantidadFajado, CantidadPegadoSticker, CatalogoId
-                                            , CantidadEnCajas, CantidadEnZuncho, CantidadEnBolsa, ddlTroquel);
+                                            , CantidadEnCajas, CantidadEnZuncho, CantidadEnBolsa, ddlTroquel, CantidadTerminacionEmbolsado);
             if (CatalogoId != null)
             {
                 string TipoCatalogo = db.Catalogo.Where(x => x.IdTipoCatalogo == (int)CatalogoId).Select(x => x.NombreTipoCatalogo).FirstOrDefault();
@@ -81,13 +85,14 @@ namespace ProyectoPersonal.Controllers.Cotizador
         public Presupuesto ProcesarCalculo(string FormatoId, int? EncuadernacionId, int CantidadPaginasInt, int CantidadPaginasTap, string MaquinaTap, int Tiraje, int? IDQuintoColor
             , int? idPapelTap, int? idPapelInterior, int? BarnizAcuoso, int? Embolsado, int? Laminado, int? UV, int? AlzadoPlano, int? EmbolsadoManual, int? Sticker, int? Fajado, int? Pegado, int? Insercion, int? Alzado, int? Desembolsado,
             int? Adhesivo, int? cmsAdhesivo, int CantidadModelos, int CantidadPasadaQuintoColor, int CantidadAlzadoPlano, int CantidadDesembolsado, int CantidadAlzado, int CantidadInsercion,
-                                        int CantidadPegado, int CantidadFajado, int CantidadPegadoSticker, int? CatalogoId, int CantidadEnCajas, int CantidadEnZuncho, int CantidadEnBolsa, string ddlTroquel)
+                                        int CantidadPegado, int CantidadFajado, int CantidadPegadoSticker, int? CatalogoId, int CantidadEnCajas, int CantidadEnZuncho, int CantidadEnBolsa, string ddlTroquel, int CantidadTerminacionEmbolsado)
         {
 
             Presupuesto detalle = new Presupuesto();
             detalle.MonedaId = db.Moneda.Where(x => x.Estado == true && x.TipoMonedaId == 2).Select(x => x.IdMoneda).FirstOrDefault();
             detalle.Tiraje = Tiraje;
             #region nreEntradasxFormato
+            //la produccion es la tabla de pliegos totales impreso por tipo doblez.
             Produccion produccion = db.Produccion.Where(x => x.Paginas == CantidadPaginasInt).FirstOrDefault();
             
             int NumeroDoblez = 0;
@@ -171,7 +176,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
                     }
                     produccion.Entradas16 = (detalle.EntradasPag8 + detalle.EntradasPag4);
                 }
-
+                produccion.Web88cms = Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez);
             }
             else if (FormatoId != "230 x 300")
             {
@@ -242,6 +247,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
                     }
                     produccion.Entradas16 = (detalle.EntradasPag8 + detalle.EntradasPag4);
                 }
+                produccion.Web88cms = Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez);
             }
             #endregion
             #region Impresion Interior Nuevo
@@ -361,13 +367,15 @@ namespace ProyectoPersonal.Controllers.Cotizador
             #region Tapas Nuevo
             List<Impresion> ListImpTapa = db.Impresion.Include(x => x.Maquina).Include(x => x.TipoMoneda).Include(x => x.TipoMoneda.Monedas).Where(x => x.Maquina.NombreMaquina == MaquinaTap && x.NombreImpresion == "16").ToList();
             detalle.CostoFijoTapa = (CantidadPaginasTap > 0) ? Math.Ceiling(ListImpTapa.Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion * CantidadModelos).FirstOrDefault()) : 0;
-            detalle.CostoVariableTapa = (CantidadPaginasTap > 0) ? (Math.Ceiling(((ListImpTapa.Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault()) / 1000.0) * 100.0) / 100.0) / CantidadPaginasTap : 0;
-            
+            detalle.CostoVariableTapa = (CantidadPaginasTap > 0) ? (Math.Ceiling((((ListImpTapa.Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault()) / 1000.0) / CantidadPaginasTap) * 100.0) / 100.0)  : 0;
+
+            detalle.CantidadModelos = CantidadModelos;
+
             Formato TapaFormato = listaFormatos.Where(x => x.EntradasxFormatos == listaFormatos.Max(y => y.EntradasxFormatos)).FirstOrDefault();
             List<SubProceso> ListTerm = db.SubProceso.Include(x => x.TipoMoneda).Include(x => x.TipoMoneda.Monedas).ToList();
-            detalle.CostoFijoQuintoColor = (IDQuintoColor != null) ? Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => ((((TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0) * (x.CostoFijoSubProceso * CantidadPasadaQuintoColor * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()))/CantidadPaginasTap)).FirstOrDefault()) : 0;
-            detalle.CostoVariableQuintoColor = (IDQuintoColor != null) ? (Math.Ceiling(((ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => x.CostoVariableSubProceso * CantidadPasadaQuintoColor * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) * 100.0) / 100.0) : 0;
-
+            detalle.CostoFijoQuintoColor = (IDQuintoColor != null) ? Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => (x.CostoFijoSubProceso * CantidadPasadaQuintoColor * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())).FirstOrDefault()) : 0;
+            detalle.CostoVariableQuintoColor = (IDQuintoColor != null) ? (Math.Ceiling((((ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => x.CostoVariableSubProceso * CantidadPasadaQuintoColor * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0)/ CantidadPaginasTap) * 100.0) / 100.0) : 0;
+            detalle.NombreQuintoColor = (IDQuintoColor != null) ? ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => x.NombreSubProceso ).FirstOrDefault() : "";
             detalle.CostoFijoPlizado = (db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => x.Gramaje).FirstOrDefault() >= 170) ? ListTerm.Where(x => x.NombreSubProceso == "Plizado").Select(x => x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault() : 0;
             detalle.CostoVariablePlizado = (db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => x.Gramaje).FirstOrDefault() >= 170) ? (ListTerm.Where(x => x.NombreSubProceso == "Plizado").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault() / Convert.ToDouble(CantidadPaginasTap)) : 0;
             
@@ -375,33 +383,37 @@ namespace ProyectoPersonal.Controllers.Cotizador
             #region Encuadernacion Nuevo
             detalle.CostoFijoEncuadernacion = (EncuadernacionId != null) ? Math.Ceiling(db.Encuadernacion.Where(x => x.IdEncuadernacion == EncuadernacionId).Select(x => x.ValorFijo * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(y => y.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
             detalle.CostoVariableEncuadernacion = (EncuadernacionId != null) ? (Math.Ceiling(((db.Encuadernacion.Where(x => x.IdEncuadernacion == EncuadernacionId).Select(x => x.ValorVariable * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(y => y.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) * 100.0) / 100.0) : 0;
-
+            detalle.NombreEncuadernacion = (EncuadernacionId != null) ? db.Encuadernacion.Where(x => x.IdEncuadernacion == EncuadernacionId).Select(x => x.NombreEncuadernacion ).FirstOrDefault() : "";
             #endregion
             #region Terminaciones Nuevas
             double dobleentrada = (BarnizAcuoso == 4)&&(CantidadPaginasTap>0) ? 2 : 1;
             detalle.CostoFijoBarnizAcuosoTapa = ((CantidadPaginasTap > 0) && (BarnizAcuoso >= 2)) ? Math.Ceiling(ListTerm.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.CostoFijoSubProceso * dobleentrada  * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
-            detalle.CostoVariableBarnizAcuosoTapa = ((CantidadPaginasTap > 0) && (BarnizAcuoso >= 2)) ? Math.Ceiling(((ListTerm.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.CostoVariableSubProceso * dobleentrada * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) * 100.0) / 100.0 : 0;
-            detalle.CostoVariableEmbolsado = (Embolsado != null) ? (ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => x.CostoVariableSubProceso).FirstOrDefault()) : 0;
-            detalle.CostoVariableLaminado = ((Laminado != null)&& (CantidadPaginasTap > 0)) ? (ListTerm.Where(x => x.IdSubProceso == Laminado).Select(x => (x.CostoVariableSubProceso * (TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0)).FirstOrDefault())/Convert.ToDouble(CantidadPaginasTap) : 0;
+            detalle.CostoVariableBarnizAcuosoTapa = ((CantidadPaginasTap > 0) && (BarnizAcuoso >= 2)) ? Math.Ceiling((((ListTerm.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.CostoVariableSubProceso * dobleentrada * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0)/ CantidadPaginasTap) * 100.0) / 100.0 : 0;
+            detalle.CostoVariableEmbolsado = (Embolsado != null) ? (ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => ((x.CostoVariableSubProceso * CantidadTerminacionEmbolsado)/Convert.ToDouble(detalle.Tiraje))).FirstOrDefault()) : 0;
+            detalle.NombreEmbolsado = (Embolsado != null) ? ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
+            detalle.CantidadTerminacionEmbolsado = (Embolsado != null) ? CantidadTerminacionEmbolsado : 0;
+            detalle.CostoVariableLaminado = ((Laminado != null)&& (CantidadPaginasTap > 0)) ? (Math.Ceiling(((ListTerm.Where(x => x.IdSubProceso == Laminado).Select(x => (x.CostoVariableSubProceso * (TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0)).FirstOrDefault())/Convert.ToDouble(CantidadPaginasTap))*100.0)/100.0) : 0;
+            detalle.NombreLaminado = ((Laminado != null) && (CantidadPaginasTap > 0)) ? ListTerm.Where(x => x.IdSubProceso == Laminado).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
             detalle.CostoFijoBarnizUV = (UV != null) ? Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == UV).Select(x => x.CostoFijoSubProceso).FirstOrDefault()) : 0;
             if (UV != null)
             {
                 SubProceso subpro = db.SubProceso.Where(x => x.IdSubProceso == UV).FirstOrDefault();
                 if(subpro.NombreSubProceso == "Barniz UV 100%")
                 {
-                    detalle.CostoVariableBarnizUV = Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == UV).Select(x => ((x.CostoVariableSubProceso * ((TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0))) / Convert.ToDouble(CantidadPaginasTap)).FirstOrDefault());
+                    detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => ((x.CostoVariableSubProceso * ((TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0))) / Convert.ToDouble(CantidadPaginasTap)).FirstOrDefault())*100.0)/100.0);
                 }
                 else if (subpro.NombreSubProceso == "Barniz UV con Reserva")
                 {
-                    detalle.CostoVariableBarnizUV = Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == UV).Select(x => (x.CostoVariableSubProceso * (Tiraje * (1 / CantidadPaginasTap))) / Tiraje).FirstOrDefault());
+                    detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => (x.CostoVariableSubProceso * (Tiraje * Convert.ToDouble(1.0 / CantidadPaginasTap))/ Tiraje)).FirstOrDefault()) * 100.0) / 100.0);
                 }
                 else if (subpro.NombreSubProceso == "Barniz UV con Glitter")
                 {
-                    detalle.CostoVariableBarnizUV = Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == UV).Select(x => (x.CostoVariableSubProceso) / CantidadPaginasTap).FirstOrDefault());
+                    detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => (x.CostoVariableSubProceso) / CantidadPaginasTap).FirstOrDefault()) * 100.0)/ 100.0);
                 }
+                detalle.NombreBarnizUV = ListTerm.Where(x => x.IdSubProceso == UV).Select(x => x.NombreSubProceso).FirstOrDefault();
             }
-            detalle.CostoFijoTroquel = (ddlTroquel!= "No") ? (ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => (x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())/CantidadPaginasTap).FirstOrDefault()) : 0;
-            detalle.CostoVariableTroquel = (ddlTroquel != "No") ? ((ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / Convert.ToDouble(CantidadPaginasTap)) : 0;
+            detalle.CostoFijoTroquel = (ddlTroquel!= "No" && ddlTroquel!= "") ? (ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => (x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())).FirstOrDefault()) : 0;
+            detalle.CostoVariableTroquel = (ddlTroquel != "No" && ddlTroquel != "") ? ((ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / Convert.ToDouble(CantidadPaginasTap)) : 0;
             detalle.CostoFijoCorteFrontal = (CantidadPaginasTap > 0) ? (ListTerm.Where(x => x.NombreSubProceso == "Corte Frontal").Select(x => x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
             detalle.CostoVariableCorteFrontal = (CantidadPaginasTap > 0) ? (ListTerm.Where(x => x.NombreSubProceso == "Corte Frontal").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
 
@@ -440,8 +452,8 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 ((emb.CajaEstandar * detalle.CantidadCajas)/ Convert.ToDouble(Tiraje)) * 100)) / 100);
             detalle.CostoVariableInsercionCajaySellado = (Math.Ceiling((
                 ((emb.EncajadoxCaja * detalle.CantidadCajas) / Convert.ToDouble(Tiraje))*100))/100);
-            detalle.Enzunchadoxpqte = CantidadEnZuncho;
-            detalle.CostoVariableEnzunchado =(Math.Ceiling(((emb.Enzunchado * CantidadEnZuncho)))/Convert.ToDouble(Tiraje) * 100) / 100;
+            detalle.Enzunchadoxpqte = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(CantidadEnZuncho)/ detalle.LibrosxCajas));
+            detalle.CostoVariableEnzunchado =(Math.Ceiling(((emb.Enzunchado * detalle.Enzunchadoxpqte)))/Convert.ToDouble(Tiraje) * 100) / 100;
             detalle.CantidadenBolsa = CantidadEnBolsa;
             
 
@@ -458,6 +470,19 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 Formato Web88 = listaFormatos.Where(x => x.EntradasxFormatos == 16).FirstOrDefault();
                 Formato Litho132 = listaFormatos.Where(x => x.EntradasxFormatos == 48).FirstOrDefault();
                 Formato Litho174 = listaFormatos.Where(x => x.EntradasxFormatos == 64).FirstOrDefault();
+
+                if(Litho174!= null)
+                {
+                    detalle.FormatoId = listaFormatos.Where(x => x.EntradasxFormatos == 64).Select(x => x.IdFormato).FirstOrDefault();
+                }
+                else if(Litho132 != null)
+                {
+                    detalle.FormatoId = listaFormatos.Where(x => x.EntradasxFormatos == 48).Select(x => x.IdFormato).FirstOrDefault();
+                }
+                else
+                {
+                    detalle.FormatoId = listaFormatos.Where(x => x.EntradasxFormatos == 16).Select(x=>x.IdFormato).FirstOrDefault();
+                }
 
                 detalle.Interior.Entradas = (float)(((Web88!= null) ?(((produccion.Entradas16 * detalle.MaquinaInterior.MermaFija) / 1000.0) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000.0)):0)+
                                                    ((Litho132 != null) ? (((produccion.Entradas48 * detalle.MaquinaInterior.MermaFija) / 1000.0) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000.0)):0) +
@@ -476,8 +501,8 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 detalle.Interior.CostoPapelInteriorVari = (Math.Ceiling(((papelInterior.PrecioKilos * detalle.Interior.Tiradas)/Convert.ToDouble(Tiraje))*100.0)/100.0);
 
                 detalle.Interior.KilosPapel = (float)(((Web88!= null) ? (((Tiraje * produccion.Web88cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas16 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho)/ 10000000.0)):0) +
-                                                     ((Litho132!= null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas16 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000000.0)):0) +
-                                                     ((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas16 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho174.Interior_Alto * Litho174.Interior_Ancho) / 10000000.0)):0));
+                                                     ((Litho132!= null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas48 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000000.0)):0) +
+                                                     ((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas64 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho174.Interior_Alto * Litho174.Interior_Ancho) / 10000000.0)):0));
 
 
                 //detalle.Interior.KilosPapel = (float)(((Tiraje * (Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez)) * detalle.MaquinaInterior.MermaVariable) 
@@ -505,7 +530,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 float Pesotapa = (float)((((TapaFormato.FormatoCerradoX / 10.0) * (TapaFormato.FormatoCerradoY / 10.0) * ((papelTapa != null) ?papelTapa.Gramaje: 0)) / 10000000.0) * (4 / 2));
                 float Enc = 0.002f;
                 
-                detalle.CostoVariablePallet = Math.Ceiling(((emb.PalletEstandar * Math.Ceiling(((PesoInterior + Pesotapa + Enc)* detalle.LibrosxCajas * Convert.ToDouble(detalle.CantidadCajas)) / 700))/Convert.ToDouble(Tiraje))*100)/100;//CantidadPallet);
+                detalle.CostoVariablePallet = Math.Ceiling(((emb.PalletEstandar * Math.Ceiling(((PesoInterior + Pesotapa + Enc)* Convert.ToDouble(detalle.Tiraje)) / 700))/Convert.ToDouble(Tiraje))*100)/100;//CantidadPallet);
             }
             #endregion
             #region Totales
@@ -579,7 +604,9 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 s.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
             }
             ViewBag.CantidadInt = s;
-            ViewBag.ValorUF = db.Moneda.Where(x => x.Estado == true && x.TipoMonedaId == 2).Select(x => x.Valor).FirstOrDefault();
+            ViewBag.ValorUF = string.Format("{0:#,0.00}", db.Moneda.Where(x => x.Estado == true && x.TipoMonedaId == 2).Select(x => x.Valor).FirstOrDefault());
+          
+
             //ViewBag.SubProceso = db.SubProceso.Include("Proceso").ToList();
             return View(pres);
         }
@@ -591,13 +618,13 @@ namespace ProyectoPersonal.Controllers.Cotizador
                                     int? ddlQuintoColor, int? ddlBarnizAcuoso, int? ddlEmbolsado, int? ddlLaminado, int? ddlBarnizUV, int? ddlAlzadoPlano, int? ddlEmbolsadoManual, int? ddlPegadoSticker, int? ddlFajado, int? ddlPegado,
                                     int? ddlInsercion, int? ddlAlzado, int? ddlDesembolsado, int? ddlAdhesivo//, int? ddlAdhesivoCms, int CantidadCajas
                                     , int CantidadModelos, int ddlQuintoColorPasadas, int? CatalogoId, string NombreCatalogo, int CantidadAlzadoPlano, int CantidadDesembolsado, int CantidadAlzado, int CantidadInsercion,
-                                        int CantidadPegado, int CantidadFajado, int CantidadPegadoSticker, int CantidadEnCajas, int CantidadEnZuncho, int CantidadEnBolsa, string ddlTroquel)
+                                        int CantidadPegado, int CantidadFajado, int CantidadPegadoSticker, int CantidadEnCajas, int CantidadEnZuncho, int CantidadEnBolsa, string ddlTroquel, int CantidadTerminacionEmbolsado)
         {
             
             Presupuesto p = ProcesarCalculo(SelectFormato, SelectEnc, CantidadInt, (CantidadTapa != null) ? Convert.ToInt32(CantidadTapa) : 0, "Plana", Tiraje, ddlQuintoColor, TapaPapel, SelectPapelIntId, ddlBarnizAcuoso, ddlEmbolsado, ddlLaminado, ddlBarnizUV, ddlAlzadoPlano,
                                             ddlEmbolsadoManual, ddlPegadoSticker, ddlFajado, ddlPegado, ddlInsercion, ddlAlzado, ddlDesembolsado, ddlAdhesivo, 4//, CantidadCajas
                                             , CantidadModelos, ddlQuintoColorPasadas, CantidadAlzadoPlano, CantidadDesembolsado, CantidadAlzado, CantidadInsercion, CantidadPegado, CantidadFajado, CantidadPegadoSticker, CatalogoId
-                                            , CantidadEnCajas, CantidadEnZuncho, CantidadEnBolsa, ddlTroquel);
+                                            , CantidadEnCajas, CantidadEnZuncho, CantidadEnBolsa, ddlTroquel, CantidadTerminacionEmbolsado);
             TipoCatalogo tc;
             if (CatalogoId == null)
             {
@@ -620,20 +647,20 @@ namespace ProyectoPersonal.Controllers.Cotizador
             p.EncuadernacionId = SelectEnc;
 
             List<Presupuesto_SubProceso> listaSubProceso = new List<Presupuesto_SubProceso>();
-            if (ddlQuintoColor != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlQuintoColor, ValorFijoSubProceso = p.CostoFijoQuintoColor, ValorVariableSubProceso = p.CostoVariableQuintoColor }); };
-            if ((ddlBarnizAcuoso != null) && (ddlBarnizAcuoso == 2)) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = db.SubProceso.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.IdSubProceso).FirstOrDefault(), ValorFijoSubProceso = p.CostoFijoBarnizAcuosoTapa, ValorVariableSubProceso = p.CostoVariableBarnizAcuosoTapa }); };
-            if (ddlEmbolsado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlEmbolsado, ValorVariableSubProceso = p.CostoVariableEmbolsado }); };
-            if (ddlLaminado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlLaminado, ValorVariableSubProceso = p.CostoVariableLaminado }); };
-            if (ddlBarnizUV != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlBarnizUV, ValorFijoSubProceso = p.CostoFijoBarnizUV, ValorVariableSubProceso = p.CostoVariableLaminado }); };
-            if ((ddlAlzadoPlano != null) && (ddlAlzadoPlano == 2)) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = db.SubProceso.Where(x => x.NombreSubProceso == "Alzado Plano").Select(x => x.IdSubProceso).FirstOrDefault(), ValorVariableSubProceso = p.CostoVariableAlzadoPlano }); };
-            if ((ddlEmbolsadoManual != null) && (ddlEmbolsadoManual == 2)) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = db.SubProceso.Where(x => x.NombreSubProceso == "Embolsado manual").Select(x => x.IdSubProceso).FirstOrDefault(), ValorVariableSubProceso = p.CostoVariableEmbolsadoManual }); };
-            if ((ddlDesembolsado != null) && (ddlDesembolsado == 2)) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = db.SubProceso.Where(x => x.NombreSubProceso == "Desembolsado simple").Select(x => x.IdSubProceso).FirstOrDefault(), ValorVariableSubProceso = p.CostoVariableDesembolsado }); };
-            if (ddlAlzado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlAlzado, ValorVariableSubProceso = p.CostoVariableAlzado }); };
-            if (ddlInsercion != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlInsercion, ValorVariableSubProceso = p.CostoVariableInsercion }); };
-            if (ddlPegado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlPegado, ValorVariableSubProceso = p.CostoVariablePegado }); };
-            if (ddlFajado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlFajado, ValorVariableSubProceso = p.CostoVariableFajado }); };
+            if (ddlQuintoColor != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlQuintoColor, ValorFijoSubProceso = p.CostoFijoQuintoColor, ValorVariableSubProceso = p.CostoVariableQuintoColor, CantidadEjemplaresProceso = p.Tiraje }); };
+            if ((ddlBarnizAcuoso != null) && (ddlBarnizAcuoso == 2)) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = db.SubProceso.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.IdSubProceso).FirstOrDefault(), ValorFijoSubProceso = p.CostoFijoBarnizAcuosoTapa, ValorVariableSubProceso = p.CostoVariableBarnizAcuosoTapa, CantidadEjemplaresProceso = p.Tiraje }); };
+            if (ddlEmbolsado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlEmbolsado, ValorVariableSubProceso = p.CostoVariableEmbolsado, CantidadEjemplaresProceso = p.CantidadTerminacionEmbolsado }); };
+            if (ddlLaminado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlLaminado, ValorVariableSubProceso = p.CostoVariableLaminado, CantidadEjemplaresProceso = p.Tiraje }); };
+            if (ddlBarnizUV != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlBarnizUV, ValorFijoSubProceso = p.CostoFijoBarnizUV, ValorVariableSubProceso = p.CostoVariableLaminado, CantidadEjemplaresProceso = p.Tiraje }); };
+            if ((ddlAlzadoPlano != null) && (ddlAlzadoPlano == 2)) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = db.SubProceso.Where(x => x.NombreSubProceso == "Alzado Plano").Select(x => x.IdSubProceso).FirstOrDefault(), ValorVariableSubProceso = p.CostoVariableAlzadoPlano, CantidadEjemplaresProceso = CantidadAlzadoPlano }); };
+            if ((ddlEmbolsadoManual != null) && (ddlEmbolsadoManual == 2)) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = db.SubProceso.Where(x => x.NombreSubProceso == "Embolsado manual").Select(x => x.IdSubProceso).FirstOrDefault(), ValorVariableSubProceso = p.CostoVariableEmbolsadoManual, CantidadEjemplaresProceso = Tiraje }); };
+            if ((ddlDesembolsado != null) && (ddlDesembolsado == 2)) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = db.SubProceso.Where(x => x.NombreSubProceso == "Desembolsado simple").Select(x => x.IdSubProceso).FirstOrDefault(), ValorVariableSubProceso = p.CostoVariableDesembolsado, CantidadEjemplaresProceso = CantidadDesembolsado }); };
+            if (ddlAlzado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlAlzado, ValorVariableSubProceso = p.CostoVariableAlzado, CantidadEjemplaresProceso = CantidadAlzado }); };
+            if (ddlInsercion != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlInsercion, ValorVariableSubProceso = p.CostoVariableInsercion, CantidadEjemplaresProceso = CantidadInsercion }); };
+            if (ddlPegado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlPegado, ValorVariableSubProceso = p.CostoVariablePegado, CantidadEjemplaresProceso = CantidadPegado }); };
+            if (ddlFajado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = (int)ddlFajado, ValorVariableSubProceso = p.CostoVariableFajado, CantidadEjemplaresProceso = CantidadFajado }); };
             if (ddlPegado != null) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = 35//(int)ddlAdhesivo
-                                                                                                                    , ValorVariableSubProceso = p.CostoVariableAdhesivoTotal }); };
+                                                                                                                    , ValorVariableSubProceso = p.CostoVariableAdhesivoTotal, CantidadEjemplaresProceso = CantidadPegado  }); };
             if ((ddlPegadoSticker != null) && (ddlPegadoSticker == 2)) { listaSubProceso.Add(new Presupuesto_SubProceso() { PresupuestoId = p.IdPresupuesto, SubProcesoId = db.SubProceso.Where(x => x.NombreSubProceso == "Pegado de Sticker").Select(x => x.IdSubProceso).FirstOrDefault(), ValorVariableSubProceso = p.CostoVariablePegadoSticker }); };
 
             if (ModelState.IsValid)
@@ -651,7 +678,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
             {
                 pres2 = p;
             }
-
+            TempData["Alerta"] = alertas.Resultado_Action("ok", "Ingresado", "");
             return Json(pres2, JsonRequestBehavior.AllowGet);
         }
 
@@ -748,7 +775,60 @@ namespace ProyectoPersonal.Controllers.Cotizador
             }
             return View(presupuesto);
         }
+       
+        [Authorize(Roles = "Administrador,SuperUser,User")]
+        public ActionResult VistaEliminaPresupuesto(int? id)
+        {
+            try
+            {
+                if (id == null)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                Presupuesto presupuesto = db.Presupuesto.Where(x => x.IdPresupuesto == id).Include(p => p.Encuadernacion).Include(p => p.Formato).Include(p => p.Interior).Include(p => p.Tapa).Include(p => p.Interior.Papel).Include(p => p.Tapa.Papel).Include(p => p.Usuario).Include(p => p.TipoCatalogo).FirstOrDefault();
+                if (presupuesto == null)
+                {
+                    return HttpNotFound();
+                }
+                //return View(presupuesto);
+                ViewBag.IDPresu = id;
+                return PartialView("_Eliminar", presupuesto);
+            }
+            catch
+            {
+                TempData["Alerta"] = alertas.Resultado_Action("Error", "", "Vuelva a intentarlo.");
+                return View("Index");
+            }
+           // return View(Request.IsAjaxRequest() ? "View":"Edit", presupuesto);
+        }
 
+        [HttpPost]
+        [Authorize(Roles = "Administrador,SuperUser,User")]
+        public ActionResult Eliminar(int id)
+        {
+            try
+            {
+                var idSubPro = db.Presupuesto_SubProceso.SingleOrDefault(x => x.PresupuestoId == id);
+                if (idSubPro != null)
+                {
+                    Presupuesto_SubProceso presupuesto_sub = db.Presupuesto_SubProceso.Find(idSubPro.IdPresupuestoSubProceso);
+                    db.Presupuesto_SubProceso.Remove(presupuesto_sub);
+                    db.SaveChanges();
+                }
+                Presupuesto presupuesto = db.Presupuesto.Find(id);
+                db.Presupuesto.Remove(presupuesto);
+                db.SaveChanges();
+                //db.Presupuesto.Remove(presupuesto);
+                //db.SaveChanges();
+                TempData["Alerta"] = alertas.Resultado_Action("ok", "Eliminado", " Presupuesto Nro " + id + " eliminado.");
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                TempData["Alerta"] = alertas.Resultado_Action("Error", "", "Vuelva a intentarlo.");
+                return RedirectToAction("Index");
+            }
+        }
         // POST: Presupuesto/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -778,6 +858,113 @@ namespace ProyectoPersonal.Controllers.Cotizador
             return View(presupuesto);
         }
         
-        
+       
+
+        public ActionResult _TablaDetallePPTO(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Presupuesto presupuesto = db.Presupuesto.Include(p => p.Formato).Include(p => p.Interior).Include(p => p.Tapa).Include(p => p.Interior.Papel).Include(p => p.Interior.Papel.Empresa)
+                                                    .Include(p => p.Tapa.Papel).Include(p => p.Tapa.Papel.Empresa).Include(p => p.Encuadernacion).Include(p => p.Moneda).Include(p => p.Usuario)
+                                                    .Include(p => p.TipoCatalogo).Where(x => x.IdPresupuesto == id).FirstOrDefault();
+            if (presupuesto == null)
+            {
+                return HttpNotFound();
+            }
+            return View(presupuesto);
+        }
+
+        [HttpPost]
+        public ActionResult AprobacionPPTO(Presupuesto pres)
+        {
+            try
+            {
+                MailMessage correo = new MailMessage();
+                correo.From = new MailAddress("sistema.intranet@aimpresores.cl");
+                correo.To.Add("juan.venegas@aimpresores.cl");
+                correo.Subject = "Presupuesto aprobado N° " + pres.IdPresupuesto.ToString();
+                correo.Body = "Estimado, <br /> se adjunta la oferta comercial y la tabla detalle del PPTO";
+                correo.IsBodyHtml = true;
+                correo.Priority = MailPriority.Normal;
+
+                //Se almacena los archivos adjuntos en una carpeta, creada en el proyecto con anterioridad Temporal
+                //String ruta = Server.MapPath("../Temporal");
+
+
+                var pdfname = pres.IdPresupuesto + ".pdf";
+                var path = Path.Combine(Server.MapPath("../Temporal"), pdfname);
+                
+                ActionAsPdf pdf = new ActionAsPdf("OfertaComercial", new { id = pres.IdPresupuesto })
+                {
+                    PageOrientation = Rotativa.Options.Orientation.Portrait,
+                    PageSize = Rotativa.Options.Size.Letter,
+                    PageMargins = new Rotativa.Options.Margins(10, 10, 15, 10),
+                    
+                };
+                //pdf.ExecuteResult(this.ControllerContext);
+                byte[] bytes = pdf.BuildPdf(this.ControllerContext);
+
+                Attachment adjunto = new Attachment(new MemoryStream(bytes), pdfname);
+                correo.Attachments.Add(adjunto);
+
+                var pdfname2 = pres.IdPresupuesto + "Detalle.pdf";
+                var path2 = Path.Combine(Server.MapPath("../Temporal"), pdfname);
+
+                ActionAsPdf pdf2 = new ActionAsPdf("_TablaDetallePPTO", new { id = pres.IdPresupuesto })
+                {
+                    PageOrientation = Rotativa.Options.Orientation.Portrait,
+                    PageSize = Rotativa.Options.Size.Letter,
+                    PageMargins = new Rotativa.Options.Margins(10, 10, 15, 10),
+
+                };
+                //pdf.ExecuteResult(this.ControllerContext);
+                byte[] bytes2 = pdf2.BuildPdf(this.ControllerContext);
+
+                Attachment adjunto2 = new Attachment(new MemoryStream(bytes2), pdfname2);
+                correo.Attachments.Add(adjunto2);
+
+
+                //Configuracion del servidor smtp
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "mail.aimpresores.cl";
+                //smtp.EnableSsl = true;
+                //smtp.UseDefaultCredentials = true;
+                smtp.Credentials = new System.Net.NetworkCredential("sistema.intranet@aimpresores.cl", "SI2013.");
+
+                smtp.Send(correo);
+                ViewBag.Mensaje = "Correo enviado correctamente";
+                
+            }
+            catch (Exception ex)
+            {
+                ViewBag.Error = ex.Message;
+                TempData["Alerta"] = alertas.Resultado_Action("Error", "", "Vuelva a intentarlo.");
+            }
+            return RedirectToAction("Index");
+        }
+
+        public ActionResult CargaPresupuesto(int id, int Tipo)
+        {
+            Presupuesto presupuesto = db.Presupuesto.Include(p => p.Formato).Include(p => p.Interior).Include(p => p.Tapa).Include(p => p.Interior.Papel).Include(p => p.Interior.Papel.Empresa)
+                                                    .Include(p => p.Tapa.Papel).Include(p => p.Tapa.Papel.Empresa).Include(p => p.Encuadernacion).Include(p => p.Moneda).Include(p => p.Usuario)
+                                                    .Include(p => p.TipoCatalogo).Where(x => x.IdPresupuesto == id).FirstOrDefault();
+            if (presupuesto == null)
+            {
+                TempData["Alerta"] = alertas.Resultado_Action("Error", "", "Vuelva a intentarlo.");
+                return View("Index","Presupuesto");
+            }
+            else
+            {
+                if (Tipo == 0)
+                {
+                    return PartialView("_AprobacionPPTO", presupuesto);
+                }
+                else
+                    return PartialView("_Eliminar", presupuesto);
+            }
+        }
+
     }
 }

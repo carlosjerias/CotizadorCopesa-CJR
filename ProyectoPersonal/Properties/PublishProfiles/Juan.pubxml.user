@@ -163,7 +163,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>11/27/2012 14:00:52</publishTime>
     </File>
     <File Include="bin/ProyectoPersonal.dll">
-      <publishTime>12/19/2017 16:55:15</publishTime>
+      <publishTime>01/11/2018 16:58:21</publishTime>
     </File>
     <File Include="bin/RazorPDF.Legacy.dll">
       <publishTime>12/28/2014 04:59:54</publishTime>
@@ -324,6 +324,12 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="Imagen/ciclo-indoor-3-945x630.jpg">
       <publishTime>09/04/2017 18:04:35</publishTime>
     </File>
+    <File Include="Imagen/desbloquear.png">
+      <publishTime>01/10/2018 18:00:16</publishTime>
+    </File>
+    <File Include="Imagen/desbloquearPopUp.png">
+      <publishTime>01/10/2018 18:02:13</publishTime>
+    </File>
     <File Include="Imagen/fitness-class-banner.jpg">
       <publishTime>09/04/2017 18:04:35</publishTime>
     </File>
@@ -335,6 +341,9 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     </File>
     <File Include="Imagen/logo_copesa.jpg">
       <publishTime>10/11/2017 10:53:35</publishTime>
+    </File>
+    <File Include="Imagen/mas.png">
+      <publishTime>01/04/2018 17:36:07</publishTime>
     </File>
     <File Include="Imagen/sort_asc.png">
       <publishTime>10/08/2017 21:59:57</publishTime>
@@ -652,7 +661,10 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/12/2017 10:41:06</publishTime>
     </File>
     <File Include="Views/Moneda/Index.cshtml">
-      <publishTime>09/12/2017 10:41:09</publishTime>
+      <publishTime>01/10/2018 10:02:54</publishTime>
+    </File>
+    <File Include="Views/Moneda/_View.cshtml">
+      <publishTime>01/09/2018 18:07:53</publishTime>
     </File>
     <File Include="Views/Papel/Create.cshtml">
       <publishTime>11/09/2017 12:31:49</publishTime>
@@ -669,29 +681,50 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
     <File Include="Views/Papel/Index.cshtml">
       <publishTime>11/09/2017 12:31:51</publishTime>
     </File>
+    <File Include="Views/Presupuesto/AprobacionPPTO.cshtml">
+      <publishTime>12/20/2017 16:58:17</publishTime>
+    </File>
     <File Include="Views/Presupuesto/Create.cshtml">
-      <publishTime>12/19/2017 16:52:25</publishTime>
+      <publishTime>01/11/2018 16:56:38</publishTime>
     </File>
     <File Include="Views/Presupuesto/Delete.cshtml">
       <publishTime>10/11/2017 17:08:04</publishTime>
     </File>
     <File Include="Views/Presupuesto/Details.cshtml">
-      <publishTime>10/11/2017 17:09:19</publishTime>
+      <publishTime>01/09/2018 12:53:15</publishTime>
     </File>
     <File Include="Views/Presupuesto/Edit.cshtml">
       <publishTime>10/11/2017 17:09:47</publishTime>
     </File>
     <File Include="Views/Presupuesto/Index.cshtml">
-      <publishTime>12/14/2017 11:03:32</publishTime>
+      <publishTime>01/10/2018 18:20:24</publishTime>
     </File>
     <File Include="Views/Presupuesto/OfertaComercial.cshtml">
-      <publishTime>12/11/2017 12:44:06</publishTime>
+      <publishTime>01/02/2018 18:16:47</publishTime>
     </File>
     <File Include="Views/Presupuesto/ReajustePPTO.cshtml">
       <publishTime>12/14/2017 11:21:44</publishTime>
     </File>
+    <File Include="Views/Presupuesto/View.cshtml">
+      <publishTime>01/09/2018 17:56:43</publishTime>
+    </File>
     <File Include="Views/Presupuesto/View2.cshtml">
       <publishTime>11/30/2017 17:39:42</publishTime>
+    </File>
+    <File Include="Views/Presupuesto/_AprobacionPPTO.cshtml">
+      <publishTime>12/22/2017 10:27:11</publishTime>
+    </File>
+    <File Include="Views/Presupuesto/_Eliminar.cshtml">
+      <publishTime>01/10/2018 13:08:41</publishTime>
+    </File>
+    <File Include="Views/Presupuesto/_Intento.cshtml">
+      <publishTime>01/03/2018 16:31:39</publishTime>
+    </File>
+    <File Include="Views/Presupuesto/_TablaDetallePPTO.cshtml">
+      <publishTime>12/22/2017 16:05:20</publishTime>
+    </File>
+    <File Include="Views/Presupuesto/_Test.cshtml">
+      <publishTime>01/09/2018 17:34:17</publishTime>
     </File>
     <File Include="Views/Proceso/Create.cshtml">
       <publishTime>09/12/2017 12:43:37</publishTime>
@@ -715,13 +748,13 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/04/2017 17:56:19</publishTime>
     </File>
     <File Include="Views/Shared/_Layout.cshtml">
-      <publishTime>12/14/2017 11:05:39</publishTime>
+      <publishTime>12/22/2017 10:19:03</publishTime>
     </File>
     <File Include="Views/Shared/_LoginPartial.cshtml">
       <publishTime>10/16/2017 18:14:12</publishTime>
     </File>
     <File Include="Views/Shared/_MenuPrincipal.cshtml">
-      <publishTime>11/06/2017 17:32:49</publishTime>
+      <publishTime>01/11/2018 17:01:31</publishTime>
     </File>
     <File Include="Views/Shared/_NewStyle.cshtml">
       <publishTime>10/23/2017 18:27:42</publishTime>
@@ -799,7 +832,7 @@ editando este archivo MSBuild. Para conocer más acerca de esto, visite http://g
       <publishTime>09/04/2017 17:55:41</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/05/2017 15:51:00</publishTime>
+      <publishTime>01/11/2018 11:55:38</publishTime>
     </File>
   </ItemGroup>
 </Project>

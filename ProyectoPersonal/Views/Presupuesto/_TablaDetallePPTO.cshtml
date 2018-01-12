@@ -1,0 +1,406 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Presupuesto
+
+@{
+    Layout = null;
+
+}
+
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
+
+@Scripts.Render("~/bundles/jquery")
+<div class="text-center" style="font-size:11px !important;"><h2>N° @Html.DisplayFor(model => model.IdPresupuesto) - @Html.DisplayFor(model => model.TipoCatalogo.NombreTipoCatalogo) @Html.DisplayFor(model => model.NombrePresupuesto)</h2></div>
+<table class="table table-condensed table-bordered table-striped" id="muestra" style="font-size: 12px !important;">
+    <thead>
+        <tr>
+            <th>Descripción de Procesos</th>
+            <th>#Entradas</th>
+            <th>CF</th>
+            <th>CV</th>
+            <th>Total CF</th>
+            <th>Total CV</th>
+            <th>Total Final</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th colspan="7">Impresión Pliegos de Interior</th>
+        </tr>
+        <tr>
+            <td>64 Pag.</td>
+            <td class="text-right">@Html.DisplayFor(model => model.EntradasPag64)</td>
+            
+            @{  
+                var Fijo64 = Model.CostoFijoPag64;
+                var Vari64 = Model.CostoVariablePag64;
+                var TotalCostoFijo64 = Model.EntradasPag64 * Model.CostoFijoPag64;
+                var TotalCostoVari64 = Model.EntradasPag64 * Model.CostoVariablePag64;
+                var TotalCosto64 = TotalCostoFijo64 + (TotalCostoVari64 * Model.Tiraje);
+
+            }
+            <td class="text-right">@Fijo64.ToString("N0")</td>
+            <td class="text-right">@Vari64.ToString("N2")</td>
+            <td class="text-right">@TotalCostoFijo64.ToString("N0")</td>
+            <td class="text-right">@TotalCostoVari64.ToString("N2")</td>
+            <td class="text-right">@TotalCosto64.ToString("N0")</td>
+        </tr>
+        <tr>
+            <td>48 Pag.</td>
+            <td class="text-right">@Html.DisplayFor(model => model.EntradasPag48)</td>
+            
+            @{
+                var Fijo48 = Model.CostoFijoPag48;
+                var Vari48 = Model.CostoVariablePag48;
+                var TotalCostoFijo48 = Model.EntradasPag48 * Model.CostoFijoPag48;
+                var TotalCostoVari48 = Model.EntradasPag48 * Model.CostoVariablePag48;
+                var TotalCosto48 = TotalCostoFijo48 + (TotalCostoVari48 * Model.Tiraje);
+            }
+            <td class="text-right">@Fijo48.ToString("N0")</td>
+            <td class="text-right">@Vari48.ToString("N2")</td>
+            <td class="text-right">@TotalCostoFijo48.ToString("N0")</td>
+            <td class="text-right">@TotalCostoVari48.ToString("N2")</td>
+            <td class="text-right">@TotalCosto48.ToString("N0")</td>
+        </tr>
+        <tr>
+            <td>32 Pag.</td>
+            @{
+                var Fijo32 = Model.CostoFijoPag32;
+                var Vari32 = Model.CostoVariablePag32;
+                var TotalCostoFijo32 = Model.EntradasPag32 * Model.CostoFijoPag32;
+                var TotalCostoVari32 = Model.EntradasPag32 * Model.CostoVariablePag32;
+                var TotalCosto32 = TotalCostoFijo32 + (Model.Tiraje * TotalCostoVari32);
+            }
+            <td class="text-right">@Html.DisplayFor(model => model.EntradasPag32)</td>
+            <td class="text-right">@Fijo32.ToString("N0")</td>
+            <td class="text-right">@Vari32.ToString("N2")</td>
+            <td class="text-right">@TotalCostoFijo32.ToString("N0")</td>
+            <td class="text-right">@TotalCostoVari32.ToString("N2")</td>
+            <td class="text-right">@TotalCosto32.ToString("N0")</td>
+        </tr>
+        <tr>
+            <td>24 Pag.</td>
+            <td class="text-right">@Html.DisplayFor(model => model.EntradasPag24)</td>
+            
+            @{ 
+                var Fijo24 = Model.CostoFijoPag24;
+                var Vari24 = Model.CostoVariablePag24;
+                var TotalCostoFijo24 = Model.EntradasPag24 * Model.CostoFijoPag24;
+                var TotalCostoVari24 = Model.EntradasPag24 * Model.CostoVariablePag24;
+                var TotalCosto24 = TotalCostoFijo24 + (Model.Tiraje * TotalCostoVari24);
+            }
+            <td class="text-right">@Fijo24.ToString("N0")</td>
+            <td class="text-right">@Vari24.ToString("N2")</td>
+            <td class="text-right">@TotalCostoFijo24.ToString("N0")</td>
+            <td class="text-right">@TotalCostoVari24.ToString("N2")</td>
+            <td class="text-right">@TotalCosto24.ToString("N0")</td>
+        </tr>
+        <tr>
+            <td>16 Pag.</td>
+            <td class="text-right">@Html.DisplayFor(model => model.EntradasPag16)</td>
+            @{ 
+                var Fijo16 = Model.CostoFijoPag16;
+                var Vari16 = Model.CostoVariablePag16;
+                var TotalCostoFijo16 = Model.EntradasPag16 * Model.CostoFijoPag16;
+                var TotalCostoVari16 = Model.EntradasPag16 * Model.CostoVariablePag16;
+                var TotalCosto16 = TotalCostoFijo16 + (Model.Tiraje * TotalCostoVari16);
+            }
+            <td class="text-right">@Fijo16.ToString("N0")</td>
+            <td class="text-right">@Vari16.ToString("N2")</td>
+            <td class="text-right">@TotalCostoFijo16.ToString("N0")</td>
+            <td class="text-right">@TotalCostoVari16.ToString("N2")</td>
+            <td class="text-right">@TotalCosto16.ToString("N0")</td>
+        </tr>
+        <tr>
+            <td>8 Pag.</td>
+            <td class="text-right">@Html.DisplayFor(model => model.EntradasPag8)</td>
+            @{ 
+                var Fijo8 = Model.CostoFijoPag8;
+                var Vari8 = Model.CostoVariablePag8;
+                var TotalCostoFijo8 = Model.EntradasPag8 * Model.CostoFijoPag8;
+                var TotalCostoVari8 = Model.EntradasPag8 * Model.CostoVariablePag8;
+                var TotalCosto8 = TotalCostoFijo8 + (Model.Tiraje * TotalCostoVari8);
+            }
+            <td class="text-right">@Fijo8.ToString("N0")</td>
+            <td class="text-right">@Vari8.ToString("N2")</td>
+            <td class="text-right">@TotalCostoFijo8.ToString("N0")</td>
+            <td class="text-right">@TotalCostoVari8.ToString("N2")</td>
+            <td class="text-right">@TotalCosto8.ToString("N0")</td>
+        </tr>
+        <tr>
+            <td>4 Pag.</td>
+            <td class="text-right">@Html.DisplayFor(model => model.EntradasPag4)</td>
+            @{ 
+                var Fijo4 = Model.CostoFijoPag4;
+                var Vari4 = Model.CostoVariablePag4;
+                var TotalCostoFijo4 = Model.EntradasPag4 * Model.CostoFijoPag4;
+                var TotalCostoVari4 = Model.EntradasPag4 * Model.CostoVariablePag4;
+                var TotalCosto4 = TotalCostoFijo4 + (Model.Tiraje * TotalCostoVari4);
+            }
+            <td class="text-right">@Fijo4.ToString("N0")</td>
+            <td class="text-right">@Vari4.ToString("N2")</td>
+            <td class="text-right">@TotalCostoFijo4.ToString("N0")</td>
+            <td class="text-right">@TotalCostoVari4.ToString("N2")</td>
+            <td class="text-right">@TotalCosto4.ToString("N0")</td>
+        </tr>
+        <tr>
+            <th colspan="7">Impresión Tapa</th>
+        </tr>
+        <tr>
+            <td>Impresión Tapa</td>
+            @{  
+                var EntradasTapa = (Model.TapaId != null) ? Model.CantidadModelos : 0;
+                var FijoTapa = (Model.TapaId != null) ? Model.CostoFijoTapa : 0;
+                var VariTapa = (Model.TapaId != null) ? Model.CostoVariableTapa : 0;
+                var TotalTapa = (Model.TapaId != null) ? (Model.CostoFijoTapa * Model.CantidadModelos)+ (Model.CostoVariableTapa * Model.Tiraje) : 0;
+            }
+            <td class="text-right">@EntradasTapa</td>
+            <td class="text-right">@FijoTapa.ToString("N0")</td>
+            <td class="text-right">@VariTapa.ToString("N2")></td>
+            <td class="text-right">@FijoTapa.ToString("N0")</td>
+            <td class="text-right">@VariTapa.ToString("N2")></td>
+            <td class="text-right">@TotalTapa.ToString("N0")</td>
+        </tr>
+        <tr>
+            <th colspan="7">Encuadernación</th>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(model => model.Encuadernacion.NombreEncuadernacion)</td>
+            <td class="text-right"><span id="EncEntradas">1</span></td>
+            @{ var FijoEnc = Model.CostoFijoEncuadernacion;
+                var VariEnc = Model.CostoVariableEncuadernacion;
+                var TotalEnc = FijoEnc + (Model.Tiraje * VariEnc);
+                }
+            <td class="text-right">@FijoEnc.ToString("N0")</td>
+            <td class="text-right">@VariEnc.ToString("N2")</td>
+            <td class="text-right">@FijoEnc.ToString("N0")</td>
+            <td class="text-right">@VariEnc.ToString("N2")</td>
+            <td class="text-right">@TotalEnc.ToString("N0")</td>
+        </tr>
+        <tr>
+            <th colspan="7">Otros Impresión</th>
+        </tr>
+        <tr>
+            <td class="text-right"><span id="QuintoColorNombre"></span></td>
+            <td class="text-right"><span id="QuintoEntradas"></span></td>
+            <td class="text-right"><span id="QuintoCostoFijo"></span></td>
+            <td class="text-right"><span id="QuintoCostoVari"></span></td>
+            <td class="text-right"><span id="QuintoTotCostoFijo"></span></td>
+            <td class="text-right"><span id="QuintoTotCostoVari"></span></td>
+            <td class="text-right"><span id="QuintoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Barniz Acuoso(solo Tiro)</td>
+            <td class="text-right"><span id="AcuosoEntradas"></span></td>
+            <td class="text-right"><span id="AcuosoCostoFijo"></span></td>
+            <td class="text-right"><span id="AcuosoCostoVari"></span></td>
+            <td class="text-right"><span id="AcuosoTotCostoFijo"></span></td>
+            <td class="text-right"><span id="AcuosoTotCostoVari"></span></td>
+            <td class="text-right"><span id="AcuosoTotal"></span></td>
+        </tr>
+        <tr>
+            <th colspan="7">Procesos Mecánicos</th>
+        </tr>
+        <tr>
+            <td>NombreEmbolsado</td>
+            <td class="text-right"><span id="EmbolsadoEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="EmbolsadoCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="EmbolsadoTotCostoVari"></span></td>
+            <td class="text-right"><span id="EmbolsadoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>NombreLaminado</td>
+            <td class="text-right"><span id="LaminadoEntradas"></span></td>
+            <td class="text-right"><span id="LaminadoCostoFijo"></span></td>
+            <td class="text-right"><span id="LaminadoCostoVari"></span></td>
+            <td class="text-right"><span id="LaminadoTotCostoFijo"></span></td>
+            <td class="text-right"><span id="LaminadoTotCostoVari"></span></td>
+            <td class="text-right"><span id="LaminadoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>NombreBarnizUV</td>
+            <td class="text-right"><span id="BarnizUVEntradas"></span></td>
+            <td class="text-right"><span id="BarnizUVCostoFijo"></span></td>
+            <td class="text-right"><span id="BarnizUVCostoVari"></span></td>
+            <td class="text-right"><span id="BarnizUVTotCostoFijo"></span></td>
+            <td class="text-right"><span id="BarnizUVTotCostoVari"></span></td>
+            <td class="text-right"><span id="BarnizUVTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Troquelados</td>
+            <td class="text-right"><span id="TroqueladoEntradas"></span></td>
+            <td class="text-right"><span id="TroqueladoCostoFijo"></span></td>
+            <td class="text-right"><span id="TroqueladoCostoVari"></span></td>
+            <td class="text-right"><span id="TroqueladoTotCostoFijo"></span></td>
+            <td class="text-right"><span id="TroqueladoTotCostoVari"></span></td>
+            <td class="text-right"><span id="TroqueladoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Plizado</td>
+            <td class="text-right"><span id="PlizadoEntradas"></span></td>
+            <td class="text-right"><span id="PlizadoCostoFijo"></span></td>
+            <td class="text-right"><span id="PlizadoCostoVari"></span></td>
+            <td class="text-right"><span id="PlizadoTotCostoFijo"></span></td>
+            <td class="text-right"><span id="PlizadoTotCostoVari"></span></td>
+            <td class="text-right"><span id="PlizadoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Corte Frontal</td>
+            <td class="text-right"><span id="CorteEntradas"></span></td>
+            <td class="text-right"><span id="CorteCostoFijo"></span></td>
+            <td class="text-right"><span id="CorteCostoVari"></span></td>
+            <td class="text-right"><span id="CorteTotCostoFijo"></span></td>
+            <td class="text-right"><span id="CorteTotCostoVari"></span></td>
+            <td class="text-right"><span id="CorteTotal"></span></td>
+        </tr>
+        <tr>
+            <th colspan="7">Manualidades</th>
+        </tr>
+        <tr>
+            <td>Alzados de elementos planos</td>
+            <td class="text-right"><span id="AlzadoPlanoEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="AlzadoPlanoCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="AlzadoPlanoTotCostoVari"></span></td>
+            <td class="text-right"><span id="AlzadoPlanoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Embolsado manual de Revista</td>
+            <td class="text-right"><span id="EmbolsadoManualEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="EmbolsadoManualCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="EmbolsadoManualTotCostoVari"></span></td>
+            <td class="text-right"><span id="EmbolsadoManualTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Desembolsado simple</td>
+            <td class="text-right"><span id="DesembolsadoEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="DesembolsadoCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="DesembolsadoTotCostoVari"></span></td>
+            <td class="text-right"><span id="DesembolsadoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Alzado</td>
+            <td class="text-right"><span id="AlzadoEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="AlzadoCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="AlzadoTotCostoVari"></span></td>
+            <td class="text-right"><span id="AlzadoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Inserción manual de elemento plano</td>
+            <td class="text-right"><span id="InsercionEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="InsercionCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="InsercionTotCostoVari"></span></td>
+            <td class="text-right"><span id="InsercionTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Pegado</td>
+            <td class="text-right"><span id="PegadoEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="PegadoCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="PegadoTotCostoVari"></span></td>
+            <td class="text-right"><span id="PegadoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Fajado</td>
+            <td class="text-right"><span id="FajadoEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="FajadoCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="FajadoTotCostoVari"></span></td>
+            <td class="text-right"><span id="FajadoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Adhesivo para pegado de sachet</td>
+            <td class="text-right"><span id="AdhesivoEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="AdhesivoCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="AdhesivoTotCostoVari"></span></td>
+            <td class="text-right"><span id="AdhesivoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Suministro de cajas</td>
+            <td class="text-right"><span id="SuministroEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="SuministroCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="SuministroTotCostoVari"></span></td>
+            <td class="text-right"><span id="SuministroTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Inserción de elementos en caja y sellado de caja</td>
+            <td class="text-right"><span id="CajaySelloEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="CajaySelloCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="CajaySelloTotCostoVari"></span></td>
+            <td class="text-right"><span id="CajaySelloTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Enzunchado x paquete</td>
+            <td class="text-right"><span id="EnzunchadoEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="EnzunchadoCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="EnzunchadoTotCostoVari"></span></td>
+            <td class="text-right"><span id="EnzunchadoTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Pallet</td>
+            <td class="text-right"><span id="PalletEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="PalletCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="PalletTotCostoVari"></span></td>
+            <td class="text-right"><span id="PalletTotal"></span></td>
+        </tr>
+        <tr>
+            <td>Pegado de Sticker</td>
+            <td class="text-right"><span id="PegadoStickerEntradas"></span></td>
+            <td></td>
+            <td class="text-right"><span id="PegadoStickerCostoVari"></span></td>
+            <td></td>
+            <td class="text-right"><span id="PegadoStickerTotCostoVari"></span></td>
+            <td class="text-right"><span id="PegadoStickerTotal"></span></td>
+        </tr>
+        <tr>
+            <th colspan="4">Manufactura $</th>
+            <td class="text-right"><span id="ManufacturaTotCostoFijo"></span></td>
+            <td class="text-right"><span id="ManufacturaTotCostoVari"></span></td>
+            <td class="text-right"><span id="ManufacturaTotal"></span></td>
+        </tr>
+        <tr>
+            <th colspan="4">Papel Interior</th>
+            <td class="text-right"><span id="PapelInteriorCostoFijo"></span></td>
+            <td class="text-right"><span id="PapelInteriorCostoVari"></span></td>
+            <td class="text-right"><span id="PapelInteriorTotal"></span></td>
+        </tr>
+        <tr>
+            <th colspan="4">Papel Tapa $</th>
+            <td class="text-right"><span id="PapelTapaCostoFijo"></span></td>
+            <td class="text-right"><span id="PapelTapaCostoVari"></span></td>
+            <td class="text-right"><span id="PapelTapaTotal"></span></td>
+        </tr>
+        <tr>
+            <th colspan="4">Total Neto $</th>
+            <td class="text-right"><span id="NetoTotCostoFijo"></span></td>
+            <td class="text-right"><span id="NetoTotCostoVari"></span></td>
+            <td class="text-right"><span id="NetoTotal"></span></td>
+        </tr>
+        <tr>
+            <th colspan="6">Precio Unitario Neto $</th>
+            <td class="text-right"><span id="UnitarioTotal"></span></td>
+        </tr>
+    </tbody>
+</table>

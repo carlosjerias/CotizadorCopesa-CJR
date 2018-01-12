@@ -334,6 +334,14 @@
     <Compile Include="Migrations\201712181849565_Se agrega Produccion.Designer.cs">
       <DependentUpon>201712181849565_Se agrega Produccion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201712221741447_Se Agrego un campo en PPTO.cs" />
+    <Compile Include="Migrations\201712221741447_Se Agrego un campo en PPTO.Designer.cs">
+      <DependentUpon>201712221741447_Se Agrego un campo en PPTO.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712221859174_Falto un Campo.cs" />
+    <Compile Include="Migrations\201712221859174_Falto un Campo.Designer.cs">
+      <DependentUpon>201712221859174_Falto un Campo.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cotizador\Doblez.cs" />
@@ -356,6 +364,7 @@
     <Compile Include="Models\Cotizador\TipoMoneda.cs" />
     <Compile Include="Models\Cotizador\TipoProceso.cs" />
     <Compile Include="Models\Cotizador\UnidadMedida.cs" />
+    <Compile Include="Models\Gerencia\Alertas.cs" />
     <Compile Include="Models\Gerencia\Departamento.cs" />
     <Compile Include="Models\Gerencia\Departamento_Modulo.cs" />
     <Compile Include="Models\Gerencia\Empresa.cs" />
@@ -390,10 +399,13 @@
     <Content Include="Imagen\550228_hiit_workout_banner_960x400_c_.jpg" />
     <Content Include="Imagen\bg-sitio.jpg" />
     <Content Include="Imagen\ciclo-indoor-3-945x630.jpg" />
+    <Content Include="Imagen\desbloquear.png" />
+    <Content Include="Imagen\desbloquearPopUp.png" />
     <Content Include="Imagen\fitness-class-banner.jpg" />
     <Content Include="Imagen\fitness_banner.jpg" />
     <Content Include="Imagen\LOGO A.png" />
     <Content Include="Imagen\logo_copesa.jpg" />
+    <Content Include="Imagen\mas.png" />
     <Content Include="Imagen\sort_asc.png" />
     <Content Include="Imagen\sort_desc.png" />
     <Content Include="Imagen\tonificacion-dirigida-945x630.jpg" />
@@ -449,7 +461,9 @@
     <Content Include="Scripts\Template\style-switcher.js" />
     <Content Include="Scripts\Template\template.js" />
     <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -569,9 +583,17 @@
     <Content Include="Views\Formato\Edit.cshtml" />
     <Content Include="Views\Formato\Index.cshtml" />
     <Content Include="Views\Presupuesto\ReajustePPTO.cshtml" />
+    <Content Include="Views\Presupuesto\_TablaDetallePPTO.cshtml" />
+    <Content Include="Views\Presupuesto\_AprobacionPPTO.cshtml" />
+    <Content Include="Views\Presupuesto\_Intento.cshtml" />
+    <Content Include="Views\Presupuesto\_Eliminar.cshtml" />
+    <Content Include="Views\Presupuesto\_Test.cshtml" />
+    <Content Include="Views\Presupuesto\View.cshtml" />
+    <Content Include="Views\Moneda\_View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Temporal\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -651,6 +673,12 @@
     <EmbeddedResource Include="Migrations\201712181849565_Se agrega Produccion.resx">
       <DependentUpon>201712181849565_Se agrega Produccion.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712221741447_Se Agrego un campo en PPTO.resx">
+      <DependentUpon>201712221741447_Se Agrego un campo en PPTO.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712221859174_Falto un Campo.resx">
+      <DependentUpon>201712221859174_Falto un Campo.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -673,7 +701,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61101</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:61101/</IISUrl>
+          <IISUrl>http://localhost:7944/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

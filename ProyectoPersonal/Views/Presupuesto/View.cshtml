@@ -1,0 +1,63 @@
+﻿@model IEnumerable<ProyectoPersonal.Models.Cotizador.Presupuesto_SubProceso>
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>View</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Presupuesto.NombrePresupuesto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SubProceso.NombreSubProceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CantidadEjemplaresProceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValorFijoSubProceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValorVariableSubProceso)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ValorTotalSubProceso)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Presupuesto.NombrePresupuesto)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SubProceso.NombreSubProceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CantidadEjemplaresProceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValorFijoSubProceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValorVariableSubProceso)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ValorTotalSubProceso)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdPresupuestoSubProceso }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdPresupuestoSubProceso }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdPresupuestoSubProceso })
+        </td>
+    </tr>
+}
+
+</table>

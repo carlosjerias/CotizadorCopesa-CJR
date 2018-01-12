@@ -1,0 +1,56 @@
+﻿@model ProyectoPersonal.Models.Cotizador.Presupuesto
+    @*<div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Eliminar Presupuesto Nro @ViewBag.IDPresu</h4>
+        </div>*@
+        <div class="modal-body">
+            <h3>Esta seguro que desea eliminarlo?</h3>
+            @using (Html.BeginForm("Eliminar", "Presupuesto", new { id = ViewBag.IDPresu }))
+            {
+                <div class="form-horizontal">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.IdPresupuesto)
+
+                 <div class="row">
+                     <div class="col-md-4 text-right"><b>Presupuesto N°:</b></div>
+                     <div class="col-md-8">@Html.DisplayFor(model => model.IdPresupuesto)</div>
+                 </div>
+                    <div class="row">
+                        <div class="col-md-4 text-right"><b>Nombre:</b></div>
+                        <div class="col-md-8"><b>@Html.DisplayFor(model => model.TipoCatalogo.NombreTipoCatalogo) @Html.DisplayFor(model => model.NombrePresupuesto)</b></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 text-right"><b>Formato:</b></div>
+                        <div class="col-md-8">@Html.DisplayFor(model => model.Formato.FormatoCerradoX) x @Html.DisplayFor(model => model.Formato.FormatoCerradoY)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 text-right"><b>Pág. Interior:</b></div>
+                        <div class="col-md-8">@Html.DisplayFor(model => model.Interior.CantidadPaginas)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 text-right"><b>Pág. Tapa:</b></div>
+                        <div class="col-md-8">@Html.DisplayFor(model => model.Tapa.CantidadPaginas)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 text-right"><b>Tiraje:</b></div>
+                        <div class="col-md-8">@Html.DisplayFor(model => model.Tiraje)</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 text-right"><b>Creado Por:</b></div>
+                        <div class="col-md-8">@Html.DisplayFor(model => model.Usuario.NombreCompleto) @Html.DisplayFor(model => model.FechaCreacion)</div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-default">Eliminar</button>
+                        <button type="button" data-dismiss="modal" class="btn">Cerrar</button>
+                    </div>
+                </div>
+            }
+        </div>
+    @*<div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>*@
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }

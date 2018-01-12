@@ -23,7 +23,7 @@
 
             </div>
             <div class="col-xs-6 text-center">
-                <br /><br /><br /><br /><strong class="text-uppercase">PRESUPUESTO @Html.DisplayFor(model => model.IdPresupuesto)  </strong>
+                <br /><br /><br /><br /><strong class="text-uppercase">PRESUPUESTO: @Html.DisplayFor(model => model.IdPresupuesto)  </strong>
             </div>
         </div>
         <div class="col-xs-12 text-center table-bordered" style="border-top:0">
@@ -39,7 +39,7 @@
         </div>
         <div class="col-xs-12">
             <div class="col-xs-2 col-xs-offset-3 text-right">Atención a:</div>
-            <div class="col-xs-7 text-left">@Html.DisplayFor(model => model.Usuario.NombreCompleto)</div>
+            <div class="col-xs-7 text-left">Federico Lastres</div>@*@Html.DisplayFor(model => model.Usuario.NombreCompleto)*@
         </div>
         <div class="col-xs-12">
             <div class="col-xs-2 col-xs-offset-3 text-right">Ejecutivo Directo:</div>
@@ -89,7 +89,7 @@
 
         <div class="col-xs-12">
             <div class="col-xs-2 col-xs-offset-3 text-right">Encuadernación:</div>
-            <div class="col-xs-7 text-left">@Html.DisplayFor(mode => Model.Encuadernacion.NombreEncuadernacion)</div>
+            <div class="col-xs-7 text-left">@Html.DisplayFor(mode => Model.Encuadernacion.DescripcionEnc)</div>@*NombreEncuadernacion*@
         </div>
         <div class="col-xs-12">
             <br />
@@ -105,7 +105,7 @@
                 <br />
                 <table class="table table-striped table-bordered"  style="border: 1px solid #ddd;">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <td>Tiraje</td>
                             <td>Kg. Interior</td>
                             <td>kg. Tapa</td>
@@ -126,12 +126,44 @@
                         </tr>
                     </tbody>
                 </table>
+                @*COPIAR TABLA DE PAPELES PERO CON DETALLE EMBALAJES*@
+                @if (Model.CantidadCajas > 0 || Model.Enzunchadoxpqte > 0)
+                {
+                <table class="table table-striped table-bordered" style="border: 1px solid #ddd;">
+                    <thead>
+                        <tr class="text-center">
+                            <td>Embalaje</td>
+                            <td>Cantidad</td>
+                            <td>Ejemplares</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Model.CantidadCajas > 0)
+                        {
+                        <tr>
+                            <td class="text-right">Caja</td>
+                            <td class="text-right">@Html.DisplayFor(model => model.CantidadCajas)</td>
+                            <td class="text-right">@Html.DisplayFor(model => model.LibrosxCajas)</td>
+                        </tr>
+                        }
+                        @if (Model.Enzunchadoxpqte > 0)
+                        {
+                        <tr>
+                            <td class="text-right">Zuncho</td>
+                            <td class="text-right">@Html.DisplayFor(model => model.Enzunchadoxpqte)</td>
+                            <td class="text-right">@Html.DisplayFor(model => model.LibrosxCajas)</td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+                }
+                @*TERMINO TABLA DETALLE EMBALAJE*@
             </div>
             <div class="col-xs-1"></div>
             <div class="col-xs-5">
                 <table class="table table-striped table-bordered" style="border: 1px solid #ddd;">
                     <thead>
-                        <tr>
+                        <tr class="text-center">
                             <td></td>
                             <td>C.F</td>
                             <td>C.V.</td>
@@ -157,6 +189,11 @@
                             <td>Terminación:</td>
                             <td class="text-right">$@Html.DisplayFor(model => model.TarifaFijaTerminacion)</td>
                             <td class="text-right">$@Html.DisplayFor(model => model.TarifaVariableTerminacion)</td>
+                        </tr>
+                        <tr>
+                            <td>Despacho:</td>
+                            <td class="text-right">$0</td>
+                            <td class="text-right">$@Html.DisplayFor(model => model.TarifaFijaDespacho)</td>
                         </tr>
                         <tr>
                             <td>Manufactura:</td>
@@ -188,7 +225,7 @@
             <div class="col-xs-3 col-xs-offset-2" style="margin-top:5px; margin-bottom:5px; height:1px; border-top:1px solid gray;"></div>
         </div>
         <div class="col-xs-12">
-            <div class="col-xs-3 col-xs-offset-2 text-center small">ACEPTADO CLIENTE</div>
+            <div class="col-xs-3 col-xs-offset-2 text-center small">ACEPTADO COPESA</div>
             <div class="col-xs-3 col-xs-offset-2 text-center small">A IMPRESORES S.A.</div>
         </div>
         <div class="col-xs-12">Precios no Incluyen IVA</div>
@@ -203,10 +240,17 @@
             <br />
             Despacho del volumen total solo a un lugar físico dentro de la Región Metropolitana
             <br />
-            Si este presupuesto es acertado,se deberá confirmar disponibilidad de máquina y
-            papeles con su ejecutivo directo.
+            @{string confirmacion = "Si este presupuesto es aceptado,se deberá confirmar disponibilidad de máquina y"+
+            "papeles con su ejecutivo directo."; }
+            @if (Model.Interior.Papel.Empresa.NombreEmpresa == "Copesa" || Model.Tapa.Papel.Empresa.NombreEmpresa == "Copesa")
+            {
+                confirmacion = "Si este presupuesto es aceptado,se deberá confirmar disponibilidad de máquina" +
+            " con su ejecutivo directo.";
+            }
+            @confirmacion
+
             <br />
-            Tipo de cambio vigente : UF @Html.DisplayFor(model => model.Moneda.Valor)
+            Tipo de cambio vigente : UF $ @Html.DisplayFor(model => model.Moneda.Valor)
             informado por el Banco Central de Chile.
         </div>
     </div>

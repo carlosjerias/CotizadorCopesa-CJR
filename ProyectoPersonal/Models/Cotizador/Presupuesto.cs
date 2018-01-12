@@ -33,8 +33,9 @@ namespace ProyectoPersonal.Models.Cotizador
         public int? TapaId { get; set; }
         public Tapa Tapa { get; set; }
         
-
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0,0}")]
         public double TotalNetoFijo { get; set; }
+        [DisplayFormat(DataFormatString = "{0:n}")]
         public double TotalNetoVari { get; set; }
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:0,0}")]
         public double TotalNetoTotal { get; set; }
@@ -74,7 +75,7 @@ namespace ProyectoPersonal.Models.Cotizador
         public double CostoVariableEncuadernacion { get; set; }
         public double CostoFijoTapa { get; set; }
         public double CostoVariableTapa { get; set; }
-        //public int CantidadModelos { get; set; }
+        public int CantidadModelos { get; set; }
         [NotMapped]
         public int CostoVariableCajas { get; set; }
 
@@ -85,13 +86,25 @@ namespace ProyectoPersonal.Models.Cotizador
         [NotMapped]
         [ScriptIgnore]
         public Maquina MaquinaTapa { get; set; }
-
+        [NotMapped]
+        public string NombreEncuadernacion { get; set; }
+        [NotMapped]
+        public string NombreQuintoColor { get; set; }
+        [NotMapped]
+        public string NombreEmbolsado { get; set; }
+        [NotMapped]
+        public string NombreLaminado { get; set; }
+        [NotMapped]
+        public string NombreBarnizUV { get; set; }
         [Display(Name = "Cantidad de Cajas")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public int CantidadCajas { get; set; }
         [Display(Name = "Cantidad de Enzunchado x pqte")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public int Enzunchadoxpqte { get; set; }
         public int CantidadenBolsa { get; set; }
         public double LibrosxCajas { get; set; }
+        public int CantidadTerminacionEmbolsado { get; set; }
         [Display(Name = "Cantidad de Pallet")]
         public int CantidadPallet { get; set; }
         [NotMapped]
@@ -150,20 +163,22 @@ namespace ProyectoPersonal.Models.Cotizador
         public double CostoVariablePegadoSticker { get; set; }
         [NotMapped]
         public double CostoVariableInsercionCajaySellado { get; set; }
-        [DisplayFormat(DataFormatString = "{0:n}")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public double TarifaFijaImpresion { get; set; }
         [DisplayFormat(DataFormatString = "{0:n}")]
         public double TarifaVariableImpresion { get; set; }
-        [DisplayFormat(DataFormatString = "{0:n}")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public double TarifaFijaPapel { get; set; }
         [DisplayFormat(DataFormatString = "{0:n}")]
         public double TarifaVariablePapel { get; set; }
-        [DisplayFormat(DataFormatString = "{0:n}")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public double TarifaFijaEncuadernacion { get; set; }
         [DisplayFormat(DataFormatString = "{0:n}")]
         public double TarifaVariableEncuadernacion { get; set; }
-        [DisplayFormat(DataFormatString = "{0:n}")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         public double TarifaFijaTerminacion { get; set; }
+        //
+        //[DisplayFormat(DataFormatString = "{0:#,0.00}")]
         [DisplayFormat(DataFormatString = "{0:n}")]
         public double TarifaFijaDespacho { get; set; }
         [DisplayFormat(DataFormatString = "{0:n}")]
@@ -222,7 +237,8 @@ namespace ProyectoPersonal.Models.Cotizador
         [Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Formato")]
         public string SelectFormato { get; set; }
-
+        [NotMapped]
+        public int CantidadTerminacionEmbolsado { get; set; }
         [NotMapped]
         public List<Papel> Papeles { get; set; }
         [NotMapped]
@@ -295,6 +311,7 @@ namespace ProyectoPersonal.Models.Cotizador
         [NotMapped]
         public int CostoVariableCajas { get; set; }
         [Display(Name = "Cantidad de Enzunchado x pqte")]
+        [DisplayFormat(DataFormatString = "{0:N0}")]
         [NotMapped]
         public int Enzunchadoxpqte { get; set; }
         [NotMapped]

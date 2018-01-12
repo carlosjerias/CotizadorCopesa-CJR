@@ -21,7 +21,12 @@ namespace ProyectoPersonal.Controllers.Cotizador
             var moneda = db.Moneda.Include(m => m.TipoMoneda);
             return View(moneda.ToList());
         }
-
+        [HttpPost]
+        public ActionResult Intento(string Id)
+        {
+            ViewBag.algo = Id;
+            return PartialView("_View");
+        }
         // GET: Moneda/Details/5
         public ActionResult Details(int? id)
         {

@@ -14,6 +14,7 @@ namespace ProyectoPersonal.Models.Cotizador
         public int PapelId { get; set; }
         public Papel Papel { get; set; }
         public List<Presupuesto> Presupuestos { get; set; }
+        [DisplayFormat(DataFormatString = "{0:#,0.00}")]
         public float KilosPapel { get; set; }
         public float Entradas { get; set; }
         public float Tiradas { get; set; }
