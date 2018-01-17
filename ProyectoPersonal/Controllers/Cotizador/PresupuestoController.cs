@@ -631,8 +631,8 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 tc = new TipoCatalogo();
                 tc.NombreTipoCatalogo = NombreCatalogo;
                 tc.FormatoSeleccionado = SelectFormato;
-                tc.PapelInterior = p.Interior.Papel.NombreCompletoPapel;
-                tc.PapelTapa = p.Tapa.Papel.NombreCompletoPapel;
+                tc.PapelInterior = db.Papel.Where(x => x.IdPapel == (int)SelectPapelIntId).Select(x => x.NombrePapel + " " + x.Gramaje).SingleOrDefault();
+                tc.PapelTapa = db.Papel.Where(x => x.IdPapel == (int)SelectPapelIntId).Select(x => x.NombrePapel + " " + x.Gramaje).SingleOrDefault(); // p.Tapa.Papel.NombreCompletoPapel;//cambiar a papelTapaID
             }
             else
             {

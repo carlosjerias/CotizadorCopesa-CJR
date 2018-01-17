@@ -799,6 +799,7 @@ C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\bin\es
 C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\bin\es\Microsoft.Owin.Security.Google.resources.dll
 C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
+C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.csprojResolveAssemblyReference.cache
 C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.BasededatosInicial.resources
 C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.SeadicionoCajasyenzunchadoalformulario.resources
 C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.SeadicionocantidaddePalletalformulario.resources
@@ -828,4 +829,3 @@ C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\obj\De
 C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.csproj.GenerateResource.Cache
 C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.dll
 C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.pdb
-C:\Users\admin\Desktop\Copesa 22-12-2017\CotizadorCopesa\ProyectoPersonal\obj\Debug\ProyectoPersonal.csprojResolveAssemblyReference.cache

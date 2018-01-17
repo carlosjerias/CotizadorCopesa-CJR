@@ -331,13 +331,38 @@
 
             }
             if (data.CantidadCajas > 0) {
-                $("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas, " + data.LibrosxCajas + " ejemplares por cada caja");
+                var mendd = (eval($("input#CantidadEnCajas").val()) / eval(data.LibrosxCajas));
+                var resta = (eval($("input#CantidadEnCajas").val()) - (eval(data.LibrosxCajas) * Math.trunc(mendd)));
+                if ((eval($("input#CantidadEnCajas").val()) % eval(data.LibrosxCajas)) == 0) {
+                    //$("#MensajeCajas").text(formatNumber.new(Math.trunc(mendd)) + " Cajas con " + data.LibrosxCajas + " ejemplares.");
+                    $("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas con " + data.LibrosxCajas + " ejemplares.");
+                } else {
+                    if (Math.trunc(mendd == 0)) {
+                        $("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas con " + resta + " ejemplares.");
+                    }
+                    else {
+                        //$("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas, " + data.LibrosxCajas + " ejemplares por cada caja.2");
+                        $("#MensajeCajas").text(formatNumber.new(Math.trunc(mendd)) + " Cajas con " + data.LibrosxCajas + " ejemplares y 1 Caja con " + resta + " ejemplares.");
+                    }
+                }
+                //$("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas, " + data.LibrosxCajas + " ejemplares por cada caja.");
             }
             else {
                 $("#MensajeCajas").text("");
             }
             if (data.Enzunchadoxpqte > 0) {
-                $("#MensajeZuncho").text(formatNumber.new(data.Enzunchadoxpqte) + " Zuncho, " + eval(data.LibrosxCajas) + " ejemplares por cada zuncho");
+                var mendd = (eval($("input#CantidadEnZuncho").val()) / eval(data.LibrosxCajas));
+                var resta = (eval($("input#CantidadEnZuncho").val()) - (eval(data.LibrosxCajas) * Math.trunc(mendd)));
+                if ((eval($("input#CantidadEnZuncho").val()) % eval(data.LibrosxCajas)) == 0) {
+                    $("#MensajeZuncho").text(formatNumber.new(data.Enzunchadoxpqte) + " Zuncho con " + data.LibrosxCajas + " ejemplares.");
+                } else {
+                    if (Math.trunc(mendd) == 0) {
+                        $("#MensajeZuncho").text(formatNumber.new(data.Enzunchadoxpqte) + " Zuncho con " + resta + " ejemplares.");
+                    } else {
+                        $("#MensajeZuncho").text(formatNumber.new(Math.trunc(mendd)) + " Zuncho con " + data.LibrosxCajas + " ejemplares y 1 Zuncho con " + resta + " ejemplares.");
+                    }
+                }
+                //$("#MensajeZuncho").text(formatNumber.new(data.Enzunchadoxpqte) + " Zuncho, " + eval(data.LibrosxCajas) + " ejemplares por cada zuncho");
             }
             else {
                 $("#MensajeZuncho").text();
