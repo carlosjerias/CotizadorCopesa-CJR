@@ -207,7 +207,9 @@ namespace ProyectoPersonal.Models
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             base.OnModelCreating(modelBuilder);
         }
-        
+
+        public System.Data.Entity.DbSet<ProyectoPersonal.Models.Cotizador.PresupuestoForm> PresupuestoForms { get; set; }
+
 
         //public System.Data.Entity.DbSet<ProyectoPersonal.Models.AplicationRole> IdentityRoles { get; set; }
     }
