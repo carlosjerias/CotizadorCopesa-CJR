@@ -342,6 +342,10 @@
     <Compile Include="Migrations\201712221859174_Falto un Campo.Designer.cs">
       <DependentUpon>201712221859174_Falto un Campo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802131513286_cambio a servidor de prueba.cs" />
+    <Compile Include="Migrations\201802131513286_cambio a servidor de prueba.Designer.cs">
+      <DependentUpon>201802131513286_cambio a servidor de prueba.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cotizador\Doblez.cs" />
@@ -427,6 +431,7 @@
     <Content Include="fonts\FontTemplate\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontTemplate\fontello.woff" />
     <Content Include="App_Browsers\qt.browser" />
+    <None Include="Properties\PublishProfiles\Carlos.pubxml" />
     <None Include="Properties\PublishProfiles\Juan.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -679,6 +684,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712221859174_Falto un Campo.resx">
       <DependentUpon>201712221859174_Falto un Campo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802131513286_cambio a servidor de prueba.resx">
+      <DependentUpon>201802131513286_cambio a servidor de prueba.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
