@@ -14,6 +14,7 @@ using MvcRazorToPdf;
 using System.Net.Mail;
 using System.IO;
 using ProyectoPersonal.Models.Gerencia;
+using System.Runtime.Serialization;
 
 namespace ProyectoPersonal.Controllers.Cotizador
 {
@@ -965,6 +966,60 @@ namespace ProyectoPersonal.Controllers.Cotizador
                     return PartialView("_Eliminar", presupuesto);
             }
         }
+
+
+
+        //************** CAMBIOS PRESUPUESTADOR EVENTOS
+        //cambios cjr
+        [Authorize(Roles = "Administrador,SuperUser,User")]
+        public ActionResult Nuevo2()
+        {
+            PresupuestoForm pres = new PresupuestoForm();
+            pres.Encuadernaciones = db.Encuadernacion.ToList();
+            pres.Formatos = db.Formato.ToList();
+            pres.Papeles = db.Papel.Where(x => x.EmpresaId == 2).OrderBy(x => x.NombrePapel).ThenBy(x => x.Gramaje).ToList();
+            pres.SubProcesos = db.SubProceso.Include("Proceso").ToList();
+            pres.Catalogo = db.Catalogo.ToList();
+            pres.Empresa = db.Empresa.ToList();
+            List<SelectListItem> s = new List<SelectListItem>();
+            for (int i = 4; i <= 400; i = i + 4)
+            {
+                s.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+            }
+            ViewBag.CantidadInt = s;
+            ViewBag.ValorUF = string.Format("{0:#,0.00}", db.Moneda.Where(x => x.Estado == true && x.TipoMonedaId == 2).Select(x => x.Valor).FirstOrDefault());
+            return View(pres);
+        }
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken] 
+        [Authorize(Roles = "Administrador,SuperUser,User")]
+        public JsonResult CalcularCJR(int IDCatalogo,string NombreCatalogo,string Formato,int Tiraje,int CantPaginasInterior,string PapelInterior)
+        {
+            Presupuesto pres = new Presupuesto();
+
+            pres.TipoCatalogoId = IDCatalogo;
+            pres.NombreBarnizUV = "nombrefake";
+            pres.Tiraje = Tiraje;
+            pres.Interior.CantidadPaginas = CantPaginasInterior;
+           //ProcesarCalculo(SelectFormato, SelectEnc, CantidadInt, (CantidadTapa != null) ? Convert.ToInt32(CantidadTapa) : 0, "Plana", Tiraje, ddlQuintoColor, TapaPapel, SelectPapelIntId, ddlBarnizAcuoso, ddlEmbolsado, ddlLaminado, ddlBarnizUV
+           //                                 , ddlAlzadoPlano, ddlEmbolsadoManual, ddlPegadoSticker, ddlFajado, ddlPegado, ddlInsercion, ddlAlzado, ddlDesembolsado, ddlAdhesivo, 4//, CantidadCajas
+           //                                 , CantidadModelos, ddlQuintoColorPasadas, CantidadAlzadoPlano, CantidadDesembolsado, CantidadAlzado, CantidadInsercion, CantidadPegado, CantidadFajado, CantidadPegadoSticker, CatalogoId
+           //                                 , CantidadEnCajas, CantidadEnZuncho, CantidadEnBolsa, ddlTroquel, CantidadTerminacionEmbolsado);
+           // if (CatalogoId != null)
+           // {
+           //     string TipoCatalogo = db.Catalogo.Where(x => x.IdTipoCatalogo == (int)CatalogoId).Select(x => x.NombreTipoCatalogo).FirstOrDefault();
+           //     pres.NombrePresupuesto = TipoCatalogo + " " + NombrePresupuesto;
+           // }
+           // else
+           // {
+           //     pres.NombrePresupuesto = NombreCatalogo + " " + NombrePresupuesto;
+           // }
+
+            return Json(pres, JsonRequestBehavior.AllowGet);
+        }
+
 
     }
 }

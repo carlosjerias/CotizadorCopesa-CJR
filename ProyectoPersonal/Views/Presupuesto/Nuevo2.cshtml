@@ -37,90 +37,382 @@
 
 </script>
 <script type="text/javascript">
+
     function OnSuccess(data) {
-    }
-    function OnFailure(data) {
-    }
-    function InfoPresupuesto() {
-        //VALIDACION CAMPO NOMBRE, FORMATO Y TIRAJE
-        if ($("#CatalogoId").val() > 0) {
-            if ($("input#NombrePresupuesto").val() == '') {
-                $("#spanNombrePresupuesto").text("El campo Nombre es obligatorio.");
-                $("#spanNombrePresupuesto").show();
-            } else { $("#spanNombrePresupuesto").hide(); }
-        } else {
-            //nuevo producto
-        }
-        if ($("#SelectFormato").val() == '') {
-            $("#spanFormato").text("El campo Formato es obligatorio.");
-            $("#spanFormato").show();
-        } else { $("#spanFormato").hide(); }
-        if ($("input#Tiraje").val() <= 0 || $("input#Tiraje").val() == '') {
-            $("#spanTiraje").text("El campo Tiraje debe ser mayor a 10.");
-            $("#spanTiraje").show();
-        } else { $("#spanTiraje").hide(); }
-    }
 
-    function InfoPapelInterior() {
-        //CantidadInt,SelectPapelIntId
-        if ($("#SelectPapelIntId").val() == '') {
-            $("#spanSelectPapelIntId").text("El campo Papel de Cliente es obligatorio.");
-            $("#spanSelectPapelIntId").show();
-        } else { $("#spanSelectPapelIntId").hide(); }
 
-        if ($("#CantidadInt").val() == '') {
-            $("#spanCantidadInt").text("El campo Cantidad de Páginas es obligatorio.");
-            $("#spanCantidadInt").show();
-        } else { $("#spanCantidadInt").hide(); alert('entro'); Calculareee(); }
-    }
+        if (data.IdPresupuesto > 0) {
+            var url = '@Url.Action("Pdf", "Presupuesto", new { id = "__id__" })';
+            if (window.open(url.replace('__id__', data.IdPresupuesto), '_blank')) {
 
-        $("#CatalogoId").change(function () {
-        var selectedCatalogoId = $(this).val();
-
-        if (selectedCatalogoId != null && selectedCatalogoId != '') {
-            
-            $.ajax({
-                url: "/Presupuesto/SeleccionarCatalogo",
-                type: "POST",
-                data: { 'IDCatalogo': selectedCatalogoId },
-                success: function (result) {
-                    var formato = result.split(',');
-                    $("#SelectFormato option").each(function () { this.selected = (this.text == formato[0]); }).trigger("change");
-                    
-                    $("input#NombreCatalogo").addClass("hidden");
-                    $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == "Copesa"); }).attr("disabled", "disabled");
-                    $("div#divPapelEmpresaInt").addClass("hidden");
-                    $("div#divPapelEmpresaTap").addClass("hidden");
-                    $("select#EmpresaPapelTapa option").each(function () { this.selected = (this.text == "Copesa"); }).attr("disabled", "disabled");
-                    $("select#TapaPapel option").each(function () { this.selected = (this.text == formato[2]); });
-                    $("select#SelectPapelIntId option").each(function () { this.selected = (this.text == formato[1]); }).trigger("change");
-                    
-                }
-            });     
+                    window.location.href = '@Url.Action("index")';
+            }
+            else {
+              $('#myModalPopUp').modal('show');
+              $("#btnGuardar").prop('disabled', true);
+            }
         }
         else {
-            $("input#NombreCatalogo").removeClass("hidden");
-            $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == "Aimpresores"); }).trigger("change").removeAttr("disabled");
-            $("div#divPapelEmpresaInt").removeClass("hidden");
-            $("div#divPapelEmpresaTap").removeClass("hidden");
-            $("select#EmpresaPapelTapa option").each(function () { this.selected = (this.text == "Aimpresores"); }).trigger("change").removeAttr("disabled");
 
-        }
+            $("#OfertaPresupuesto").text( data.NombrePresupuesto);
 
-    });
+            $("#Entradas64").text(data.EntradasPag64);
+            $("#Entradas48").text(data.EntradasPag48);
+            $("#Entradas32").text(data.EntradasPag32);
+            $("#Entradas24").text(data.EntradasPag24);
+            $("#Entradas16").text(data.EntradasPag16);
+            $("#Entradas8").text(data.EntradasPag8);
+            $("#Entradas4").text(data.EntradasPag4);
+            $("#64CostoFijo").text(formatNumber.new(data.CostoFijoPag64));
+            $("#48CostoFijo").text(formatNumber.new(data.CostoFijoPag48));
+            $("#32CostoFijo").text(formatNumber.new(data.CostoFijoPag32));
+            $("#24CostoFijo").text(formatNumber.new(data.CostoFijoPag24));
+            $("#16CostoFijo").text(formatNumber.new(data.CostoFijoPag16));
+            $("#8CostoFijo").text(formatNumber.new(data.CostoFijoPag8));
+            $("#4CostoFijo").text(formatNumber.new(data.CostoFijoPag4));
+            $("#64CostoVari").text(formatNumber.new(data.CostoVariablePag64));
+            $("#48CostoVari").text(formatNumber.new(data.CostoVariablePag48));
+            $("#32CostoVari").text(formatNumber.new(data.CostoVariablePag32));
+            $("#24CostoVari").text(formatNumber.new(data.CostoVariablePag24));
+            $("#16CostoVari").text(formatNumber.new(data.CostoVariablePag16));
+            $("#8CostoVari").text(formatNumber.new(data.CostoVariablePag8));
+            $("#4CostoVari").text(formatNumber.new(data.CostoVariablePag4));
+            $("#64TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag64) * eval(data.CostoFijoPag64)));
+            $("#48TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag48) * eval(data.CostoFijoPag48)));
+            $("#32TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag32) * eval(data.CostoFijoPag32)));
+            $("#24TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag24) * eval(data.CostoFijoPag24)));
+            $("#16TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag16) * eval(data.CostoFijoPag16)));
+            $("#8TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag8) * eval(data.CostoFijoPag8)));
+            $("#4TotCostoFijo").text(formatNumber.new(eval(data.EntradasPag4) * eval(data.CostoFijoPag4)));
+            $("#64TotCostoVari").text(formatNumber.new(eval(data.EntradasPag64) * eval(data.CostoVariablePag64)));
+            $("#48TotCostoVari").text(formatNumber.new(eval(data.EntradasPag48) * eval(data.CostoVariablePag48)));
+            $("#32TotCostoVari").text(formatNumber.new(eval(data.EntradasPag32) * eval(data.CostoVariablePag32)));
+            $("#24TotCostoVari").text(formatNumber.new(eval(data.EntradasPag24) * eval(data.CostoVariablePag24)));
+            $("#16TotCostoVari").text(formatNumber.new(eval(data.EntradasPag16) * eval(data.CostoVariablePag16)));
+            $("#8TotCostoVari").text(formatNumber.new(eval(data.EntradasPag8) * eval(data.CostoVariablePag8)));
+            $("#4TotCostoVari").text(formatNumber.new(eval(data.EntradasPag4) * eval(data.CostoVariablePag4)));
+            $("#64Total").text(formatNumber.new(Math.round(eval(data.EntradasPag64) * eval(data.CostoFijoPag64)) + (eval(data.Tiraje) * eval(data.EntradasPag64) * eval(data.CostoVariablePag64))));
+            $("#48Total").text(formatNumber.new(Math.round(eval(data.EntradasPag48) * eval(data.CostoFijoPag48)) + (eval(data.Tiraje) * eval(data.EntradasPag48) * eval(data.CostoVariablePag48))));
+            $("#32Total").text(formatNumber.new(Math.round(eval(data.EntradasPag32) * eval(data.CostoFijoPag32)) + (eval(data.Tiraje) * eval(data.EntradasPag32) * eval(data.CostoVariablePag32))));
+            $("#24Total").text(formatNumber.new(Math.round(eval(data.EntradasPag24) * eval(data.CostoFijoPag24)) + (eval(data.Tiraje) * eval(data.EntradasPag24) * eval(data.CostoVariablePag24))));
+            $("#16Total").text(formatNumber.new(Math.round(eval(data.EntradasPag16) * eval(data.CostoFijoPag16)) + (eval(data.Tiraje) * eval(data.EntradasPag16) * eval(data.CostoVariablePag16))));
+            $("#8Total").text(formatNumber.new(Math.round(eval(data.EntradasPag8) * eval(data.CostoFijoPag8)) + (eval(data.Tiraje) * eval(data.EntradasPag8) * eval(data.CostoVariablePag8))));
+            $("#4Total").text(formatNumber.new(Math.round(eval(data.EntradasPag4) * eval(data.CostoFijoPag4)) + (eval(data.Tiraje) * eval(data.EntradasPag4) * eval(data.CostoVariablePag4))));
+            if (data.CostoFijoTapa > 0) {
+                $("#EntradasTapa").text("1");
+            }
+            else {
+                $("#EntradasTapa").text("0");
+            }
+            $("#TapaCostoFijo").text(formatNumber.new(data.CostoFijoTapa));
+            $("#TapaTotCostoFijo").text(formatNumber.new(data.CostoFijoTapa));
+            $("#TapaCostoVari").text(formatNumber.new(data.CostoVariableTapa));
+            $("#TapaTotCostoVari").text(formatNumber.new(data.CostoVariableTapa));
+            $("#TapaTotal").text(formatNumber.new(Math.round(eval(data.CostoFijoTapa) + (eval(data.Tiraje) * eval(data.CostoVariableTapa)))));
+            if (data.CostoFijoEncuadernacion > 0) {
+                $("#EncEntradas").text("1");
+            } else {
+                $("#EncEntradas").text("0");
+            }
+            $("#EncNombre").text(data.NombreEncuadernacion);
+            $("#EncCostoFijo").text(formatNumber.new(data.CostoFijoEncuadernacion));
+            $("#EncTotCostoFijo").text(formatNumber.new(data.CostoFijoEncuadernacion));
+            $("#EncCostoVari").text(formatNumber.new(data.CostoVariableEncuadernacion));
+            $("#EncTotCostoVari").text(formatNumber.new(data.CostoVariableEncuadernacion));
+            $("#EncTotal").text(formatNumber.new(Math.round(eval(data.CostoFijoEncuadernacion) + (eval(data.Tiraje) * eval(data.CostoVariableEncuadernacion)))));
+            if (data.CostoFijoQuintoColor > 0) {
+                $("#QuintoEntradas").text("1");
+            } else {
+                $("#QuintoEntradas").text("0");
+            }
 
-        function Calculareee() {
-                $.ajax({
-                    url: "/Presupuesto/CalcularCJR",
-                    type: "POST",
-                    data: { 'IDCatalogo': 2,'NombreCatalogo':'catalgo','Formato':'formato','Tiraje':0,'CantPaginasInterior':0,'PapelInterior':'papel' },
-                    success: function (result) {
-                        alert(result.TipoCatalogoId + '   ' + result.NombreBarnizUV + '   ' + result.Interior.CantidadPaginas);
+            $("#QuintoColorNombre").text(data.NombreQuintoColor);
+            $("#QuintoCostoFijo").text(formatNumber.new(data.CostoFijoQuintoColor));
+            $("#QuintoTotCostoFijo").text(formatNumber.new(data.CostoFijoQuintoColor));
+            $("#QuintoCostoVari").text(formatNumber.new(data.CostoVariableQuintoColor));
+            $("#QuintoTotCostoVari").text(formatNumber.new(data.CostoVariableQuintoColor));
+            $("#QuintoTotal").text(formatNumber.new(Math.round(eval(data.CostoFijoQuintoColor) + (eval(data.Tiraje) * eval(data.CostoVariableQuintoColor)))));
+            if (data.CostoFijoBarnizAcuosoTapa > 0) {
+                $("#AcuosoEntradas").text("1");
+            } else {
+                $("#AcuosoEntradas").text("0");
+            }
+            $("#AcuosoCostoFijo").text(formatNumber.new(data.CostoFijoBarnizAcuosoTapa));
+            $("#AcuosoTotCostoFijo").text(formatNumber.new(data.CostoFijoBarnizAcuosoTapa));
+            $("#AcuosoCostoVari").text(formatNumber.new(data.CostoVariableBarnizAcuosoTapa));
+            $("#AcuosoTotCostoVari").text(formatNumber.new(data.CostoVariableBarnizAcuosoTapa));
+            $("#AcuosoTotal").text(formatNumber.new(Math.round(eval(data.CostoFijoBarnizAcuosoTapa) + (eval(data.Tiraje) * eval(data.CostoVariableBarnizAcuosoTapa)))));
+            if (data.CostoVariableEmbolsado > 0) {
+                $("#EmbolsadoEntradas").text("1");
+            } else {
+                $("#EmbolsadoEntradas").text("0");
+            }
+            $("#NombreEmbolsado").text(data.NombreEmbolsado);
+            $("#EmbolsadoCostoFijo").text(formatNumber.new(data.CostoVariableEmbolsado));
+            $("#EmbolsadoCostoVari").text(formatNumber.new(data.CostoVariableEmbolsado));
+            $("#EmbolsadoTotCostoVari").text(formatNumber.new(data.CostoVariableEmbolsado));
+            $("#EmbolsadoTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableEmbolsado))));
+            if (data.CostoVariableLaminado > 0) {
+                $("#LaminadoEntradas").text("1");
+            } else {
+                $("#LaminadoEntradas").text("0");
+            }
+            $("#NombreLaminado").text(data.NombreLaminado);
+            $("#LaminadoCostoFijo").text(formatNumber.new(0));
+            $("#LaminadoCostoVari").text(formatNumber.new(data.CostoVariableLaminado));
+            $("#LaminadoTotCostoVari").text(formatNumber.new(data.CostoVariableLaminado));
+            $("#LaminadoTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableLaminado))));
+            if (data.CostoFijoBarnizUV > 0) {
+                $("#BarnizUVEntradas").text("1");
+            } else {
+                $("#BarnizUVEntradas").text("0");
+            }
+            $("#NombreBarnizUV").text(data.NombreBarnizUV);
+            $("#BarnizUVCostoFijo").text(formatNumber.new(data.CostoFijoBarnizUV));
+            $("#BarnizUVTotCostoFijo").text(formatNumber.new(data.CostoFijoBarnizUV));
+            $("#BarnizUVCostoVari").text(formatNumber.new(data.CostoVariableBarnizUV));
+            $("#BarnizUVTotCostoVari").text(formatNumber.new(data.CostoVariableBarnizUV));
+            $("#BarnizUVTotal").text(formatNumber.new(Math.round(eval(data.CostoFijoBarnizUV) + (eval(data.Tiraje) * eval(data.CostoVariableBarnizUV)))));
+            if (data.CostoFijoTroquel > 0) {
+                $("#TroqueladoEntradas").text("1");
+            } else {
+                $("#TroqueladoEntradas").text("0");
+            }
+            $("#TroqueladoCostoFijo").text(formatNumber.new(data.CostoFijoTroquel));
+            $("#TroqueladoTotCostoFijo").text(formatNumber.new(data.CostoFijoTroquel));
+            $("#TroqueladoCostoVari").text(formatNumber.new(data.CostoVariableTroquel));
+            $("#TroqueladoTotCostoVari").text(formatNumber.new(data.CostoVariableTroquel));
+            $("#TroqueladoTotal").text(formatNumber.new(Math.round(eval(data.CostoFijoTroquel) + (eval(data.Tiraje) * eval(data.CostoVariableTroquel)))));
+            if (data.CostoFijoPlizado > 0) {
+                $("#PlizadoEntradas").text("1");
+            } else {
+                $("#PlizadoEntradas").text("0");
+            }
+            $("#PlizadoCostoFijo").text(formatNumber.new(data.CostoFijoPlizado));
+            $("#PlizadoTotCostoFijo").text(formatNumber.new(data.CostoFijoPlizado));
+            $("#PlizadoCostoVari").text(formatNumber.new(data.CostoVariablePlizado));
+            $("#PlizadoTotCostoVari").text(formatNumber.new(data.CostoVariablePlizado));
+            $("#PlizadoTotal").text(formatNumber.new(Math.round((eval(data.CostoFijoPlizado) + (eval(data.Tiraje) * eval(data.CostoVariablePlizado))))));
+            if (data.CostoFijoCorteFrontal > 0) {
+                $("#CorteEntradas").text("1");
+            } else {
+                $("#CorteEntradas").text("0");
+            }
+            $("#CorteCostoFijo").text(formatNumber.new(data.CostoFijoCorteFrontal));
+            $("#CorteTotCostoFijo").text(formatNumber.new(data.CostoFijoCorteFrontal));
+            $("#CorteCostoVari").text(formatNumber.new(data.CostoVariableCorteFrontal));
+            $("#CorteTotCostoVari").text(formatNumber.new(data.CostoVariableCorteFrontal));
+            $("#CorteTotal").text(formatNumber.new(Math.round(eval(data.CostoFijoCorteFrontal) + (eval(data.Tiraje) * eval(data.CostoVariableCorteFrontal)))));
+            if (data.CostoVariableAlzadoPlano > 0) {
+                $("#AlzadoPlanoEntradas").text("1");
+            } else {
+                $("#AlzadoPlanoEntradas").text("0");
+            }
+            $("#AlzadoPlanoCostoVari").text(formatNumber.new(data.CostoVariableAlzadoPlano));
+            $("#AlzadoPlanoTotCostoVari").text(formatNumber.new(data.CostoVariableAlzadoPlano));
+            $("#AlzadoPlanoTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableAlzadoPlano))));
+            if (data.CostoVariableEmbolsadoManual > 0) {
+                $("#EmbolsadoManualEntradas").text("1");
+            } else {
+                $("#EmbolsadoManualEntradas").text("0");
+            }
+            $("#EmbolsadoManualCostoVari").text(formatNumber.new(data.CostoVariableEmbolsadoManual));
+            $("#EmbolsadoManualTotCostoVari").text(formatNumber.new(data.CostoVariableEmbolsadoManual));
+            $("#EmbolsadoManualTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableEmbolsadoManual))));
+
+            if (data.CostoVariableDesembolsado > 0) {
+                $("#DesembolsadoEntradas").text("1");
+            } else {
+                $("#DesembolsadoEntradas").text("0");
+            }
+            $("#DesembolsadoCostoVari").text(formatNumber.new(data.CostoVariableDesembolsado));
+            $("#DesembolsadoTotCostoVari").text(formatNumber.new(data.CostoVariableDesembolsado));
+            $("#DesembolsadoTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableDesembolsado))));
+            if (data.CostoVariableAlzado > 0) {
+                $("#AlzadoEntradas").text("1");
+            } else {
+                $("#AlzadoEntradas").text("0");
+            }
+            $("#AlzadoCostoVari").text(formatNumber.new(data.CostoVariableAlzado));
+            $("#AlzadoTotCostoVari").text(formatNumber.new(data.CostoVariableAlzado));
+            $("#AlzadoTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableAlzado))));
+            if (data.CostoVariableInsercion > 0) {
+                $("#InsercionEntradas").text("1");
+            } else {
+                $("#InsercionEntradas").text("0");
+            }
+            $("#InsercionCostoVari").text(formatNumber.new(data.CostoVariableInsercion));
+            $("#InsercionTotCostoVari").text(formatNumber.new(data.CostoVariableInsercion));
+            $("#InsercionTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableInsercion))));
+            if (data.CostoVariablePegado > 0) {
+                $("#PegadoEntradas").text("1");
+            } else {
+                $("#PegadoEntradas").text("0");
+            }
+            $("#PegadoCostoVari").text(formatNumber.new(data.CostoVariablePegado));
+            $("#PegadoTotCostoVari").text(formatNumber.new(data.CostoVariablePegado));
+            $("#PegadoTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariablePegado))));
+            if (data.CostoVariableFajado > 0) {
+                $("#FajadoEntradas").text("1");
+            } else {
+                $("#FajadoEntradas").text("0");
+            }
+            $("#FajadoCostoVari").text(formatNumber.new(data.CostoVariableFajado));
+            $("#FajadoTotCostoVari").text(formatNumber.new(data.CostoVariableFajado));
+            $("#FajadoTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableFajado))));
+
+            $("#AdhesivoEntradas").text(formatNumber.new(data.AdhesivoCms));
+            $("#AdhesivoCostoVari").text(formatNumber.new(data.CostoVariableAdhesivo));
+            $("#AdhesivoTotCostoVari").text(formatNumber.new(data.CostoVariableAdhesivoTotal));
+            $("#AdhesivoTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableAdhesivoTotal))));
+            if (data.CostoVariableSuministroCaja > 0) {
+                $("#SuministroEntradas").text("1");
+            } else {
+                $("#SuministroEntradas").text("0");
+            }
+            $("#SuministroCostoVari").text(formatNumber.new(data.CostoVariableSuministroCaja));
+            $("#SuministroTotCostoVari").text(formatNumber.new(data.CostoVariableSuministroCaja));
+            $("#SuministroTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableSuministroCaja))));
+            if (data.CostoVariableInsercionCajaySellado > 0) {
+                $("#CajaySelloEntradas").text("1");
+            } else {
+                $("#CajaySelloEntradas").text("0");
+            }
+            $("#CajaySelloCostoVari").text(formatNumber.new(data.CostoVariableInsercionCajaySellado));
+            $("#CajaySelloTotCostoVari").text(formatNumber.new(data.CostoVariableInsercionCajaySellado));
+            $("#CajaySelloTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableInsercionCajaySellado))));
+            if (data.CostoVariableEnzunchado > 0) {
+                $("#EnzunchadoEntradas").text("1");
+            } else {
+                $("#EnzunchadoEntradas").text("0");
+            }
+            $("#EnzunchadoCostoVari").text(formatNumber.new(data.CostoVariableEnzunchado));
+            $("#EnzunchadoTotCostoVari").text(formatNumber.new(data.CostoVariableEnzunchado));
+            $("#EnzunchadoTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariableEnzunchado))));
+            if (data.CostoVariablePallet > 0) {
+                $("#PalletEntradas").text("1");
+            } else {
+                $("#PalletEntradas").text("0");
+            }
+            $("#PalletCostoVari").text(formatNumber.new(data.CostoVariablePallet));
+            $("#PalletTotCostoVari").text(formatNumber.new(data.CostoVariablePallet));
+            $("#PalletTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariablePallet))));
+            if (data.CostoVariablePegadoSticker > 0) {
+                $("#PegadoStickerEntradas").text("1");
+            } else {
+                $("#PegadoStickerEntradas").text("0");
+            }
+            $("#PegadoStickerCostoVari").text(formatNumber.new(data.CostoVariablePegadoSticker));
+            $("#PegadoStickerTotCostoVari").text(formatNumber.new(data.CostoVariablePegadoSticker));
+            $("#PegadoStickerTotal").text(formatNumber.new(Math.round(eval(data.Tiraje) * eval(data.CostoVariablePegadoSticker))));
+
+            $("#ManufacturaTotCostoFijo").text(formatNumber.new(data.ManufacturaFijo));
+            $("#NetoTotCostoFijo").text(formatNumber.new(data.TotalNetoFijo));
+            $("#ManufacturaTotCostoVari").text(formatNumber.new(data.ManufacturaVari));
+            $("#NetoTotCostoVari").text(formatNumber.new(data.TotalNetoVari));
+            $("#ManufacturaTotal").text(formatNumber.new(Math.round(eval(data.ManufacturaFijo) + (eval(data.ManufacturaVari) * eval(data.Tiraje)))));
+
+            $("#PapelInteriorCostoFijo").text(formatNumber.new(data.Interior.CostoPapelinteriorFijo));
+            $("#PapelInteriorCostoVari").text(formatNumber.new(data.Interior.CostoPapelInteriorVari));
+            $("#PapelInteriorTotal").text(formatNumber.new(Math.round(eval(data.Interior.CostoPapelinteriorFijo) + eval(eval(data.Interior.CostoPapelInteriorVari) * eval(data.Tiraje)))));
+            var SuministradoCliente = "Papel suministrado por el cliente, ";
+            if (data.Tapa !== null) {
+                $("#PapelTapaCostoFijo").text(formatNumber.new(data.Tapa.CostoPapelTapaFijo));
+                $("#PapelTapaCostoVari").text(formatNumber.new(data.Tapa.CostoPapelTapaVari));
+                $("#PapelTapaTotal").text(formatNumber.new(Math.round((eval(data.Tapa.CostoPapelTapaFijo) + eval(eval(data.Tapa.CostoPapelTapaVari) * eval(data.Tiraje))))));
+
+                if (data.Tapa.CostoPapelTapaFijo == 0) {
+                    $("#PapelTapDescripcion").text(SuministradoCliente + " Consumo: " + formatNumber.new(Math.round(data.Tapa.KilosPapel)) + " KG");
+                }
+                else {
+                    $("#PapelTapDescripcion").text("Consumo: " + formatNumber.new(Math.round(data.Tapa.KilosPapel)) + " KG");
+                }
+
+            }
+            if (data.CantidadCajas > 0) {
+                var mendd = (eval($("input#CantidadEnCajas").val()) / eval(data.LibrosxCajas));
+                var resta = (eval($("input#CantidadEnCajas").val()) - (eval(data.LibrosxCajas) * Math.trunc(mendd)));
+                if ((eval($("input#CantidadEnCajas").val()) % eval(data.LibrosxCajas)) == 0) {
+                    //$("#MensajeCajas").text(formatNumber.new(Math.trunc(mendd)) + " Cajas con " + data.LibrosxCajas + " ejemplares.");
+                    $("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas con " + data.LibrosxCajas + " ejemplares.");
+                } else {
+                    if (Math.trunc(mendd == 0)) {
+                        $("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas con " + resta + " ejemplares.");
                     }
-                });
+                    else {
+                        //$("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas, " + data.LibrosxCajas + " ejemplares por cada caja.2");
+                        $("#MensajeCajas").text(formatNumber.new(Math.trunc(mendd)) + " Cajas con " + data.LibrosxCajas + " ejemplares y 1 Caja con " + resta + " ejemplares.");
+                    }
+                }
+                //$("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas, " + data.LibrosxCajas + " ejemplares por cada caja.");
+            }
+            else {
+                $("#MensajeCajas").text("");
+            }
+            if (data.Enzunchadoxpqte > 0) {
+                var mendd = (eval($("input#CantidadEnZuncho").val()) / eval(data.LibrosxCajas));
+                var resta = (eval($("input#CantidadEnZuncho").val()) - (eval(data.LibrosxCajas) * Math.trunc(mendd)));
+                if ((eval($("input#CantidadEnZuncho").val()) % eval(data.LibrosxCajas)) == 0) {
+                    $("#MensajeZuncho").text(formatNumber.new(data.Enzunchadoxpqte) + " Zuncho con " + data.LibrosxCajas + " ejemplares.");
+                } else {
+                    if (Math.trunc(mendd) == 0) {
+                        $("#MensajeZuncho").text(formatNumber.new(data.Enzunchadoxpqte) + " Zuncho con " + resta + " ejemplares.");
+                    } else {
+                        $("#MensajeZuncho").text(formatNumber.new(Math.trunc(mendd)) + " Zuncho con " + data.LibrosxCajas + " ejemplares y 1 Zuncho con " + resta + " ejemplares.");
+                    }
+                }
+                //$("#MensajeZuncho").text(formatNumber.new(data.Enzunchadoxpqte) + " Zuncho, " + eval(data.LibrosxCajas) + " ejemplares por cada zuncho");
+            }
+            else {
+                $("#MensajeZuncho").text();
+            }
+            $("#NetoTotal").text(formatNumber.new(data.TotalNetoTotal));
+            $("#UnitarioTotal").text(formatNumber.new(data.PrecioUnitario));
+            if (data.Interior.CostoPapelinteriorFijo == 0) {
+                $("#PapelIntDescripcion").text(SuministradoCliente + " Consumo: " + formatNumber.new(Math.round(data.Interior.KilosPapel)) + " KG");
+            }
+            else {
+                $("#PapelIntDescripcion").text("Consumo: " + formatNumber.new(Math.round(data.Interior.KilosPapel)) + " KG");
+            }
+
+
+
+            $("#OfertaImpF").text(formatNumber.new(data.TarifaFijaImpresion));
+            $("#OfertaImpV").text(formatNumber.new(data.TarifaVariableImpresion));
+            $("#OfertaImpT").text(formatNumber.new(Math.round(eval(data.TarifaFijaImpresion) + (eval(data.TarifaVariableImpresion) * eval(data.Tiraje)))));
+            $("#OfertaPapelF").text(formatNumber.new(eval(data.TarifaFijaPapel)));
+            $("#OfertaPapelV").text(formatNumber.new(eval(data.TarifaVariablePapel)));
+            $("#OfertaPapelT").text(formatNumber.new(Math.round(eval(data.TarifaFijaPapel) + (eval(data.TarifaVariablePapel) * eval(data.Tiraje)))));
+            $("#OfertaEncF").text(formatNumber.new(data.TarifaFijaEncuadernacion));
+            $("#OfertaEncV").text(formatNumber.new(data.TarifaVariableEncuadernacion));
+            $("#OfertaEncT").text(formatNumber.new(Math.round(eval(data.TarifaFijaEncuadernacion) + (eval(data.TarifaVariableEncuadernacion) * eval(data.Tiraje)))));
+            $("#OfertaTermF").text(formatNumber.new(eval(data.TarifaFijaTerminacion)));
+            $("#OfertaTermV").text(formatNumber.new(eval(data.TarifaVariableTerminacion)));
+            $("#OfertaTermT").text(formatNumber.new(Math.round(eval(data.TarifaFijaTerminacion) + (eval(data.TarifaVariableTerminacion) * eval(data.Tiraje)))));
+            //$("#OfertaDespV").text(formatNumber.new(eval(data.TarifaFijaDespacho)));
+            $("#OfertaDespV").text(numberFormat.format(eval(data.TarifaFijaDespacho)));
+            //numberFormat.format(654321.987)eval(data.TarifaFijaDespacho)
+            $("#OfertaDespT").text(formatNumber.new(Math.round(eval(data.TarifaFijaDespacho)* eval(data.Tiraje))));
+            $("#OfertaNetoF").text(formatNumber.new(data.TotalNetoFijo));
+            $("#OfertaNetoV").text(formatNumber.new(data.TotalNetoVari));
+            $("#OfertaNetoT").text(formatNumber.new(data.TotalNetoTotal));
+            $("#OfertaPrecioUnit").text(formatNumber.new(data.PrecioUnitario));
+            $("#btnGuardar").prop('disabled', false);
         }
+    }
+    function OnFailure(data) {
+        $("#OfertaPresupuesto").text("");
+        $("#OfertaImp").text("");
+        $("#OfertaPapel").text("");
+        $("#OfertaEnc").text("");
+        $("#OfertaTerm").text("");
+        $("#OfertaNeto").text("");
+        $("#OfertaPrecioUnit").text("");
+        $("#btnGuardar").prop('disabled', true);
+    }
 
-
+    function CalcularCJR() {
+    }
 
 
     $(document).ready(function () {
@@ -129,6 +421,22 @@
         });
         $("button#print_btn").click(function () {
             $('#muestra').printThis();
+        });
+        $("#CantidadInt").change(function () {
+            //var selectedCantidadInt = $(this).val();
+            //if (selectedCantidadInt != null && selectedCantidadInt != '') {
+            //    if (selectedCantidadInt <= 64) {
+            //        $("select#SelectEnc option").each(function () { this.selected = (this.text == "Corchete"); }).trigger("change");
+
+            //    }
+            //    else {
+            //        $("select#SelectEnc option").each(function () { this.selected = (this.text == "Hotmelt"); }).trigger("change");
+
+            //    }
+            //}
+     
+            $("#FormCalcular").submit();
+            $("#CantidadInt").focus();
         });
     });
 </script>
@@ -164,6 +472,7 @@
 }))
 {
     @Html.AntiForgeryToken()
+ 
     <div id="sidebar" class="modal-dialog">
 
         <div class="modal-content">
@@ -239,27 +548,26 @@
             </div>
         </div>
     </div>
+    <form id="FormCalcular" action="@Url.Action("Calcular","Action")">
     <div class="form-horizontal form" style="width:70%">
         <fieldset>
             <legend>Información Presupuesto</legend>
             <div class="form-group">
                 @Html.LabelFor(model => model.NombrePresupuesto, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10 form-inline">
-                    @Html.DropDownList("CatalogoId", new SelectList(Model.Catalogo, "IdTipoCatalogo", "NombreTipoCatalogo"), "Producto Nuevo", htmlAttributes: new { @class = "form-control", onchange = "InfoPresupuesto();", style = "display:inline" })
-                    @Html.EditorFor(model => model.NombreCatalogo, new { htmlAttributes = new { @class = "form-control", onchange = "InfoPresupuesto();", style = "display:inline", placeholder = "Producto Nuevo" } })
-                    @Html.EditorFor(model => model.NombrePresupuesto, new { htmlAttributes = new { @class = "form-control", onchange = "InfoPresupuesto();", style = "display:inline", placeholder = "Nombre Presupuesto" } })
-                   @* @Html.ValidationMessageFor(model => model.NombrePresupuesto, "", new { @class = "text-danger", style = "display:inline" })*@
-                    <span id="spanNombrePresupuesto" class="text-danger" style="display:none;"></span>
+                    @Html.DropDownList("CatalogoId", new SelectList(Model.Catalogo, "IdTipoCatalogo", "NombreTipoCatalogo"), "Producto Nuevo", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.EditorFor(model => model.NombreCatalogo, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Producto Nuevo" } })
+                    @Html.EditorFor(model => model.NombrePresupuesto, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Nombre Presupuesto" } })
+                    @Html.ValidationMessageFor(model => model.NombrePresupuesto, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(model => model.SelectFormato, "Formato", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("SelectFormato", new SelectList(Model.Formatos.Select(x => x.NombreFormato).Distinct().ToList()), "Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "InfoPresupuesto();", style = "display:inline" })
+                    @Html.DropDownList("SelectFormato", new SelectList(Model.Formatos.Select(x => x.NombreFormato).Distinct().ToList()), "Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline" })
                     mm.
-                   @* @Html.ValidationMessageFor(model => model.SelectFormato, "", new { @class = "text-danger", style = "display:inline" })*@
-                    <span id="spanFormato" class="text-danger" style="display:none;"></span>
+                    @Html.ValidationMessageFor(model => model.SelectFormato, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
 
@@ -267,9 +575,9 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Tiraje, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", onchange = "InfoPresupuesto();", style = "display:inline" } })
-                    <span id="spanTiraje" class="text-danger" style="display:none;"></span>
-                  @*  @Html.ValidationMessageFor(model => model.Tiraje, "", new { @class = "text-danger", style = "display:inline" })*@
+                    @Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control",  style = "display:inline" } })
+
+                    @Html.ValidationMessageFor(model => model.Tiraje, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
 
@@ -279,25 +587,23 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.CantidadInt, "Cantidad Páginas", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.CantidadInt, new SelectList(ViewBag.CantidadInt, "Value", "Text"), "Seleccione Cantidad", htmlAttributes: new { @class = "form-control", onchange = "InfoPapelInterior();", style = "display:inline" })
-                    @*@Html.ValidationMessageFor(model => model.CantidadInt, "", new { @class = "text-danger", style = "display:inline" })*@
-                    <span id="spanCantidadInt" class="text-danger" style="display:none;"></span>
+                    @Html.DropDownListFor(model => model.CantidadInt, new SelectList(ViewBag.CantidadInt, "Value", "Text"), "Seleccione Cantidad", htmlAttributes: new { @class = "form-control",  style = "display:inline" })
+                    @Html.ValidationMessageFor(model => model.CantidadInt, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
 
             <div class="form-group" id="divPapelEmpresaInt">
                 @Html.LabelFor(model => model.Empresa, "Proveedor del Papel", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.EmpresaPapelInterior, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa"), htmlAttributes: new { @class = "form-control", onchange = "InfoPapelInterior();", style = "display:inline" })
+                    @Html.DropDownListFor(model => model.EmpresaPapelInterior, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa"), htmlAttributes: new { @class = "form-control",  style = "display:inline" })
                     <div class="hidden" id="PPapelEmpresaInt" style="display:inline;color:#1a4e68;"><strong>papel sujeto a disponibilidad</strong></div>
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.SelectPapelIntId, "Papel de Cliente", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10 form-inline">
-                    @Html.DropDownListFor(model => model.SelectPapelIntId, new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "InfoPapelInterior();", style = "display:inline" })
+                    @Html.DropDownListFor(model => model.SelectPapelIntId, new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control",  style = "display:inline" })
                     @Html.ValidationMessageFor(model => model.SelectPapelIntId, "", new { @class = "text-danger", style = "display:inline" })
-                    <span id="spanSelectPapelIntId" class="text-danger" style="display:none;"></span>
                     <div style="display:inline;color:#1a4e68;"><strong id="PapelIntDescripcion"></strong></div>
                 </div>
             </div>
@@ -864,6 +1170,20 @@
             </fieldset>
         }
     </div>
+
+
+</form>
+
+
+
+
+
+
+
+
+
+
+
     <div id="myModalPopUp" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -1011,9 +1331,9 @@
         }
 
     });
-    //$("#SelectPapelIntId").change(function () {
+    $("#SelectPapelIntId").change(function () {
 
-    //});
+    });
     $("#CantidadTapa").change(function () {
         var selectedCantidadInt = $(this).val();
 

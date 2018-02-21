@@ -964,3 +964,4 @@ C:\Users\admin\Desktop\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug
 C:\Users\admin\Desktop\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.dll
 C:\Users\admin\Desktop\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.pdb
 C:\Users\admin\Desktop\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.cambioaservidordeprueba.resources
+C:\Users\admin\Desktop\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.Agreguecampoestadoalpresupuesto.resources

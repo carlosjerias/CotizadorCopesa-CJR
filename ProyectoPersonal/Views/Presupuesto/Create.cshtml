@@ -398,7 +398,7 @@
             $("#OfertaNetoV").text(formatNumber.new(data.TotalNetoVari));
             $("#OfertaNetoT").text(formatNumber.new(data.TotalNetoTotal));
             $("#OfertaPrecioUnit").text(formatNumber.new(data.PrecioUnitario));
-            $("#btnGuardar").prop('disabled', false);
+            //$("#btnGuardar").prop('disabled', false);
         }
     }
     function OnFailure(data) {
@@ -411,6 +411,73 @@
         $("#OfertaPrecioUnit").text("");
         $("#btnGuardar").prop('disabled', true);
     }
+    function ValidaBotonCrear() {
+        var ContadorErrores = 0;
+//Formato
+        var valFormato = $("select#SelectFormato option:selected").text();
+        if (valFormato == null || valFormato == 'Seleccione un Formato') {
+            ContadorErrores += 1;
+        }
+ //Catalogo  "input#NombreCatalogo"
+        var NameCatalog = $("input#NombreCatalogo").val();
+        var CatalogId = $("select#CatalogoId option:selected").text();
+        var NamePresu = $("input#NombrePresupuesto").val();
+        if (CatalogId == 'Producto Nuevo' || CatalogId == null) {
+//nuevo catalogo
+            if (NameCatalog == '' || NamePresu == '') {
+                ContadorErrores += 1;
+            }
+        } else {
+            if (NamePresu == '') {
+                ContadorErrores += 1;
+            }
+        }
+//Tiraje    "input#Tiraje"
+        var CantidadEjemplares = eval($("input#Tiraje").val());
+        if (CantidadEjemplares == '' || CantidadEjemplares < 10 || CantidadEjemplares >= 10000000) {
+            ContadorErrores += 1;
+        }
+//Papel Interior
+        var CantInterior = $("select#CantidadInt option:selected").text();
+        var PapelInt = $("select#SelectPapelIntId option:selected").text();
+        if (CantInterior == null || CantInterior == 'Seleccione Cantidad') {
+            $("#PapelIntDescripcion").hide();
+            ContadorErrores += 1;
+        }
+ 
+        if (PapelInt == null || PapelInt == 'Seleccione un Papel') {
+            $("#PapelIntDescripcion").hide();
+            ContadorErrores += 1;
+        }
+
+        var CantTap = $("select#CantidadTapa option:selected").text();
+        var PapelTap = $("select#TapaPapel option:selected").text();
+        
+        if (CantTap == 'Seleccione Cantidad' && PapelTap != 'Seleccione un Papel') {
+            $("#PapelTapDescripcion").hide();
+            ContadorErrores += 1;
+        } 
+
+        if (PapelTap == 'Seleccione un Papel' && CantTap != 'Seleccione Cantidad') {
+            $("#PapelTapDescripcion").hide();
+            ContadorErrores += 1;
+        }
+        if (PapelTap != 'Seleccione un Papel' && CantTap != 'Seleccione Cantidad')
+        {
+            $("#PapelTapDescripcion").show();
+        }
+        //CantidadTapa
+        //Seleccione Cantidad
+
+        //TapaPapel
+        //Seleccione un Papel
+
+        if (ContadorErrores > 0) {
+            $("#btnGuardar").prop('disabled', true);
+        } else {
+            $("#btnGuardar").prop('disabled', false);
+        }
+    }
     $(document).ready(function () {
         $("#myModalPopUp").on('hidden.bs.modal', function () {
             window.location.href = '@Url.Action("index")';
@@ -418,6 +485,7 @@
         $("button#print_btn").click(function () {
             $('#muestra').printThis();
         });
+
     });
 </script>
 <script>
@@ -583,6 +651,7 @@
                     @Html.DropDownListFor(model => model.SelectPapelIntId, new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     @Html.ValidationMessageFor(model => model.SelectPapelIntId, "", new { @class = "text-danger", style = "display:inline" })
                     <div style="display:inline;color:#1a4e68;"><strong  id="PapelIntDescripcion" ></strong></div>
+                
                 </div>
             </div>
         </fieldset>
@@ -1292,35 +1361,46 @@
             $("select#EmpresaPapelTapa option").each(function () { this.selected = (this.text == "Aimpresores"); }).trigger("change").removeAttr("disabled");
 
         }
+        ValidaBotonCrear();
 
     });
-    $("#SelectPapelIntId").change(function () {
 
-    });
     $("#CantidadTapa").change(function () {
         var selectedCantidadInt = $(this).val();
-
         if (selectedCantidadInt != null && selectedCantidadInt != '') {
             $("div#DivCantidadModelos").removeClass("hidden");
-
         }
         else {
             $("div#DivCantidadModelos").addClass("hidden");
-
         }
+        ValidaBotonCrear();
+    });
+    $("#TapaPapel").change(function () {
+        ValidaBotonCrear();
     });
     $("#CantidadInt").change(function () {
         var selectedCantidadInt = $(this).val();
-        if (selectedCantidadInt != null && selectedCantidadInt != '') {
+        var ValorPapelCliente=  $("select#SelectPapelIntId option:selected").text();
+        if (selectedCantidadInt != null && selectedCantidadInt != 'Seleccione Cantidad') {
             if (selectedCantidadInt <= 64) {
                 $("select#SelectEnc option").each(function () { this.selected = (this.text == "Corchete"); }).trigger("change");
-                
+
             }
             else {
                 $("select#SelectEnc option").each(function () { this.selected = (this.text == "Hotmelt"); }).trigger("change");
 
             }
+            if (ValorPapelCliente == null || ValorPapelCliente == 'Seleccione un Papel')
+            {
+                $("#PapelIntDescripcion").hide();
+            } else {
+                $("#PapelIntDescripcion").show();
+            }
+
+        } else {
+            $("#PapelIntDescripcion").hide();
         }
+        ValidaBotonCrear();
         $("#CantidadInt").focus();
     });
     $("select#ddlAlzadoPlano").change(function () {
@@ -1411,6 +1491,60 @@
             $("input#CantidadTerminacionEmbolsado").addClass("hidden").val(0).trigger("change");
         }
     });
+    $("select#SelectFormato").change(function () {
+        //var selectedCantidad = $(this).val();
+        //if (selectedCantidad != null && selectedCantidad != '') {
+        //    $("#btnGuardar").prop('disabled', false);
+        //}
+        //else {
+        //    $("#btnGuardar").prop('disabled', true);
+        //}
+        ValidaBotonCrear();
+    });
+    $("select#SelectPapelIntId").change(function () {
+        var PapelInt = $("select#SelectPapelIntId option:selected").text();
+        if (PapelInt == null || PapelInt == 'Seleccione un Papel') {
+            $("#PapelIntDescripcion").hide();
+        } else {
+            $("#PapelIntDescripcion").show();
+        }
+        ValidaBotonCrear(); 
+    });
+    $("input#NombreCatalogo").change(function () {
+        //var Catalog = $(this).val();
+        //var CatalogId = $("input#CatalogoId").val();
+        //var presu = $("input#NombrePresupuesto").val();
+        //if (CatalogId == null) {
+        //    //nuevo catalogo
+        //    if (Catalog == '' || presu == '') {
+        //        $("#btnGuardar").prop('disabled', true);
+        //    } else {
+        //        $("#btnGuardar").prop('disabled', false);
+        //    }
+        //}
+        ValidaBotonCrear();
+    });
+    $("input#NombrePresupuesto").change(function () {
+        //var Catalog = $(this).val();
+        //var CatalogId = $("input#CatalogoId").val();
+        //var presu = $("input#NombrePresupuesto").val();
+        //if (CatalogId == null) {
+        //    //nuevo catalogo
+        //    if (Catalog == '' || presu == '') {
+        //        $("#btnGuardar").prop('disabled', true);
+        //    } else {
+        //        $("#btnGuardar").prop('disabled', false);
+        //    }
+        //} else {
+        //    if (presu == '') {
+        //        $("#btnGuardar").prop('disabled', true);
+        //    } else {
+        //        $("#btnGuardar").prop('disabled', false);
+        //    }
+        //}
+        ValidaBotonCrear();
+    });
+    
     $("input#Tiraje").change(function () {
         var CantidadEjemplares = $(this).val();
         var CantidadenCajas = eval($("input#CantidadEnCajas").val());
@@ -1431,6 +1565,7 @@
                 $("input#CantidadEnBolsa").val(eval(CantidadEjemplares - eval($("input#CantidadEnZuncho").val()) - eval($("input#CantidadEnCajas").val()))).trigger("change");
             }
         }
+        ValidaBotonCrear();
     });
     $("input#CantidadEnCajas").change(function () {
         var CantidadenCajas =eval($(this).val());

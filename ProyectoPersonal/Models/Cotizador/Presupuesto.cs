@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Script.Serialization;
 
@@ -189,12 +190,13 @@ namespace ProyectoPersonal.Models.Cotizador
         public double ManufacturaVari { get; set; }
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaCreacion { get; set; }
+        public int Estado { get; set; }
 
         public string Usuarioid { get; set; }
         public ApplicationUser Usuario { get; set; }
 
     }
-
+    [DataContract(IsReference = true)]
     public class PresupuestoForm
     {
         [Key]
@@ -229,7 +231,7 @@ namespace ProyectoPersonal.Models.Cotizador
         public string SelectEnc { get; set; }
         [NotMapped]
         [Display(Name = "Tiraje")]
-        [Range(10, 20000000, ErrorMessage = "El campo {0} debe ser mayor a {1}")]
+        [Range(10, 10000000, ErrorMessage = "El campo {0} debe ser mayor a {1} y menor a {2}.")]
         public int Tiraje { get; set; }
         [NotMapped]
         public List<Formato> Formatos { get; set; }
