@@ -413,8 +413,8 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 }
                 detalle.NombreBarnizUV = ListTerm.Where(x => x.IdSubProceso == UV).Select(x => x.NombreSubProceso).FirstOrDefault();
             }
-            detalle.CostoFijoTroquel = (ddlTroquel!= "No" && ddlTroquel!= "") ? (ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => (x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())).FirstOrDefault()) : 0;
-            detalle.CostoVariableTroquel = (ddlTroquel != "No" && ddlTroquel != "") ? ((ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / Convert.ToDouble(CantidadPaginasTap)) : 0;
+            detalle.CostoFijoTroquel = (ddlTroquel!= "No" && ddlTroquel!= "" && ddlTroquel != null) ? (ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => (x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())).FirstOrDefault()) : 0;
+            detalle.CostoVariableTroquel = (ddlTroquel != "No" && ddlTroquel != "" && ddlTroquel != null) ? ((ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / Convert.ToDouble(CantidadPaginasTap)) : 0;
             detalle.CostoFijoCorteFrontal = (CantidadPaginasTap > 0) ? (ListTerm.Where(x => x.NombreSubProceso == "Corte Frontal").Select(x => x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
             detalle.CostoVariableCorteFrontal = (CantidadPaginasTap > 0) ? (ListTerm.Where(x => x.NombreSubProceso == "Corte Frontal").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
 
@@ -441,8 +441,18 @@ namespace ProyectoPersonal.Controllers.Cotizador
             
             if (CatalogoId != null)
             {
-                string[] dimension = db.Catalogo.Where(x => x.IdTipoCatalogo == CatalogoId).Select(x => x.DimensionesCajasStandar).FirstOrDefault().Split('x');
-                detalle.LibrosxCajas = Math.Floor(Convert.ToInt32(dimension[2]) / LomocTapa) * emb.Base;
+                try
+                {//Productos ingresados con formato de cajas
+                    string[] dimension = db.Catalogo.Where(x => x.IdTipoCatalogo == CatalogoId).Select(x => x.DimensionesCajasStandar).FirstOrDefault().Split('x');
+                    detalle.LibrosxCajas = Math.Floor(Convert.ToInt32(dimension[2]) / LomocTapa) * emb.Base;
+                }catch(Exception ex)
+                {
+                    //Todos los productos nuevos con formato standard - cjerias
+                    string[] dimension = ("320x220x283").Split('x');
+                    //string formmmat = db.Catalogo.Where(x => x.IdTipoCatalogo == CatalogoId).Select(x => x.FormatoSeleccionado).SingleOrDefault();
+                    //string[] dimension = db.Catalogo.Where(x => x.FormatoSeleccionado == formmmat).Select(x => x.DimensionesCajasStandar).SingleOrDefault().Split('x');
+                    detalle.LibrosxCajas = Math.Floor(Convert.ToInt32(dimension[2]) / LomocTapa) * emb.Base;
+                }
             }
             else
             {

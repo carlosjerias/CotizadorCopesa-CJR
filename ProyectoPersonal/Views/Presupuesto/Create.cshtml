@@ -341,8 +341,11 @@
                         $("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas con " + resta + " ejemplares.");
                     }
                     else {
-                        //$("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas, " + data.LibrosxCajas + " ejemplares por cada caja.2");
-                        $("#MensajeCajas").text(formatNumber.new(Math.trunc(mendd)) + " Cajas con " + data.LibrosxCajas + " ejemplares y 1 Caja con " + resta + " ejemplares.");
+                        if (mendd < 1) {
+                            $("#MensajeCajas").text("1 Caja con " + resta + " ejemplares.");
+                        } else {
+                            $("#MensajeCajas").text(formatNumber.new(Math.trunc(mendd)) + " Cajas con " + data.LibrosxCajas + " ejemplares y 1 Caja con " + resta + " ejemplares.");
+                        }
                     }
                 }
                 //$("#MensajeCajas").text(formatNumber.new(data.CantidadCajas) + " Cajas, " + data.LibrosxCajas + " ejemplares por cada caja.");
@@ -449,33 +452,90 @@
             $("#PapelIntDescripcion").hide();
             ContadorErrores += 1;
         }
-
+//Papel Tapa
         var CantTap = $("select#CantidadTapa option:selected").text();
         var PapelTap = $("select#TapaPapel option:selected").text();
         
         if (CantTap == 'Seleccione Cantidad' && PapelTap != 'Seleccione un Papel') {
+            $("#SpanCantTapa").text("Seleccione cantidad de páginas en tapa.").show();
             $("#PapelTapDescripcion").hide();
             ContadorErrores += 1;
         } 
 
         if (PapelTap == 'Seleccione un Papel' && CantTap != 'Seleccione Cantidad') {
             $("#PapelTapDescripcion").hide();
+            $("#SpanPapelTapa").text("Seleccione Papel Tapa.").show();
+            ContadorErrores += 1;
+            DeshabilitaTerminacionTapaAdicional("deshabilita");
+        }
+        if (PapelTap != 'Seleccione un Papel' && CantTap != 'Seleccione Cantidad') {
+            $("#PapelTapDescripcion").show();
+            $("#SpanPapelTapa").hide();
+            $("#SpanCantTapa").hide();
+            DeshabilitaTerminacionTapaAdicional("habilita");
+        }
+        if (PapelTap == 'Seleccione un Papel' && CantTap == 'Seleccione Cantidad') {
+            $("#PapelTapDescripcion").hide();
+            $("#SpanPapelTapa").hide();
+            $("#SpanCantTapa").hide();
+            DeshabilitaTerminacionTapaAdicional("deshabilita");
+        }
+//Encuadernacion
+        var Encuad = $("select#SelectEnc option:selected").text();
+        if (Encuad == 'Seleccione Una Encuadernación' || Encuad == null) {
             ContadorErrores += 1;
         }
-        if (PapelTap != 'Seleccione un Papel' && CantTap != 'Seleccione Cantidad')
-        {
-            $("#PapelTapDescripcion").show();
-        }
-        //CantidadTapa
-        //Seleccione Cantidad
+//Despacho - Distribucion
+        var CantEnCaja = $("input#CantidadEnCajas").val();
+        var CantEnZuncho = $("input#CantidadEnZuncho").val();
 
-        //TapaPapel
-        //Seleccione un Papel
+        if (CantEnCaja == "" || CantEnZuncho == "") {
+            ContadorErrores += 1;
+        } else {
+            if (eval(CantEnCaja) == 0 && eval(CantEnZuncho) == 0) {
+                $("input#CantidadEnCajas").val($("input#Tiraje").val());
+                //agregar mensajes
+            }
+            (eval(CantEnCaja) == 0 ? $("#MensajeCajas").hide() : $("#MensajeCajas").show());
+            (eval(CantEnZuncho) == 0 ? $("#MensajeZuncho").hide() : $("#MensajeZuncho").show());
+            //if (eval(CantEnCaja) == 0) {
+            //    //quitar mensaje cajas y zuncho
+                
+            //} 
+            //if (eval(CantEnZuncho) == 0) {
+            //    //quitar mensaje cajas y zuncho
+            //    $("#MensajeZuncho").hide();
+            //}
+        }
+
+
+
 
         if (ContadorErrores > 0) {
             $("#btnGuardar").prop('disabled', true);
         } else {
             $("#btnGuardar").prop('disabled', false);
+        }
+    }
+    function DeshabilitaTerminacionTapaAdicional(tipo) {
+        if (tipo == 'habilita') {
+            $("select#ddlQuintoColor").prop('disabled', false);
+            $("select#ddlBarnizAcuoso").prop('disabled', false);
+            $("select#ddlLaminado").prop('disabled', false);
+            $("select#ddlBarnizUV").prop('disabled', false);
+            $("select#ddlTroquel").prop('disabled', false);
+        } else {
+            $("select#ddlQuintoColor").prop('disabled', true);
+            $("select#ddlBarnizAcuoso").prop('disabled', true);
+            $("select#ddlLaminado").prop('disabled', true);
+            $("select#ddlBarnizUV").prop('disabled', true);
+            $("select#ddlTroquel").prop('disabled', true);
+
+            $("select#ddlQuintoColor").prop('selectedIndex', 0);
+            $("select#ddlBarnizAcuoso").prop('selectedIndex', 0);
+            $("select#ddlLaminado").prop('selectedIndex', 0);
+            $("select#ddlBarnizUV").prop('selectedIndex', 0);
+            $("select#ddlTroquel").prop('selectedIndex', 0);
         }
     }
     $(document).ready(function () {
@@ -485,7 +545,7 @@
         $("button#print_btn").click(function () {
             $('#muestra').printThis();
         });
-
+        DeshabilitaTerminacionTapaAdicional("habilita");
     });
 </script>
 <script>
@@ -666,6 +726,7 @@
                                                         new SelectListItem{ Text="4", Value = "4" }
                                                      }, "Seleccione Cantidad", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     @Html.ValidationMessageFor(model => model.CantidadTap, "", new { @class = "text-danger", style = "display:inline" })
+                    <span id="SpanCantTapa" class="text-danger"></span>
                 </div>
             </div>
             <div class="form-group hidden" id="DivCantidadModelos">
@@ -694,6 +755,7 @@
                     @Html.DropDownList("TapaPapel", new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     @Html.ValidationMessageFor(model => model.SelectPapelTapId, "", new { @class = "text-danger", style = "display:inline" })
                     <div style="display:inline;color:#1a4e68;"><strong id="PapelTapDescripcion"></strong></div>
+                    <span id="SpanPapelTapa" class="text-danger"></span>
                 </div>
             </div>
 
@@ -1413,6 +1475,9 @@
             $("input#CantidadAlzadoPlano").addClass("hidden").val(0).trigger("change");
         }
     });
+    $("select#SelectEnc").change(function () {
+        ValidaBotonCrear();
+    });
     $("select#ddlDesembolsado").change(function () {
         var selectedCantidad = $(this).val();
         if (selectedCantidad != null && selectedCantidad != '') {
@@ -1510,6 +1575,14 @@
         }
         ValidaBotonCrear(); 
     });
+    $("input#CantidadTerminacionEmbolsado").change(function () {
+        var CantEmbolsado = eval($(this).val());
+        var Tiraje = eval($("input#Tiraje").val());
+        if (CantEmbolsado > Tiraje) {
+            $("input#CantidadTerminacionEmbolsado").val(Tiraje);
+            $("input#CantidadTerminacionEmbolsado").trigger("change");
+        }
+    });
     $("input#NombreCatalogo").change(function () {
         //var Catalog = $(this).val();
         //var CatalogId = $("input#CatalogoId").val();
@@ -1557,12 +1630,18 @@
         else{
             if (eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnZuncho").val())) > 0) {
                 $("input#CantidadEnCajas").val(eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnZuncho").val()))).trigger("change");
+        
             }
             else if (eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnCajas").val())) > 0) {
                 $("input#CantidadEnZuncho").val(eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnCajas").val()))).trigger("change");
+
             }
-            else{
-                $("input#CantidadEnBolsa").val(eval(CantidadEjemplares - eval($("input#CantidadEnZuncho").val()) - eval($("input#CantidadEnCajas").val()))).trigger("change");
+            else {
+                if ((CantidadenCajas + CantidadenZuncho) > CantidadEjemplares) {
+                    $("input#CantidadEnCajas").val(eval(CantidadEjemplares));
+                    $("input#CantidadEnZuncho").val(0);
+                }
+
             }
         }
         ValidaBotonCrear();
@@ -1577,9 +1656,9 @@
         }
         else {
             AsignarDespacho(Tiraje, CantidadenCajas, $("input#CantidadEnZuncho").val(), $("input#CantidadEnBolsa").val(), "Cajas");
-            
         }
         $("#SelectPapelIntId").trigger("change");
+        ValidaBotonCrear();
     });
     $("input#CantidadEnZuncho").change(function () {
         var CantidadenZuncho = eval($(this).val());
@@ -1594,6 +1673,7 @@
             AsignarDespacho(Tiraje, $("input#CantidadEnCajas").val(), CantidadenZuncho, $("input#CantidadEnBolsa").val(),"Zuncho");
         }
         $("#SelectPapelIntId").trigger("change");
+        ValidaBotonCrear();
     });
     $("input#CantidadEnBolsa").change(function () {
         var CantidadenBolsa = eval($(this).val());
@@ -1614,9 +1694,11 @@
         var Tiraje = eval($("input#Tiraje").val());
         if (Cantidad >= Tiraje) {
             $(this).val(Tiraje);
+            $("input#Tiraje").trigger("change");
         }
         else if (Cantidad <= 0 || Cantidad == null) {
             $(this).val(0);
+            $("input#Tiraje").trigger("change");
         }
     });
     $("input#CantidadDesembolsado").change(function () {
@@ -1624,9 +1706,11 @@
         var Tiraje = eval($("input#Tiraje").val());
         if (Cantidad >= Tiraje) {
             $(this).val(Tiraje);
+            $("input#Tiraje").trigger("change");
         }
         else if (Cantidad <= 0 || Cantidad == null) {
             $(this).val(0);
+            $("input#Tiraje").trigger("change");
         }
     });
     $("input#CantidadAlzado").change(function () {
@@ -1634,9 +1718,11 @@
         var Tiraje = eval($("input#Tiraje").val());
         if (Cantidad >= Tiraje) {
             $(this).val(Tiraje);
+            $("input#Tiraje").trigger("change");
         }
         else if (Cantidad <= 0 || Cantidad == null) {
             $(this).val(0);
+            $("input#Tiraje").trigger("change");
         }
     });
     $("input#CantidadInsercion").change(function () {
@@ -1644,9 +1730,11 @@
         var Tiraje = eval($("input#Tiraje").val());
         if (Cantidad >= Tiraje) {
             $(this).val(Tiraje);
+            $("input#Tiraje").trigger("change");
         }
         else if (Cantidad <= 0 || Cantidad == null) {
             $(this).val(0);
+            $("input#Tiraje").trigger("change");
         }
     });
     $("input#CantidadPegado").change(function () {
@@ -1654,9 +1742,11 @@
         var Tiraje = eval($("input#Tiraje").val());
         if (Cantidad >= Tiraje) {
             $(this).val(Tiraje);
+            $("input#Tiraje").trigger("change");
         }
         else if (Cantidad <= 0 || Cantidad == null) {
             $(this).val(0);
+            $("input#Tiraje").trigger("change");
         }
     });
     $("input#CantidadFajado").change(function () {
@@ -1664,9 +1754,11 @@
         var Tiraje = eval($("input#Tiraje").val());
         if (Cantidad >= Tiraje) {
             $(this).val(Tiraje);
+            $("input#Tiraje").trigger("change");
         }
         else if (Cantidad <= 0 || Cantidad == null) {
             $(this).val(0);
+            $("input#Tiraje").trigger("change");
         }
     });
     $("input#CantidadPegadoSticker").change(function () {
@@ -1674,56 +1766,64 @@
         var Tiraje = eval($("input#Tiraje").val());
         if (Cantidad >= Tiraje) {
             $(this).val(Tiraje);
+            $("input#Tiraje").trigger("change");
         }
-        else if (Cantidad <= 0 || Cantidad == null) {
+        else if (Cantidad <= 0 || Cantidad == nu-ll) {
             $(this).val(0);
+            $("input#Tiraje").trigger("change");
         }
     });
 
 
     function AsignarDespacho(Tiraje, Cajas, Zuncho, Bolsa, quecambio) {
         if (quecambio == "Cajas") {
-            if (eval(Tiraje) >= (eval(Cajas) + eval(Zuncho) + eval(Bolsa))) {
-                $("input#CantidadEnZuncho").val(eval(Tiraje) - (eval(Cajas) + eval(Bolsa)));
-            }
-            else{
-                if ((eval(Tiraje) - (eval(Cajas) + eval(Bolsa))) >= 0) {
-                    $("input#CantidadEnZuncho").val(eval(Tiraje) - (eval(Cajas) + eval(Bolsa)));
-                }
-                else {
-                    $("input#CantidadEnZuncho").val(0);
-                    $("input#CantidadEnBolsa").val(eval(Tiraje) - eval(Cajas));
-                }
-            }
+            $("input#CantidadEnZuncho").val(eval(Tiraje) - (eval(Cajas)));
+        }else if (quecambio == "Zuncho") {
+            $("input#CantidadEnCajas").val(eval(Tiraje) - (eval(Zuncho)));
         }
-        if (quecambio == "Zuncho") {
-            if (eval(Tiraje) >= (eval(Cajas) + eval(Zuncho) + eval(Bolsa))) {
-                $("input#CantidadEnBolsa").val(eval(Tiraje) - (eval(Cajas) + eval(Zuncho)));
-            }
-            else {
-                if ((eval(Tiraje) - (eval(Cajas) + eval(Zuncho))) >= 0) {
-                    $("input#CantidadEnBolsa").val(eval(Tiraje) - (eval(Cajas) + eval(Zuncho)));
-                }
-                else {
-                    $("input#CantidadEnBolsa").val(0);
-                    $("input#CantidadEnCajas").val(eval(Tiraje) - eval(Zuncho));
-                }
-            }
-        }
-        if (quecambio == "Bolsa") {
-            if (eval(Tiraje) >= (eval(Cajas) + eval(Zuncho) + eval(Bolsa))) {
-                $("input#CantidadEnCajas").val(eval(Tiraje) - (eval(Zuncho) + eval(Bolsa)));
-                //Bolsa se agregan lo que falta
-            }
-            else {
-                if ((eval(Tiraje) - (eval(Bolsa) + eval(Zuncho))) >= 0) {
-                    $("input#CantidadEnCajas").val(eval(Tiraje) - (eval(Bolsa) + eval(Zuncho)));
-                }
-                else {
-                    $("input#CantidadEnCajas").val(0);
-                    $("input#CantidadEnZuncho").val(eval(Tiraje) - eval(Bolsa));
-                }
-            }
-        }
+        //version juan
+        //if (quecambio == "Cajas") {
+        //    if (eval(Tiraje) >= (eval(Cajas) + eval(Zuncho) + eval(Bolsa))) {
+        //        $("input#CantidadEnZuncho").val(eval(Tiraje) - (eval(Cajas) + eval(Bolsa)));
+        //    }
+        //    else {
+        //        if ((eval(Tiraje) - (eval(Cajas) + eval(Bolsa))) >= 0) {
+        //            $("input#CantidadEnZuncho").val(eval(Tiraje) - (eval(Cajas) + eval(Bolsa)));
+        //        }
+        //        else {
+        //            $("input#CantidadEnZuncho").val(0);
+        //            $("input#CantidadEnBolsa").val(eval(Tiraje) - eval(Cajas));
+        //        }
+        //    }
+        //}
+        //if (quecambio == "Zuncho") {
+        //    if (eval(Tiraje) >= (eval(Cajas) + eval(Zuncho) + eval(Bolsa))) {
+        //        $("input#CantidadEnBolsa").val(eval(Tiraje) - (eval(Cajas) + eval(Zuncho)));
+        //    }
+        //    else {
+        //        if ((eval(Tiraje) - (eval(Cajas) + eval(Zuncho))) >= 0) {
+        //            $("input#CantidadEnBolsa").val(eval(Tiraje) - (eval(Cajas) + eval(Zuncho)));
+        //        }
+        //        else {
+        //            $("input#CantidadEnBolsa").val(0);
+        //            $("input#CantidadEnCajas").val(eval(Tiraje) - eval(Zuncho));
+        //        }
+        //    }
+        //}
+        //if (quecambio == "Bolsa") {
+        //    if (eval(Tiraje) >= (eval(Cajas) + eval(Zuncho) + eval(Bolsa))) {
+        //        $("input#CantidadEnCajas").val(eval(Tiraje) - (eval(Zuncho) + eval(Bolsa)));
+        //        //Bolsa se agregan lo que falta
+        //    }
+        //    else {
+        //        if ((eval(Tiraje) - (eval(Bolsa) + eval(Zuncho))) >= 0) {
+        //            $("input#CantidadEnCajas").val(eval(Tiraje) - (eval(Bolsa) + eval(Zuncho)));
+        //        }
+        //        else {
+        //            $("input#CantidadEnCajas").val(0);
+        //            $("input#CantidadEnZuncho").val(eval(Tiraje) - eval(Bolsa));
+        //        }
+        //    }
+        //}
     }
 </script>
