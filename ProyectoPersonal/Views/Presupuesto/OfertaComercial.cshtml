@@ -208,9 +208,18 @@
         {
             <div class="col-xs-12"><br /></div>
         }
-        @if (Model.Interior.Papel.Empresa.NombreEmpresa == "Copesa" || Model.Tapa.Papel.Empresa.NombreEmpresa == "Copesa")
-        {
-            <div class="col-xs-12"> Observaciones : Papeles son proporcionado por grupo Copesa</div>
+        @{ 
+            try
+            {
+                if (Model.Interior.Papel.Empresa.NombreEmpresa == "Copesa" || Model.Tapa.Papel.Empresa.NombreEmpresa == "Copesa")
+                {
+                      <div class="col-xs-12"> Observaciones : Papeles son proporcionado por grupo Copesa</div>
+                }
+            }
+            catch
+            {
+                <div class="col-xs-12"> Observaciones : Papeles son proporcionado por grupo Copesa</div>
+            }
         }
         @if (Model.TapaId == null)
         {
@@ -240,12 +249,22 @@
             <br />
             Despacho del volumen total solo a un lugar físico dentro de la Región Metropolitana
             <br />
-            @{string confirmacion = "Si este presupuesto es aceptado,se deberá confirmar disponibilidad de máquina y"+
-            "papeles con su ejecutivo directo."; }
-            @if (Model.Interior.Papel.Empresa.NombreEmpresa == "Copesa" || Model.Tapa.Papel.Empresa.NombreEmpresa == "Copesa")
-            {
-                confirmacion = "Si este presupuesto es aceptado,se deberá confirmar disponibilidad de máquina" +
-            " con su ejecutivo directo.";
+            @{string confirmacion = "Si este presupuesto es aceptado,se deberá confirmar disponibilidad de máquina y" +
+  "papeles con su ejecutivo directo."; }
+            @{ 
+                try
+                {
+                    if (Model.Interior.Papel.Empresa.NombreEmpresa == "Copesa" || Model.Tapa.Papel.Empresa.NombreEmpresa == "Copesa")
+                    {
+                        confirmacion = "Si este presupuesto es aceptado,se deberá confirmar disponibilidad de máquina" +
+                    " con su ejecutivo directo.";
+                    }
+                }
+                catch
+                {
+                    confirmacion = "Si este presupuesto es aceptado,se deberá confirmar disponibilidad de máquina y" +
+                    "papeles con su ejecutivo directo.";
+                }
             }
             @confirmacion
 

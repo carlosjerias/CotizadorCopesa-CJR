@@ -167,6 +167,12 @@ namespace ProyectoPersonal.Models
                 HasOptional(x => x.Doblez).WithMany(y => y.SubProcesos)
                 .HasForeignKey(x => x.DoblezId);
 
+            //agregando id tipo catalogo
+
+
+
+            //fin
+
             //modelBuilder.Entity<SubProceso>().
             //    HasOptional(x => x.Presupuesto_SubProceso).WithMany(y => y.SubProcesos)
             //    .HasForeignKey(x => x.Presupuesto_SubProcesoId);

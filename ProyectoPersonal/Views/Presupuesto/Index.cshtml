@@ -34,7 +34,8 @@
         var miTabla = $('#tblPresupuesto').DataTable({
             "paging": false,
             "searching": true,
-            "dom": "t"
+            "dom": "t",
+            "order":[[0,"desc"]]
         });
         $('#divMensaje').delay(6000).hide(500);
     });
@@ -46,7 +47,7 @@
         $("#myModalBodyDiv1").load(url, function () {
             $("#myModal1").modal("show");
 
-        })
+        });
 
     }
     

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -17,5 +18,10 @@ namespace ProyectoPersonal.Models.Cotizador
         public string DimensionesCajasSachet { get; set; }
         public string PapelInterior { get; set; }
         public string PapelTapa { get; set; }
+        public int? PapelInteriorId { get; set; }
+        public int? PapelTapaId { get; set; }
+
+
+
     }
 }

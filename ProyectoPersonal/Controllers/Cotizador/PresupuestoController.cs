@@ -15,6 +15,8 @@ using System.Net.Mail;
 using System.IO;
 using ProyectoPersonal.Models.Gerencia;
 using System.Runtime.Serialization;
+using Newtonsoft.Json;
+using System.Web.Services;
 
 namespace ProyectoPersonal.Controllers.Cotizador
 {
@@ -590,13 +592,28 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 JsonRequestBehavior.AllowGet
             );
         }
-
+        //version original
+        //[Authorize(Roles = "Administrador,SuperUser,User")]
+        //public string SeleccionarCatalogo(int IDCatalogo)
+        //{
+        //    string FormatoSeleccionado = db.Catalogo.Where(x => x.IdTipoCatalogo == IDCatalogo).Select(x => x.FormatoSeleccionado +","+  x.PapelInterior +"," + x.PapelTapa).FirstOrDefault();
+        //    return FormatoSeleccionado;
+        //}
+        [WebMethod]
         [Authorize(Roles = "Administrador,SuperUser,User")]
-        public string SeleccionarCatalogo(int IDCatalogo)
+        public ActionResult SeleccionarCatalogo(int IDCatalogo)
         {
-            string FormatoSeleccionado = db.Catalogo.Where(x => x.IdTipoCatalogo == IDCatalogo).Select(x => x.FormatoSeleccionado +","+  x.PapelInterior +"," + x.PapelTapa).FirstOrDefault();
-            return FormatoSeleccionado;
+            TipoCatalogo tipoc = db.Catalogo.Where(x => x.IdTipoCatalogo == IDCatalogo).FirstOrDefault();
+            string EmpresaPapelInt = db.Papel.Where(x => x.IdPapel == tipoc.PapelInteriorId).Select(x => x.Empresa.NombreEmpresa).SingleOrDefault();
+            string EmpresaPapelTapa = db.Papel.Where(x => x.IdPapel == tipoc.PapelTapaId).Select(x => x.Empresa.NombreEmpresa).SingleOrDefault();
+            int? EmpresaPapelIntId = db.Papel.Where(x => x.IdPapel == tipoc.PapelInteriorId).Select(x => x.Empresa.IdEmpresa).SingleOrDefault();
+            int? EmpresaPapelTapaId = db.Papel.Where(x => x.IdPapel == tipoc.PapelTapaId).Select(x => x.Empresa.IdEmpresa).SingleOrDefault();
+            var resultado = new { FormatoSeleccionado = tipoc.FormatoSeleccionado, PapelInterior = tipoc.PapelInterior, PapelTapa = tipoc.PapelTapa, EmpresaPapelInt = EmpresaPapelInt, EmpresaPapelTapa = EmpresaPapelTapa, EmpresaIntID = EmpresaPapelIntId, EmpresaTapaId = EmpresaPapelTapaId };
+            return Json(resultado, JsonRequestBehavior.AllowGet);
         }
+
+
+
 
         // GET: Presupuesto/Create
         [Authorize(Roles = "Administrador,SuperUser,User")]
@@ -643,7 +660,18 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 tc.NombreTipoCatalogo = NombreCatalogo;
                 tc.FormatoSeleccionado = SelectFormato;
                 tc.PapelInterior = db.Papel.Where(x => x.IdPapel == (int)SelectPapelIntId).Select(x => x.NombrePapel + " " + x.Gramaje).SingleOrDefault();
-                tc.PapelTapa = db.Papel.Where(x => x.IdPapel == (int)SelectPapelIntId).Select(x => x.NombrePapel + " " + x.Gramaje).SingleOrDefault(); // p.Tapa.Papel.NombreCompletoPapel;//cambiar a papelTapaID
+                tc.PapelInteriorId = db.Papel.Where(x => x.IdPapel == (int)SelectPapelIntId).Select(x => x.IdPapel).SingleOrDefault();
+                try
+                {
+                    tc.PapelTapaId = db.Papel.Where(x => x.IdPapel == (int)TapaPapel).Select(x => x.IdPapel).SingleOrDefault();
+                    tc.PapelTapa = db.Papel.Where(x => x.IdPapel == (int)TapaPapel).Select(x => x.NombrePapel + " " + x.Gramaje).SingleOrDefault();
+                }
+                catch
+                {
+                    tc.PapelTapaId = null;
+                    tc.PapelTapa = null;
+                }
+                
             }
             else
             {
@@ -678,6 +706,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
             {
                 if (CatalogoId == null)
                 {
+                   
                     db.Catalogo.Add(tc);
                 }
                 db.Presupuesto.Add(p);

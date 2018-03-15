@@ -351,6 +351,26 @@
     <Compile Include="Migrations\201802161322594_Agregue campo estado al presupuesto.Designer.cs">
       <DependentUpon>201802161322594_Agregue campo estado al presupuesto.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201803072023449_TipoCatalogo_Papel para sacar Ids segun corresponda.cs" />
+    <Compile Include="Migrations\201803072023449_TipoCatalogo_Papel para sacar Ids segun corresponda.Designer.cs">
+      <DependentUpon>201803072023449_TipoCatalogo_Papel para sacar Ids segun corresponda.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803072034571_quitar clase intermedia.cs" />
+    <Compile Include="Migrations\201803072034571_quitar clase intermedia.Designer.cs">
+      <DependentUpon>201803072034571_quitar clase intermedia.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803072043488_intento.cs" />
+    <Compile Include="Migrations\201803072043488_intento.Designer.cs">
+      <DependentUpon>201803072043488_intento.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803072059139_quitando fk.cs" />
+    <Compile Include="Migrations\201803072059139_quitando fk.Designer.cs">
+      <DependentUpon>201803072059139_quitando fk.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201803072102122_agregando como variables normales.cs" />
+    <Compile Include="Migrations\201803072102122_agregando como variables normales.Designer.cs">
+      <DependentUpon>201803072102122_agregando como variables normales.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cotizador\Doblez.cs" />
@@ -696,6 +716,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802161322594_Agregue campo estado al presupuesto.resx">
       <DependentUpon>201802161322594_Agregue campo estado al presupuesto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803072023449_TipoCatalogo_Papel para sacar Ids segun corresponda.resx">
+      <DependentUpon>201803072023449_TipoCatalogo_Papel para sacar Ids segun corresponda.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803072034571_quitar clase intermedia.resx">
+      <DependentUpon>201803072034571_quitar clase intermedia.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803072043488_intento.resx">
+      <DependentUpon>201803072043488_intento.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803072059139_quitando fk.resx">
+      <DependentUpon>201803072059139_quitando fk.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201803072102122_agregando como variables normales.resx">
+      <DependentUpon>201803072102122_agregando como variables normales.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
