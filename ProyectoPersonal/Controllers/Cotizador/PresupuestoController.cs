@@ -98,7 +98,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
             //la produccion es la tabla de pliegos totales impreso por tipo doblez.
             Produccion produccion = db.Produccion.Where(x => x.Paginas == CantidadPaginasInt).FirstOrDefault();
             
-            int NumeroDoblez = 0;
+            int NumeroDoblez = 4;
             if (db.Papel.Where(x => x.IdPapel == (int)idPapelInterior).Select(x => x.NombrePapel).Contains("Bond"))
             {
                 if ((CantidadPaginasInt / 32) > 0)
@@ -513,9 +513,14 @@ namespace ProyectoPersonal.Controllers.Cotizador
 
                 detalle.Interior.CostoPapelInteriorVari = (Math.Ceiling(((papelInterior.PrecioKilos * detalle.Interior.Tiradas)/Convert.ToDouble(Tiraje))*100.0)/100.0);
 
-                detalle.Interior.KilosPapel = (float)(((Web88!= null) ? (((Tiraje * produccion.Web88cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas16 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho)/ 10000000.0)):0) +
-                                                     ((Litho132!= null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas48 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000000.0)):0) +
-                                                     ((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas64 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho174.Interior_Alto * Litho174.Interior_Ancho) / 10000000.0)):0));
+                float a = (float)(((Web88 != null) ? (((Tiraje * produccion.Web88cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas16 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000000.0)) : 0));
+                float b = (float)((Litho132 != null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas48 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000000.0)) : 0);
+                float c = (float)((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas64 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho174.Interior_Alto * Litho174.Interior_Ancho) / 10000000.0)) : 0);
+
+
+                detalle.Interior.KilosPapel = (float)(((Web88 != null) ? (((Tiraje * produccion.Web88cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas16 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000000.0)) : 0) +
+                                                     ((Litho132 != null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas48 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000000.0)) : 0) +
+                                                     ((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas64 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * ((Litho174 != null) ? Litho174.Interior_Alto : 0)) * ((Litho174 != null) ? Litho174.Interior_Ancho : 0) / 10000000.0)):0));
 
 
                 //detalle.Interior.KilosPapel = (float)(((Tiraje * (Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez)) * detalle.MaquinaInterior.MermaVariable) 
@@ -627,7 +632,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
             pres.Catalogo = db.Catalogo.ToList();
             pres.Empresa = db.Empresa.ToList();
             List<SelectListItem> s = new List<SelectListItem>();
-            for (int i = 4; i <= 400; i = i + 4)
+            for (int i = 4; i <= 200; i = i + 4)//antes 400
             {
                 s.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
             }

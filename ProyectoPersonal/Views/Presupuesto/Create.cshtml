@@ -414,6 +414,7 @@
         $("#OfertaNeto").text("");
         $("#OfertaPrecioUnit").text("");
         $("#btnGuardar").prop('disabled', true);
+
     }
     function ValidaBotonCrear(){
         var ContadorErrores = 0;
@@ -487,6 +488,7 @@
         if (PapelTap == 'Seleccione un Papel' && CantTap != 'Seleccione Cantidad') {
             $("#PapelTapDescripcion").hide();
             $("#SpanPapelTapa").text("Seleccione Papel Tapa.").show();
+            $("select#TapaPapel").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
             ContadorErrores += 1;
             DeshabilitaTerminacionTapaAdicional("deshabilita");
         } 
