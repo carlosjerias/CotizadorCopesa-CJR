@@ -208,8 +208,26 @@
         {
             <div class="col-xs-12"><br /></div>
         }
-        @{ 
-            try
+        @{
+            @*var contador = 0;
+            if (Model.Interior.Papel.Empresa.NombreEmpresa == "Copesa")
+            {
+                contador++;
+            }
+            if ((Model.Tapa.Papel != null))
+            {
+                contador++;
+            }
+            if (contador > 1)
+            {
+                <div class="col-xs-12"> Observaciones : Papeles son proporcionado por grupo Copesa</div>
+            }
+            else
+            {
+                <div class="col-xs-12"> Observaciones : Papeles son proporcionado por grupo Copesa</div>
+            }*@
+
+            @*try
             {
                 if (Model.Interior.Papel.Empresa.NombreEmpresa == "Copesa" || Model.Tapa.Papel.Empresa.NombreEmpresa == "Copesa")
                 {
@@ -219,7 +237,7 @@
             catch
             {
                 <div class="col-xs-12"> Observaciones : Papeles son proporcionado por grupo Copesa</div>
-            }
+            }*@
         }
         @if (Model.TapaId == null)
         {
@@ -256,8 +274,8 @@
                 {
                     if (Model.Interior.Papel.Empresa.NombreEmpresa == "Copesa" || Model.Tapa.Papel.Empresa.NombreEmpresa == "Copesa")
                     {
-                        confirmacion = "Si este presupuesto es aceptado,se deberá confirmar disponibilidad de máquina" +
-                    " con su ejecutivo directo.";
+                        confirmacion = "Si este presupuesto es aceptado,se deberá confirmar disponibilidad de máquina y" +
+                                     "papeles con su ejecutivo directo.";
                     }
                 }
                 catch

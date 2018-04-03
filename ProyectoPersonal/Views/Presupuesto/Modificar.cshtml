@@ -9,7 +9,6 @@
         margin-left: 10px;
         padding: 0 2px 2px 0;
     }
-    
 </style>
 <script>
 
@@ -434,11 +433,11 @@
                 if (NameCatalog == '') {
                     $("input#NombreCatalogo").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
                 } else { $("input#NombreCatalogo").css("border", ""); }
-                
+
                 if (NamePresu == '') {
                     $("input#NombrePresupuesto").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
                 } else { $("input#NombrePresupuesto").css("border", ""); }
-                
+
                 ContadorErrores += 1;
             } else { $("input#NombreCatalogo").css("border", ""); $("input#NombrePresupuesto").css("border", ""); }
         } else {
@@ -465,20 +464,20 @@
             ContadorErrores += 1;
         }
         //else { $("select#CantidadInt").css("border", ""); }
- 
+
         if (PapelInt == null || PapelInt == 'Seleccione un Papel') {
             $("#PapelIntDescripcion").hide();
             $("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
             ContadorErrores += 1;
         }
         //else { $("select#SelectPapelIntId").css("border", ""); }
-        
-        
+
+
 
 //Papel Tapa
         var CantTap = $("select#CantidadTapa option:selected").text();
         var PapelTap = $("select#TapaPapel option:selected").text();
-        
+
         if (CantTap == 'Seleccione Cantidad' && PapelTap != 'Seleccione un Papel') {
             $("#SpanCantTapa").text("Seleccione cantidad de páginas en tapa.").show();
             $("#PapelTapDescripcion").hide();
@@ -491,13 +490,13 @@
             $("select#TapaPapel").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
             ContadorErrores += 1;
             DeshabilitaTerminacionTapaAdicional("deshabilita");
-        } 
+        }
         if (PapelTap != 'Seleccione un Papel' && CantTap != 'Seleccione Cantidad') {
             $("#PapelTapDescripcion").show();
             $("#SpanPapelTapa").hide();
             $("#SpanCantTapa").hide();
-            DeshabilitaTerminacionTapaAdicional("habilita");    
-        } 
+            DeshabilitaTerminacionTapaAdicional("habilita");
+        }
 
         if (PapelTap == 'Seleccione un Papel' && CantTap == 'Seleccione Cantidad') {
             $("#PapelTapDescripcion").hide();
@@ -527,8 +526,8 @@
             (eval(CantEnZuncho) == 0 ? $("#MensajeZuncho").hide() : $("#MensajeZuncho").show());
             //if (eval(CantEnCaja) == 0) {
             //    //quitar mensaje cajas y zuncho
-                
-            //} 
+
+            //}
             //if (eval(CantEnZuncho) == 0) {
             //    //quitar mensaje cajas y zuncho
             //    $("#MensajeZuncho").hide();
@@ -675,7 +674,7 @@
             <div class="modal-footer">
                 <a href="@Url.Action("index","Presupuesto")"><span class="btn btn-sm btn-default fa fa-history"> Volver</span></a>
 
-                <button id="btnGuardar" type="button" disabled class="btn btn-sm btn-default" 
+                <button id="btnGuardar" type="button" disabled class="btn btn-sm btn-default"
                         onclick="$(this.form).attr('action', 'Guardar').submit();">
                     <i class="icon-check"></i> Crear
                 </button>
@@ -698,10 +697,11 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.SelectFormato, "Formato", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("SelectFormato", new SelectList(Model.Formatos.Select(x => x.NombreFormato).Distinct().ToList()), "Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline;width: 247px;" })
+                    @Html.DropDownList("SelectFormato", new SelectList(Model.Formatos.Select(x => x.NombreFormato).Distinct().ToList(), ViewBag.Formato), "Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline;width: 247px;" })
                     mm.
                     @Html.ValidationMessageFor(model => model.SelectFormato, "", new { @class = "text-danger", style = "display:inline" })
                     <span id="spanFormatoIMG" class="glyphicon glyphicon-info-sign alert-info hidden"></span>&nbsp;<span id="spanFormato" style="color:#31708f;font-weight: bold;"></span>
+                    @ViewBag.Formato
                 </div>
             </div>
 
@@ -709,7 +709,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Tiraje, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline;" } })
+                    @Html.EditorFor(model => model.Tiraje, new { htmlAttributes = new { @class = "form-control", onchange = "$(this.form).attr('action', 'Calcular').submit();", style = "display:inline;", @Value = ViewBag.Tiraje } })
 
                     @Html.ValidationMessageFor(model => model.Tiraje, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
@@ -721,7 +721,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.CantidadInt, "Cantidad Páginas", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.CantidadInt, new SelectList(ViewBag.CantidadInt, "Value", "Text"), "Seleccione Cantidad", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.DropDownListFor(model => model.CantidadInt, new SelectList(ViewBag.CantidadInt, "Value", "Text",ViewBag.PagsInterior), "Seleccione Cantidad", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     @Html.ValidationMessageFor(model => model.CantidadInt, "", new { @class = "text-danger", style = "display:inline" })
                     <span id="spanCantidadIntIMG" class="glyphicon glyphicon-info-sign alert-info hidden"></span>&nbsp;<span id="spanCantidadInt" style="color:#31708f;font-weight: bold;"></span>
                 </div>
@@ -730,17 +730,17 @@
             <div class="form-group" id="divPapelEmpresaInt">
                 @Html.LabelFor(model => model.Empresa, "Proveedor del Papel", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.EmpresaPapelInterior, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa") , htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                    @Html.DropDownListFor(model => model.EmpresaPapelInterior, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa"), htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     <div class="hidden" id="PPapelEmpresaInt" style="display:inline;color:#1a4e68;"><span class="glyphicon glyphicon-info-sign alert-info"></span>&nbsp;<span style="color:#31708f;font-weight: bold;">Papel sujeto a disponibilidad.</span></div>
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(model => model.SelectPapelIntId, "Papel Interior", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10 form-inline">
-                    @Html.DropDownListFor(model => model.SelectPapelIntId, new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline;width: 280px;" })
-                    <span id="spanSelectPapelIntId">  @Html.ValidationMessageFor(model => model.SelectPapelIntId, "", new { @class = "text-danger", style = "display:inline" })</span> 
-                    <span id="SpanPapelIntCliente" class="text-danger"></span>  <div style="display:inline;color:#1a4e68;"><strong  id="PapelIntDescripcion" ></strong></div>
-                
+                    @Html.DropDownListFor(model => model.SelectPapelIntId, new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel",ViewBag.PapelInt), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline;width: 280px;" })
+                    <span id="spanSelectPapelIntId">  @Html.ValidationMessageFor(model => model.SelectPapelIntId, "", new { @class = "text-danger", style = "display:inline" })</span>
+                    <span id="SpanPapelIntCliente" class="text-danger"></span>  <div style="display:inline;color:#1a4e68;"><strong id="PapelIntDescripcion"></strong></div>
+
                 </div>
             </div>
         </fieldset>
@@ -770,7 +770,7 @@
                     @Html.ValidationMessageFor(model => model.CantidadModelos, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
-            <div class="form-group"  id="divPapelEmpresaTap">
+            <div class="form-group" id="divPapelEmpresaTap">
                 @Html.LabelFor(model => model.Empresa, "Proveedor del Papel", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.EmpresaPapelTapa, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa"), htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline;width: 280px;" })
@@ -781,7 +781,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.SelectPapelTapId, "Papel Tapa", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10 form-inline">
-                    @Html.DropDownList("TapaPapel", new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline;width: 280px;" })
+                    @Html.DropDownList("TapaPapel", new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel",ViewBag.PapelTap), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline;width: 280px;" })
                     @Html.ValidationMessageFor(model => model.SelectPapelTapId, "", new { @class = "text-danger", style = "display:inline" })
                     <div style="display:inline;color:#1a4e68;"><strong id="PapelTapDescripcion"></strong></div>
                     <span id="SpanPapelTapa" class="text-danger"></span>
@@ -885,7 +885,7 @@
 
                     @Html.ValidationMessageFor(model => model.CantidadEnZuncho, "", new { @class = "text-danger", style = "display:inline" })
                     <div style="display:inline;color:#1a4e68;"><strong id="MensajeZuncho"></strong></div>
-                    
+
                 </div>
             </div>
             <div class="form-group hidden">
@@ -897,7 +897,7 @@
                 </div>
             </div>
         </fieldset>
-       
+
         <fieldset>
             <legend>Manualidades</legend>
             <div class="form-group">
@@ -945,8 +945,8 @@
                                                 htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline;width: 280px;" })
                     @Html.EditorFor(model => model.CantidadPegado, new { htmlAttributes = new { @class = "form-control hidden", onchange = "$(this.form).submit();", style = "display:inline", placeholder = "Cantidad" } })
                     @*@Html.DropDownList("ddlAdhesivo", new SelectList(Model.SubProcesos.Where(x => x.Proceso.NombreProceso == "Adhesivo").ToList(), "IdSubProceso", "NombreSubProceso"), "No",
-                                                htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })*@
-                    <div class="hidden" id="MensajeInserto" style="display:inline;color:#1a4e68;"><strong >la caja calculada es la standard y por tanto implica una modificación en la facturación producto  del cambio de caja.</strong></div>
+                        htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })*@
+                    <div class="hidden" id="MensajeInserto" style="display:inline;color:#1a4e68;"><strong>la caja calculada es la standard y por tanto implica una modificación en la facturación producto  del cambio de caja.</strong></div>
                 </div>
             </div>
             <div class="form-group">
@@ -969,7 +969,7 @@
                 </div>
             </div>
         </fieldset>
-        @if (Request.IsAuthenticated && (User.IsInRole("Administrador")|| User.IsInRole("SuperUser")))
+        @if (Request.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("SuperUser")))
         {
             <fieldset>
                 <legend>Totales</legend>
@@ -1325,7 +1325,8 @@
                     <table>
                         <tbody>
                             <tr>
-                                <td>1. En la parte superior derecha, haz clic en Más </td><td class="text-left"><img src="~/Imagen/mas.png" alt="Botón Más" /></td>
+                                <td>1. En la parte superior derecha, haz clic en Más </td>
+                                <td class="text-left"><img src="~/Imagen/mas.png" alt="Botón Más" /></td>
                             </tr>
                             <tr>
                                 <td colspan="2">2. Haz clic en Configuración.</td>
@@ -1347,7 +1348,7 @@
                     <br />
                     <b>Opción 2</b>
                     <br />1. Seleccionar opción Permitir ventanas emergentes y hacer clic en Listo
-                    <img src="~/Imagen/desbloquearPopUp.png"/>
+                    <img src="~/Imagen/desbloquearPopUp.png" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" data-dismiss="modal" class="btn btn-default">Cerrar</button>
@@ -1358,7 +1359,7 @@
     </div>
 
 }
- 
+
 
 
 @section Scripts {
@@ -1471,7 +1472,7 @@
                 }
                 $("#spanSelectPapelIntId").hide();
                 $("select#SelectPapelIntId").css("border", "");
-          
+
                 //CREAR VALIDACION CUANDO SEA PRODUCTO SIN TAPA
                 if (result.EmpresaPapelTapa == null || result.EmpresaPapelTapa == '') {
                     $("#SpanCantTapa").hide();
@@ -1480,7 +1481,7 @@
                 } else {
                     $("#SpanCantTapa").text("Seleccione cantidad de páginas en tapa.").show();
                     $("select#EmpresaPapelTapa option").each(function () { this.selected = (this.text == result.EmpresaPapelTapa); });
-                    
+
                     var cTapa = $("select#CantidadTapa option:selected").text();
 
                     if (cTapa != 'Seleccione Cantidad') {
@@ -1501,9 +1502,9 @@
                             GramajeSelect.append(optionhtml);
                         });
                     });
-                    
+
                 }
-            });  
+            });
         }
         else {
 
@@ -1525,7 +1526,7 @@
             $("#SpanPapelTapa").text("Seleccione Papel Tapa.").show();
             $("#PapelTapDescripcion").hide();
            // $("#PapelTapDescripcion").addClass("hidden");
-            
+
             //agregar color a interior cant paginas y papel int
             $("input#NombreCatalogo").removeClass("hidden");
             $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == "Aimpresores"); }).trigger("change");//.removeAttr("disabled");
@@ -1568,7 +1569,7 @@
         ValidaBotonCrear();
     });
     $("#CantidadInt").change(function () {
-       
+
         var selectedCantidadInt = $(this).val();
         var ValorPapelCliente=  $("select#SelectPapelIntId option:selected").text();
         if (selectedCantidadInt != null && selectedCantidadInt != 'Seleccione Cantidad' && selectedCantidadInt!='') {
@@ -1638,25 +1639,25 @@
         if (selectedCantidad != null && selectedCantidad != '') {
             var tiraje = $("input#Tiraje").val();
             $("input#CantidadInsercion").removeClass("hidden").val(tiraje).trigger("change");
-            
+
         }
         else {
             $("input#CantidadInsercion").addClass("hidden").val(0).trigger("change");
-            
+
         }
     });
     $("select#ddlPegado").change(function () {
         var selectedCantidad = $(this).val();
         if (selectedCantidad != null && selectedCantidad != '') {
             var tiraje = $("input#Tiraje").val();
-            
+
             $("div#MensajeInserto").removeClass("hidden");
             $("input#CantidadPegado").removeClass("hidden").val(tiraje).trigger("change");
         }
         else {
             $("div#MensajeInserto").addClass("hidden");
             $("input#CantidadPegado").addClass("hidden").val(0).trigger("change");
-            
+
         }
     });
     $("select#ddlFajado").change(function () {
@@ -1674,7 +1675,7 @@
         if (selectedCantidad != null && selectedCantidad != '') {
             var tiraje = $("input#Tiraje").val();
             $("input#CantidadPegadoSticker").removeClass("hidden").val(tiraje).trigger("change");
-            
+
         }
         else {
             $("input#CantidadPegadoSticker").addClass("hidden").val(0).trigger("change");
@@ -1713,7 +1714,7 @@
             $("#SpanPapelIntCliente").hide();
             $("select#SelectPapelIntId").css("border", "");
         }
-        ValidaBotonCrear(); 
+        ValidaBotonCrear();
     });
     $("input#CantidadTerminacionEmbolsado").change(function () {
         var CantEmbolsado = eval($(this).val());
@@ -1757,7 +1758,7 @@
         //}
         ValidaBotonCrear();
     });
-    
+
     $("input#Tiraje").change(function () {
         var CantidadEjemplares = $(this).val();
         var CantidadenCajas = eval($("input#CantidadEnCajas").val());
@@ -1772,7 +1773,7 @@
         $("input#CantidadFajado").val(eval(CantidadEjemplares));
         $("input#CantidadPegadoSticker").val(eval(CantidadEjemplares));
         $("input#CantidadTerminacionEmbolsado").val(eval(CantidadEjemplares));
-        
+
         if (CantidadenCajas == 0 && CantidadenZuncho == 0 && CantidadenBolsa == 0)
         {
             $("input#CantidadEnCajas").val(eval(CantidadEjemplares));
@@ -1780,7 +1781,7 @@
         else{
             if (eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnZuncho").val())) > 0) {
                 $("input#CantidadEnCajas").val(eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnZuncho").val()))).trigger("change");
-        
+
             }
             else if (eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnCajas").val())) > 0) {
                 $("input#CantidadEnZuncho").val(eval(CantidadEjemplares - eval($("input#CantidadEnBolsa").val()) - eval($("input#CantidadEnCajas").val()))).trigger("change");
@@ -1813,7 +1814,7 @@
     $("input#CantidadEnZuncho").change(function () {
         var CantidadenZuncho = eval($(this).val());
         var Tiraje = eval($("input#Tiraje").val());
-        
+
         if (CantidadenZuncho >= Tiraje) {
             $("input#CantidadEnCajas").val(0);
             $("input#CantidadEnBolsa").val(0);
@@ -1835,7 +1836,7 @@
         }
         else {
             AsignarDespacho(Tiraje, $("input#CantidadEnCajas").val(), $("input#CantidadEnZuncho").val(), CantidadenBolsa, "Bolsa");
-            
+
         }
         $("#SelectPapelIntId").trigger("change");
     });
@@ -1977,3 +1978,5 @@
         //}
     }
 </script>
+
+

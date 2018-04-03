@@ -1065,5 +1065,63 @@ namespace ProyectoPersonal.Controllers.Cotizador
         }
 
 
+
+        [Authorize(Roles = "Administrador,SuperUser,User")]
+        public ActionResult Modificar(int? id)
+        {
+            if (id != null && id > 0)
+            {
+                Presupuesto presupuesto = db.Presupuesto.Find(id);
+                
+ 
+
+
+
+                if (presupuesto == null)
+                {
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    PresupuestoForm pres = new PresupuestoForm();
+                    pres.Encuadernaciones = db.Encuadernacion.ToList();
+                    pres.Formatos = db.Formato.ToList();
+                    pres.Papeles = db.Papel.Where(x => x.EmpresaId == 2).OrderBy(x => x.NombrePapel).ThenBy(x => x.Gramaje).ToList();
+                    pres.SubProcesos = db.SubProceso.Include("Proceso").ToList();
+                    pres.Catalogo = db.Catalogo.ToList();
+                    pres.Empresa = db.Empresa.ToList();
+                    List<SelectListItem> s = new List<SelectListItem>();
+                    for (int i = 4; i <= 200; i = i + 4)//antes 400
+                    {
+                        s.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
+                    }
+                    ViewBag.CantidadInt = s;
+                    ViewBag.ValorUF = string.Format("{0:#,0.00}", db.Moneda.Where(x => x.Estado == true && x.TipoMonedaId == 2).Select(x => x.Valor).FirstOrDefault());
+
+                    //carga variables a modificar
+                    ViewBag.Formato = db.Formato.Where(x => x.IdFormato == presupuesto.FormatoId).Select(x => x.FormatoCerradoX + " x " + x.FormatoCerradoY).First();
+                    ViewBag.NombrePresu = presupuesto.NombrePresupuesto;
+                    ViewBag.Tiraje = presupuesto.Tiraje;
+                    ViewBag.PagsInterior = db.Interior.Where(x => x.IdInterior == presupuesto.InteriorId).Select(x => x.CantidadPaginas).First();
+                    //var idInt= db.Interior.Where(x => x.IdInterior == presupuesto.InteriorId).Select(x => x.PapelId).First();
+                    //db.Papel.Where(x => x.IdPapel == 1011).Select(x => x.NombrePapel + " " + x.Gramaje).First();
+                    ViewBag.PapelInt = db.Interior.Where(x => x.IdInterior == presupuesto.InteriorId).Select(x => x.PapelId).First();
+
+
+                    
+                    //ViewBag.PagsTap= db.Tapa.Where(x => x.IdTapa == presupuesto.InteriorId).Select(x => x.CantidadPaginas).First();
+                    //var idTap = db.Tapa.Where(x => x.IdTapa == presupuesto.TapaId).Select(x => x.PapelId).First();
+                    //db.Papel.Where(x => x.IdPapel == 1014).Select(x => x.NombrePapel + " " + x.Gramaje.ToString()).First();
+                    ViewBag.PapelTap= db.Tapa.Where(x => x.IdTapa == presupuesto.TapaId).Select(x => x.PapelId).First();
+
+                    return View(pres);
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
+
     }
 }
