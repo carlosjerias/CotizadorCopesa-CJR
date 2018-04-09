@@ -1123,5 +1123,105 @@ namespace ProyectoPersonal.Controllers.Cotizador
             }
         }
 
+
+
+        [Authorize(Roles = "Administrador,SuperUser,User")]
+        public ActionResult Editar()
+        {
+            PresupuestoForm pres = new PresupuestoForm();
+            pres.Encuadernaciones = db.Encuadernacion.ToList();
+            pres.Formatos = db.Formato.ToList();
+            //pres.Papeles = db.Papel.Where(x => x.EmpresaId == 2).OrderBy(x => x.NombrePapel).ThenBy(x => x.Gramaje).ToList();
+            pres.SubProcesos = db.SubProceso.Include("Proceso").ToList();
+            pres.Catalogo = db.Catalogo.ToList();
+            pres.Empresa = db.Empresa.ToList();
+            List<SelectListItem> s = new List<SelectListItem>();
+            for (int i = 4; i <= 200; i = i + 4)//antes 400
+            {
+                s.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString()});
+            }
+            ViewBag.CantidadInt = s;
+            ViewBag.ValorUF = string.Format("{0:#,0.00}", db.Moneda.Where(x => x.Estado == true && x.TipoMonedaId == 2).Select(x => x.Valor).FirstOrDefault());
+
+            ViewBag.IDPresu = Request.QueryString["IdP"];
+            int idP = Convert.ToInt32(Request.QueryString["IdP"]);
+            Presupuesto presupuesto = db.Presupuesto.Find(idP);
+            ViewBag.Catalogo = presupuesto.TipoCatalogoId.ToString();
+            ViewBag.NombrePresu = presupuesto.NombrePresupuesto;
+            ViewBag.TirajePresu = presupuesto.Tiraje;
+            ViewBag.Formato = db.Formato.Where(x => x.IdFormato == presupuesto.FormatoId).Select(x => x.FormatoCerradoX + " x " + x.FormatoCerradoY).First();
+            //Interior
+            ViewBag.PagsInterior = db.Interior.Where(x => x.IdInterior == presupuesto.InteriorId).Select(x => x.CantidadPaginas).First();
+            int IdPapInt = db.Interior.Where(x => x.IdInterior == presupuesto.InteriorId).Select(x => x.PapelId).First();
+            ViewBag.PapelInt = db.Interior.Where(x => x.IdInterior == presupuesto.InteriorId).Select(x => x.PapelId).First();
+            ViewBag.TipoEnc = presupuesto.EncuadernacionId;
+
+            int idEmpInt= db.Papel.Where(x => x.IdPapel == IdPapInt).Select(x => x.EmpresaId).First();
+            ViewBag.PapelesInterior = db.Papel.Where(x => x.EmpresaId == idEmpInt).OrderBy(x => x.NombrePapel).ThenBy(x => x.Gramaje).ToList();
+            ViewBag.ProveedorInterior = idEmpInt;
+            //Validacion productos sin tapa
+            if (presupuesto.TapaId != null)
+            {
+                ViewBag.Texto = "con tapa";
+                ViewBag.PagsTapa = "4";
+                int idTap = db.Tapa.Where(x => x.IdTapa == presupuesto.TapaId).Select(x => x.PapelId).First();
+                int idEmpTap = db.Papel.Where(x => x.IdPapel == idTap).Select(x => x.EmpresaId).First();
+                ViewBag.PapelTap = idTap;
+                ViewBag.ProveedorTapa = idEmpTap;
+                ViewBag.PapelesTapa = new SelectList((db.Papel.Where(x => x.EmpresaId == idEmpTap).OrderBy(x => x.NombrePapel).ThenBy(x => x.Gramaje).ToList()), "IdPapel", "NombreCompletoPapel");
+            }
+            else
+            {
+                ViewBag.Texto = "Sin tapa";
+                ViewBag.PapelesTapa = new SelectList((db.Papel.Where(x => x.EmpresaId == 2).OrderBy(x => x.NombrePapel).ThenBy(x => x.Gramaje).ToList()), "IdPapel", "NombreCompletoPapel");
+            }
+            //Terminacion adicional tapa
+            ViewBag.QuintoColor = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 39 || x.SubProcesoId == 40 || x.SubProcesoId == 41).Select(x=>x.SubProcesoId).FirstOrDefault();
+            ViewBag.Laminado = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 12 || x.SubProcesoId == 13 || x.SubProcesoId == 14).Select(x => x.SubProcesoId).FirstOrDefault();
+            ViewBag.BarnizUV = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 15 || x.SubProcesoId == 16 || x.SubProcesoId == 17).Select(x => x.SubProcesoId).FirstOrDefault();
+            ViewBag.EmbolsadoENC = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 7 || x.SubProcesoId == 9 || x.SubProcesoId == 17).Select(x => x.SubProcesoId).FirstOrDefault();
+            ViewBag.EmbolsadoENCcant = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 7 || x.SubProcesoId == 9 || x.SubProcesoId == 17).Select(x => x.CantidadEjemplaresProceso).FirstOrDefault();
+
+            ViewBag.AlzadoPlano = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto && x.SubProcesoId==21).Select(x => x.SubProcesoId).FirstOrDefault();
+            ViewBag.AlzadoPlanoCant = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto && x.SubProcesoId == 21).Select(x => x.CantidadEjemplaresProceso).FirstOrDefault();
+
+            ViewBag.DesembolsadoSimple = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto && x.SubProcesoId == 22).Select(x => x.SubProcesoId).FirstOrDefault();
+            ViewBag.DesembolsadoSimpleCant = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto && x.SubProcesoId == 22).Select(x => x.CantidadEjemplaresProceso).FirstOrDefault();
+
+            ViewBag.Alzado = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 23 || x.SubProcesoId == 24).Select(x => x.SubProcesoId).FirstOrDefault();
+            ViewBag.AlzadoCant = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 23 || x.SubProcesoId == 24).Select(x => x.CantidadEjemplaresProceso).FirstOrDefault();
+
+            ViewBag.InsercionManual = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 25 || x.SubProcesoId == 26 || x.SubProcesoId==27).Select(x => x.SubProcesoId).FirstOrDefault();
+            ViewBag.InsercionManualCant = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 25 || x.SubProcesoId == 26 || x.SubProcesoId == 27).Select(x => x.CantidadEjemplaresProceso).FirstOrDefault();
+
+            ViewBag.PegadoSachet = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 28 || x.SubProcesoId == 29 || x.SubProcesoId == 31).Select(x => x.SubProcesoId).FirstOrDefault();
+            ViewBag.PegadoSachetCant = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 28 || x.SubProcesoId == 29 || x.SubProcesoId == 31).Select(x => x.CantidadEjemplaresProceso).FirstOrDefault();
+
+            ViewBag.Fajado = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 32 || x.SubProcesoId == 33).Select(x => x.SubProcesoId).FirstOrDefault();
+            ViewBag.FajadoCant = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto).Where(x => x.SubProcesoId == 32 || x.SubProcesoId == 33).Select(x => x.CantidadEjemplaresProceso).FirstOrDefault();
+
+            ViewBag.PegadoSticker = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto && x.SubProcesoId == 38).Select(x => x.SubProcesoId).FirstOrDefault();
+            ViewBag.PegadoStickerCant = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == presupuesto.IdPresupuesto && x.SubProcesoId == 38).Select(x => x.CantidadEjemplaresProceso).FirstOrDefault();
+
+            return View(pres);
+        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //[Authorize(Roles = "Administrador,SuperUser,User")]
+        //public ActionResult Editar([Bind(Include = "IdPresupuesto,NombrePresupuesto,Tiraje,FormatoId,EncuadernacionId,InteriorId,TapaId,Presupuesto_ProcesoId,TotalNetoFijo,TotalNetoVari,TotalNetoTotal,PrecioUnitario")] Presupuesto presupuesto)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        db.Presupuesto.Add(presupuesto);
+        //        db.SaveChanges();
+        //        return RedirectToAction("Index");
+        //    }
+
+        //    ViewBag.EncuadernacionId = new SelectList(db.Encuadernacion, "IdEncuadernacion", "NombreEncuadernacion", presupuesto.EncuadernacionId);
+        //    ViewBag.FormatoId = new SelectList(db.Formato, "IdFormato", "IdFormato", presupuesto.FormatoId);
+        //    ViewBag.InteriorId = new SelectList(db.Interior, "IdInterior", "IdInterior", presupuesto.InteriorId);
+        //    ViewBag.TapaId = new SelectList(db.Tapa, "IdTapa", "IdTapa", presupuesto.TapaId);
+        //    return View(presupuesto);
+        //}
     }
 }

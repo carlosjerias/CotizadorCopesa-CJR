@@ -371,6 +371,10 @@
     <Compile Include="Migrations\201803072102122_agregando como variables normales.Designer.cs">
       <DependentUpon>201803072102122_agregando como variables normales.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804091543088_campo para barniz acuoso y distribucion.cs" />
+    <Compile Include="Migrations\201804091543088_campo para barniz acuoso y distribucion.Designer.cs">
+      <DependentUpon>201804091543088_campo para barniz acuoso y distribucion.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cotizador\Doblez.cs" />
@@ -623,9 +627,11 @@
     <Content Include="Views\Presupuesto\Nuevo.cshtml" />
     <Content Include="Views\Presupuesto\Nuevo2.cshtml" />
     <Content Include="Views\Presupuesto\Modificar.cshtml" />
+    <Content Include="Views\Presupuesto\Editar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Migrations\201804091542266_campo para barniz acuoso y despacho\" />
     <Folder Include="Temporal\" />
   </ItemGroup>
   <ItemGroup>
@@ -732,6 +738,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201803072102122_agregando como variables normales.resx">
       <DependentUpon>201803072102122_agregando como variables normales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804091543088_campo para barniz acuoso y distribucion.resx">
+      <DependentUpon>201804091543088_campo para barniz acuoso y distribucion.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

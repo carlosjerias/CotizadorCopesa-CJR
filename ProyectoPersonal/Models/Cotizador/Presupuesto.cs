@@ -191,6 +191,9 @@ namespace ProyectoPersonal.Models.Cotizador
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime FechaCreacion { get; set; }
         public int Estado { get; set; }
+        public int BarnizAcuoso { get; set; }
+        public int CantEnCajas { get; set; }
+        public int CantEnZuncho { get; set; }
 
         public string Usuarioid { get; set; }
         public ApplicationUser Usuario { get; set; }
