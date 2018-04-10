@@ -766,3 +766,4 @@ C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCop
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.intento.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.quitandofk.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.agregandocomovariablesnormales.resources
+C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Release\ProyectoPersonal.Migrations.campoparabarnizacuosoydistribucion.resources

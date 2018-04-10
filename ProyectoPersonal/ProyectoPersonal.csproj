@@ -628,6 +628,7 @@
     <Content Include="Views\Presupuesto\Nuevo2.cshtml" />
     <Content Include="Views\Presupuesto\Modificar.cshtml" />
     <Content Include="Views\Presupuesto\Editar.cshtml" />
+    <Content Include="Views\Presupuesto\Duplicar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

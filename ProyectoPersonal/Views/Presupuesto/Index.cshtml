@@ -176,12 +176,13 @@
                         <a href="@Url.Action("PDF", "Presupuesto", new { id = item.IdPresupuesto })" target="_blank"><span title="PDF" class="fa fa-file-pdf-o"></span></a>
                         @if (Request.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("SuperUser")))
                         {
-                            <span>|</span><a href="@Url.Action("CargaPresupuesto", "Presupuesto", new { id = item.IdPresupuesto, Tipo = 0 })" class="modal-link"><span title="Aprobar" class="fa fa-check"></span></a>
+                            <span> |</span><a href="@Url.Action("CargaPresupuesto", "Presupuesto", new { id = item.IdPresupuesto, Tipo = 0 })" class="modal-link"><span title="Aprobar" class="fa fa-check"></span></a>
                             <span> | </span><a href="@Url.Action("ReajustePPTO", "Presupuesto", new { id = item.IdPresupuesto })"><span title="Detalle" class="glyphicon glyphicon-th-list"></span></a>
                         }
                         @*@Html.ActionLink("Modificar", "Delete", "Presupuesto", new { id = item.IdDepartamento, Tipo = 0 }, new { @class = "modal-link" }) |*@
                         @*<a href="@Url.Action("VistaEliminaPresupuesto", "Presupuesto", new { id = item.IdPresupuesto })" class="modal-link"><span title="Eliminar" class="fa fa-trash"></span></a>*@
-                         
+                        <span> | </span><a href="@Url.Action("Editar", "Presupuesto", new { IdP = item.IdPresupuesto })"><span title="Modificar" class="glyphicon glyphicon-edit"></span></a>
+                        <span> | </span><a href="@Url.Action("Duplicar", "Presupuesto", new { IdP = item.IdPresupuesto })"><span title="Duplicar" class="glyphicon glyphicon-duplicate"></span></a>
                         | <a  href="javascript:;" onclick="AddEditEmployee(@item.IdPresupuesto)"><span title="Eliminar" class="fa fa-trash"></span></a>
                     
                     </td>

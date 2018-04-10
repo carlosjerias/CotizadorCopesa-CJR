@@ -833,7 +833,7 @@
                     @Html.ValidationMessageFor(model => model.IdBarnizUV, "", new { @class = "text-danger", style = "display:inline" })
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="display:none;">
                 @Html.LabelFor(model => model.IdTroquel, "Troquel", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("ddlTroquel", new List<SelectListItem>
