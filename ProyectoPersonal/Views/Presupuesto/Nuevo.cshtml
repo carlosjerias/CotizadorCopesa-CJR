@@ -41,38 +41,38 @@
     }
     function OnFailure(data) {
     }
-    function InfoPresupuesto() {
-        //VALIDACION CAMPO NOMBRE, FORMATO Y TIRAJE
-        if ($("#CatalogoId").val() > 0) {
-            if ($("input#NombrePresupuesto").val() == '') {
-                $("#spanNombrePresupuesto").text("El campo Nombre es obligatorio.");
-                $("#spanNombrePresupuesto").show();
-            } else { $("#spanNombrePresupuesto").hide(); }
-        } else {
-            //nuevo producto
-        }
-        if ($("#SelectFormato").val() == '') {
-            $("#spanFormato").text("El campo Formato es obligatorio.");
-            $("#spanFormato").show();
-        } else { $("#spanFormato").hide(); }
-        if ($("input#Tiraje").val() <= 0 || $("input#Tiraje").val() == '') {
-            $("#spanTiraje").text("El campo Tiraje debe ser mayor a 10.");
-            $("#spanTiraje").show();
-        } else { $("#spanTiraje").hide(); }
-    }
+    //function InfoPresupuesto() {
+    //    //VALIDACION CAMPO NOMBRE, FORMATO Y TIRAJE
+    //    if ($("#CatalogoId").val() > 0) {
+    //        if ($("input#NombrePresupuesto").val() == '') {
+    //            $("#spanNombrePresupuesto").text("El campo Nombre es obligatorio.");
+    //            $("#spanNombrePresupuesto").show();
+    //        } else { $("#spanNombrePresupuesto").hide(); }
+    //    } else {
+    //        //nuevo producto
+    //    }
+    //    if ($("#SelectFormato").val() == '') {
+    //        $("#spanFormato").text("El campo Formato es obligatorio.");
+    //        $("#spanFormato").show();
+    //    } else { $("#spanFormato").hide(); }
+    //    if ($("input#Tiraje").val() <= 0 || $("input#Tiraje").val() == '') {
+    //        $("#spanTiraje").text("El campo Tiraje debe ser mayor a 10.");
+    //        $("#spanTiraje").show();
+    //    } else { $("#spanTiraje").hide(); }
+    //}
 
-    function InfoPapelInterior() {
-        //CantidadInt,SelectPapelIntId
-        if ($("#SelectPapelIntId").val() == '') {
-            $("#spanSelectPapelIntId").text("El campo Papel de Cliente es obligatorio.");
-            $("#spanSelectPapelIntId").show();
-        } else { $("#spanSelectPapelIntId").hide(); }
+    //function InfoPapelInterior() {
+    //    //CantidadInt,SelectPapelIntId
+    //    if ($("#SelectPapelIntId").val() == '') {
+    //        $("#spanSelectPapelIntId").text("El campo Papel de Cliente es obligatorio.");
+    //        $("#spanSelectPapelIntId").show();
+    //    } else { $("#spanSelectPapelIntId").hide(); }
 
-        if ($("#CantidadInt").val() == '') {
-            $("#spanCantidadInt").text("El campo Cantidad de Páginas es obligatorio.");
-            $("#spanCantidadInt").show();
-        } else { $("#spanCantidadInt").hide(); alert('entro'); Calculareee(); }
-    }
+    //    if ($("#CantidadInt").val() == '') {
+    //        $("#spanCantidadInt").text("El campo Cantidad de Páginas es obligatorio.");
+    //        $("#spanCantidadInt").show();
+    //    } else { $("#spanCantidadInt").hide(); alert('entro'); Calculareee(); }
+    //}
 
         $("#CatalogoId").change(function () {
         var selectedCatalogoId = $(this).val();

@@ -116,7 +116,8 @@ namespace ProyectoPersonal.Models
                 .HasForeignKey(x => x.FormatoId);
 
             modelBuilder.Entity<Presupuesto>().
-                HasRequired(x => x.Interior).WithMany(y => y.Presupuestos)
+                //HasRequired(x => x.Interior).WithMany(y => y.Presupuestos)
+                HasOptional(x => x.Interior).WithMany(y => y.Presupuestos) //cambio creacion solo tapas
                 .HasForeignKey(x => x.InteriorId);
 
             modelBuilder.Entity<Presupuesto>().

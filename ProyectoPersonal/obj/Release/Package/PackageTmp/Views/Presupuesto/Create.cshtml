@@ -53,8 +53,7 @@
               $("#btnGuardar").prop('disabled', true);
             }
         }
-        else {
-
+        else { 
             $("#OfertaPresupuesto").text( data.NombrePresupuesto);
 
             $("#Entradas64").text(data.EntradasPag64);
@@ -313,9 +312,11 @@
             $("#NetoTotCostoVari").text(formatNumber.new(data.TotalNetoVari));
             $("#ManufacturaTotal").text(formatNumber.new(Math.round(eval(data.ManufacturaFijo) + (eval(data.ManufacturaVari) * eval(data.Tiraje)))));
 
-            $("#PapelInteriorCostoFijo").text(formatNumber.new(data.Interior.CostoPapelinteriorFijo));
-            $("#PapelInteriorCostoVari").text(formatNumber.new(data.Interior.CostoPapelInteriorVari));
-            $("#PapelInteriorTotal").text(formatNumber.new(Math.round(eval(data.Interior.CostoPapelinteriorFijo) + eval(eval(data.Interior.CostoPapelInteriorVari) * eval(data.Tiraje)))));
+            if (data.Interior !== null) {
+                $("#PapelInteriorCostoFijo").text(formatNumber.new(data.Interior.CostoPapelinteriorFijo));
+                $("#PapelInteriorCostoVari").text(formatNumber.new(data.Interior.CostoPapelInteriorVari));
+                $("#PapelInteriorTotal").text(formatNumber.new(Math.round(eval(data.Interior.CostoPapelinteriorFijo) + eval(eval(data.Interior.CostoPapelInteriorVari) * eval(data.Tiraje)))));
+            }
             var SuministradoCliente = "Papel suministrado por el cliente, ";
             if (data.Tapa !== null) {
                 $("#PapelTapaCostoFijo").text(formatNumber.new(data.Tapa.CostoPapelTapaFijo));
@@ -372,11 +373,14 @@
             }
             $("#NetoTotal").text(formatNumber.new(data.TotalNetoTotal));
             $("#UnitarioTotal").text(formatNumber.new(data.PrecioUnitario));
-            if (data.Interior.CostoPapelinteriorFijo == 0) {
-                $("#PapelIntDescripcion").text(SuministradoCliente + " Consumo: " + formatNumber.new(Math.round(data.Interior.KilosPapel)) + " KG");
-            }
-            else {
-                $("#PapelIntDescripcion").text("Consumo: " + formatNumber.new(Math.round(data.Interior.KilosPapel)) + " KG");
+
+            if (data.Interior !== null) {
+                if (data.Interior.CostoPapelinteriorFijo == 0) {
+                    $("#PapelIntDescripcion").text(SuministradoCliente + " Consumo: " + formatNumber.new(Math.round(data.Interior.KilosPapel)) + " KG");
+                }
+                else {
+                    $("#PapelIntDescripcion").text("Consumo: " + formatNumber.new(Math.round(data.Interior.KilosPapel)) + " KG");
+                }
             }
 
 
@@ -455,22 +459,22 @@
             ContadorErrores += 1;
         } else { $("input#Tiraje").css("border", ""); }
 //Papel Interior
-        var CantInterior = $("select#CantidadInt option:selected").text();
-        var PapelInt = $("select#SelectPapelIntId option:selected").text();
-        if (CantInterior == null || CantInterior == 'Seleccione Cantidad') {
-            $("#PapelIntDescripcion").hide();
-            $("#spanCantidadInt").hide();
-            $("#spanCantidadIntIMG").hide();
-            $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-            ContadorErrores += 1;
-        }
+        //var CantInterior = $("select#CantidadInt option:selected").text();
+        //var PapelInt = $("select#SelectPapelIntId option:selected").text();
+        //if (CantInterior == null || CantInterior == 'Seleccione Cantidad') {
+        //    $("#PapelIntDescripcion").hide();
+        //    $("#spanCantidadInt").hide();
+        //    $("#spanCantidadIntIMG").hide();
+        //    $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+        //    ContadorErrores += 1;
+        //}
         //else { $("select#CantidadInt").css("border", ""); }
  
-        if (PapelInt == null || PapelInt == 'Seleccione un Papel') {
-            $("#PapelIntDescripcion").hide();
-            $("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-            ContadorErrores += 1;
-        }
+        //if (PapelInt == null || PapelInt == 'Seleccione un Papel') {
+        //    $("#PapelIntDescripcion").hide();
+        //    $("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+        //    ContadorErrores += 1;
+        //}
         //else { $("select#SelectPapelIntId").css("border", ""); }
         
         
@@ -507,11 +511,11 @@
             $("select#CantidadTapa").css("border", ""); $("select#TapaPapel").css("border", "");
         }
 //Encuadernacion
-        var Encuad = $("select#SelectEnc option:selected").text();
-        if (Encuad == 'Seleccione Una Encuadernación' || Encuad == null) {
-            $("select#SelectEnc").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-            ContadorErrores += 1;
-        } else { $("select#SelectEnc").css("border", ""); }
+        //var Encuad = $("select#SelectEnc option:selected").text();
+        //if (Encuad == 'Seleccione Una Encuadernación' || Encuad == null) {
+        //    $("select#SelectEnc").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+        //    ContadorErrores += 1;
+        //} else { $("select#SelectEnc").css("border", ""); }
 //Despacho - Distribucion
         var CantEnCaja = $("input#CantidadEnCajas").val();
         var CantEnZuncho = $("input#CantidadEnZuncho").val();
@@ -599,7 +603,7 @@
 
 </script>
 
-@using (Ajax.BeginForm(null, new AjaxOptions()
+@using (Ajax.BeginForm("Calcular", new AjaxOptions()//@using (Ajax.BeginForm(null, new AjaxOptions()
 {
     HttpMethod = "POST",
     OnSuccess = "OnSuccess",
@@ -719,11 +723,12 @@
         <fieldset>
             <legend>Información Interior</legend>
             <div class="form-group">
-                @Html.LabelFor(model => model.CantidadInt, "Cantidad Páginas", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.DropDownListFor(model => model.CantidadInt, new SelectList(ViewBag.CantidadInt, "Value", "Text"), "Seleccione Cantidad", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
-                    @Html.ValidationMessageFor(model => model.CantidadInt, "", new { @class = "text-danger", style = "display:inline" })
-                    <span id="spanCantidadIntIMG" class="glyphicon glyphicon-info-sign alert-info hidden"></span>&nbsp;<span id="spanCantidadInt" style="color:#31708f;font-weight: bold;"></span>
+    @Html.LabelFor(model => model.CantidadInt, "Cantidad Páginas", htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @*"Seleccione Cantidad"*@
+        @Html.DropDownListFor(model => model.CantidadInt, new SelectList(ViewBag.CantidadInt, "Value", "Text"), htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
+                   @* @Html.ValidationMessageFor(model => model.CantidadInt, "", new { @class = "text-danger", style = "display:inline" })*@
+                  <span id="spanCantidadIntIMG" class="glyphicon glyphicon-info-sign alert-info hidden"></span>&nbsp;<span id="spanCantidadInt" style="color:#31708f;font-weight: bold;"></span>
                 </div>
             </div>
 
@@ -1462,15 +1467,15 @@
                     });
                 });
                 //COLOR A LAS PAGINAS INTERIOR
-                var cInterior = $("select#CantidadInt option:selected").text();
+                    //var cInterior = $("select#CantidadInt option:selected").text();
 
-                if (cInterior != 'Seleccione Cantidad') {
-                    $("select#CantidadInt").css("border", "");
-                } else {
-                    $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-                }
-                $("#spanSelectPapelIntId").hide();
-                $("select#SelectPapelIntId").css("border", "");
+                    //if (cInterior != 'Seleccione Cantidad') {
+                    //    $("select#CantidadInt").css("border", "");
+                    //} else {
+                    //    $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+                    //}
+                    //$("#spanSelectPapelIntId").hide();
+                    //$("select#SelectPapelIntId").css("border", "");
           
                 //CREAR VALIDACION CUANDO SEA PRODUCTO SIN TAPA
                 if (result.EmpresaPapelTapa == null || result.EmpresaPapelTapa == '') {
@@ -1507,21 +1512,21 @@
         }
         else {
 
-            var cInterior = $("select#CantidadInt option:selected").text();
-            if (cInterior != 'Seleccione Cantidad') {
-                $("select#CantidadInt").css("border", "");
-            } else {
-                $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-            }
+            //var cInterior = $("select#CantidadInt option:selected").text();
+            //if (cInterior != 'Seleccione Cantidad') {
+            //    $("select#CantidadInt").css("border", "");
+            //} else {
+            //    $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+            //}
 
-            var cInteriorPapel = $("select#SelectPapelIntId option:selected").text();
-            if (cInteriorPapel != 'Seleccione un Papel') {
-                $("select#SelectPapelIntId").css("border", "");
-                $("#SpanPapelIntCliente").hide();
-            } else {
-                $("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-                $("#SpanPapelIntCliente").show();
-            }
+            //var cInteriorPapel = $("select#SelectPapelIntId option:selected").text();
+            //if (cInteriorPapel != 'Seleccione un Papel') {
+            //    $("select#SelectPapelIntId").css("border", "");
+            //    $("#SpanPapelIntCliente").hide();
+            //} else {
+            //    $("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+            //    $("#SpanPapelIntCliente").show();
+            //}
             $("#SpanPapelTapa").text("Seleccione Papel Tapa.").show();
             $("#PapelTapDescripcion").hide();
            // $("#PapelTapDescripcion").addClass("hidden");
@@ -1594,8 +1599,9 @@
             }
 
         } else {
-            $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-            $("#PapelIntDescripcion").hide();
+            //$("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+            //$("#PapelIntDescripcion").hide();
+            
         }
         ValidaBotonCrear();
         $("#CantidadInt").focus();
@@ -1704,10 +1710,10 @@
     $("select#SelectPapelIntId").change(function () {
         var PapelInt = $("select#SelectPapelIntId option:selected").text();
         if (PapelInt == null || PapelInt == 'Seleccione un Papel') {
-            $("#PapelIntDescripcion").hide();
-            $("#SpanPapelIntCliente").text("Seleccione Papel Interior").show();
-            $("#btnGuardar").prop('disabled', true);
-            $("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+            //$("#PapelIntDescripcion").hide();
+            //$("#SpanPapelIntCliente").text("Seleccione Papel Interior").show();
+            //$("#btnGuardar").prop('disabled', true);
+            //$("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
         } else {
             $("#PapelIntDescripcion").show();
             $("#SpanPapelIntCliente").hide();

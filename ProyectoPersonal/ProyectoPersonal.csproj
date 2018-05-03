@@ -375,6 +375,10 @@
     <Compile Include="Migrations\201804091543088_campo para barniz acuoso y distribucion.Designer.cs">
       <DependentUpon>201804091543088_campo para barniz acuoso y distribucion.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201804261904054_Cambio base de datos, interior opcional + encuadernacion opcional.cs" />
+    <Compile Include="Migrations\201804261904054_Cambio base de datos, interior opcional + encuadernacion opcional.Designer.cs">
+      <DependentUpon>201804261904054_Cambio base de datos, interior opcional + encuadernacion opcional.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cotizador\Doblez.cs" />
@@ -742,6 +746,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804091543088_campo para barniz acuoso y distribucion.resx">
       <DependentUpon>201804091543088_campo para barniz acuoso y distribucion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201804261904054_Cambio base de datos, interior opcional + encuadernacion opcional.resx">
+      <DependentUpon>201804261904054_Cambio base de datos, interior opcional + encuadernacion opcional.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

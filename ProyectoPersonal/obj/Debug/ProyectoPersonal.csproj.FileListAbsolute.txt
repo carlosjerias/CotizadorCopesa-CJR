@@ -1069,7 +1069,6 @@ C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCop
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\bin\es\Microsoft.Owin.Security.Google.resources.dll
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\bin\es\Microsoft.Owin.Security.Twitter.resources.dll
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\bin\es\Microsoft.Owin.Security.MicrosoftAccount.resources.dll
-C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.csprojResolveAssemblyReference.cache
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.BasededatosInicial.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.SeadicionoCajasyenzunchadoalformulario.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.SeadicionocantidaddePalletalformulario.resources
@@ -1098,12 +1097,14 @@ C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCop
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.FaltounCampo.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.cambioaservidordeprueba.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.Agreguecampoestadoalpresupuesto.resources
-C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.csproj.GenerateResource.Cache
-C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.dll
-C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.pdb
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.TipoCatalogo_PapelparasacarIdsseguncorresponda.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.quitarclaseintermedia.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.intento.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.quitandofk.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.agregandocomovariablesnormales.resources
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.campoparabarnizacuosoydistribucion.resources
+C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.Migrations.Cambiobasededatosinterioropcionalencuadernacionopcional.resources
+C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.csproj.GenerateResource.Cache
+C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.dll
+C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.pdb
+C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.csprojResolveAssemblyReference.cache

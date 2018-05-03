@@ -63,13 +63,13 @@ namespace ProyectoPersonal.Controllers.Cotizador
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize(Roles = "Administrador,SuperUser,User")]
-        public JsonResult Calcular(string NombrePresupuesto, int Tiraje, string SelectFormato, int? SelectEnc, int CantidadInt, int? SelectPapelIntId, int? CantidadTapa,
+        public JsonResult Calcular(string NombrePresupuesto, int Tiraje, string SelectFormato, int? SelectEnc, int? CantidadInt, int? SelectPapelIntId, int? CantidadTapa,
                                         int? TapaPapel, int? ddlQuintoColor, int? ddlBarnizAcuoso, int? ddlEmbolsado, int? ddlLaminado, int? ddlBarnizUV, int? ddlAlzadoPlano, int? ddlEmbolsadoManual,
                                         int? ddlPegadoSticker, int? ddlFajado, int? ddlPegado, int? ddlInsercion, int? ddlAlzado, int? ddlDesembolsado, int? ddlAdhesivo, //int? ddlAdhesivoCms,int CantidadCajas,
                                         int CantidadModelos, int ddlQuintoColorPasadas, int? CatalogoId, string NombreCatalogo, int CantidadAlzadoPlano, int CantidadDesembolsado, int CantidadAlzado, int CantidadInsercion,
                                         int CantidadPegado, int CantidadFajado, int CantidadPegadoSticker, int CantidadEnCajas, int CantidadEnZuncho, int CantidadEnBolsa, string ddlTroquel, int CantidadTerminacionEmbolsado)
         {
-            Presupuesto pres = ProcesarCalculo(SelectFormato, SelectEnc, CantidadInt, (CantidadTapa != null) ? Convert.ToInt32(CantidadTapa) : 0, "Plana", Tiraje, ddlQuintoColor, TapaPapel, SelectPapelIntId, ddlBarnizAcuoso, ddlEmbolsado, ddlLaminado, ddlBarnizUV
+            Presupuesto pres = ProcesarCalculo(SelectFormato, SelectEnc, (CantidadInt != null) ? Convert.ToInt32(CantidadInt) : 0, (CantidadTapa != null) ? Convert.ToInt32(CantidadTapa) : 0, "Plana", Tiraje, ddlQuintoColor, TapaPapel, SelectPapelIntId, ddlBarnizAcuoso, ddlEmbolsado, ddlLaminado, ddlBarnizUV
                                             , ddlAlzadoPlano, ddlEmbolsadoManual, ddlPegadoSticker, ddlFajado, ddlPegado, ddlInsercion, ddlAlzado, ddlDesembolsado, ddlAdhesivo, 4//, CantidadCajas
                                             , CantidadModelos, ddlQuintoColorPasadas, CantidadAlzadoPlano, CantidadDesembolsado, CantidadAlzado, CantidadInsercion, CantidadPegado, CantidadFajado, CantidadPegadoSticker, CatalogoId
                                             , CantidadEnCajas, CantidadEnZuncho, CantidadEnBolsa, ddlTroquel, CantidadTerminacionEmbolsado);
@@ -95,499 +95,699 @@ namespace ProyectoPersonal.Controllers.Cotizador
             Presupuesto detalle = new Presupuesto();
             detalle.MonedaId = db.Moneda.Where(x => x.Estado == true && x.TipoMonedaId == 2).Select(x => x.IdMoneda).FirstOrDefault();
             detalle.Tiraje = Tiraje;
-            #region nreEntradasxFormato
-            //la produccion es la tabla de pliegos totales impreso por tipo doblez.
-            Produccion produccion = db.Produccion.Where(x => x.Paginas == CantidadPaginasInt).FirstOrDefault();
-
-            int NumeroDoblez = 4;
-            if (db.Papel.Where(x => x.IdPapel == (int)idPapelInterior).Select(x => x.NombrePapel).Contains("Bond"))
+            if (idPapelInterior > 0)
             {
-                if ((CantidadPaginasInt / 32) > 0)
+                #region nreEntradasxFormato
+                //la produccion es la tabla de pliegos totales impreso por tipo doblez.
+                Produccion produccion = db.Produccion.Where(x => x.Paginas == CantidadPaginasInt).FirstOrDefault();
+
+                int NumeroDoblez = 4;
+                if (db.Papel.Where(x => x.IdPapel == (int)idPapelInterior).Select(x => x.NombrePapel).Contains("Bond"))
                 {
-                    produccion.Entradas16 = 0;
-                    produccion.Entradas48 = 0;
+                    if ((CantidadPaginasInt / 32) > 0)
+                    {
+                        produccion.Entradas16 = 0;
+                        produccion.Entradas48 = 0;
+                        produccion.Entradas64 = 0;
+                        detalle.EntradasPag32 = (CantidadPaginasInt / 32);
+                        produccion.Impresion32 = detalle.EntradasPag32;
+                        NumeroDoblez = 32;
+                        switch (CantidadPaginasInt - (detalle.EntradasPag32 * 32))
+                        {
+                            case 28:
+                                detalle.EntradasPag16 = 1; produccion.Entradas16 = 1;
+                                produccion.Impresion08 = 1; detalle.EntradasPag8 = 1;
+                                detalle.EntradasPag4 = 1; produccion.Impresion04 = 1;
+                                break;
+                            case 24:
+                                detalle.EntradasPag16 = 1; produccion.Entradas16 = 1;
+                                detalle.EntradasPag8 = 1; produccion.Impresion08 = 1;
+                                break;
+                            case 20:
+                                detalle.EntradasPag16 = 1; produccion.Entradas16 = 1;
+                                detalle.EntradasPag4 = 1; produccion.Impresion04 = 1;
+                                break;
+                            case 16:
+                                detalle.EntradasPag16 = 1; produccion.Entradas16 = 1;
+                                break;
+                            case 12:
+                                detalle.EntradasPag8 = 1; produccion.Impresion08 = 1;
+                                detalle.EntradasPag4 = 1; produccion.Impresion04 = 1;
+                                break;
+                            case 8:
+                                detalle.EntradasPag8 = 1; produccion.Impresion08 = 1;
+                                break;
+                            case 4:
+                                detalle.EntradasPag4 = 1; produccion.Impresion04 = 1;
+                                break;
+                        }
+                        produccion.Entradas64 = (detalle.EntradasPag32);
+                        produccion.Entradas16 = (detalle.EntradasPag16 + detalle.EntradasPag8 + detalle.EntradasPag4);
+                    }
+                    else if ((CantidadPaginasInt / 16) > 0)
+                    {
+                        detalle.EntradasPag16 = (CantidadPaginasInt / 16);
+                        produccion.Impresion16 = detalle.EntradasPag16;
+                        NumeroDoblez = 16;
+                        switch (CantidadPaginasInt - (detalle.EntradasPag16 * 16))
+                        {
+                            case 12:
+                                detalle.EntradasPag8 = 1;
+                                produccion.Impresion08 = 1;
+                                detalle.EntradasPag4 = 1;
+                                produccion.Impresion04 = 1;
+                                break;
+                            case 8:
+                                detalle.EntradasPag8 = 1;
+                                produccion.Impresion08 = 1;
+                                break;
+                            case 4:
+                                detalle.EntradasPag4 = 1;
+                                produccion.Impresion04 = 1;
+                                break;
+                        }
+                        produccion.Entradas16 = (detalle.EntradasPag16 + detalle.EntradasPag8 + detalle.EntradasPag4);
+                    }
+                    else if ((CantidadPaginasInt / 8) > 0)
+                    {
+                        detalle.EntradasPag8 = (CantidadPaginasInt / 8);
+                        produccion.Impresion08 = detalle.EntradasPag8;
+                        NumeroDoblez = 8;
+                        switch (CantidadPaginasInt - (detalle.EntradasPag8 * 8))
+                        {
+                            case 4:
+                                detalle.EntradasPag4 = 1;
+                                produccion.Impresion04 = 1;
+                                break;
+                        }
+                        produccion.Entradas16 = (detalle.EntradasPag8 + detalle.EntradasPag4);
+                    }
+                    produccion.Web88cms = Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez);
+                }
+                else if (FormatoId != "230 x 300")
+                {
+                    detalle.EntradasPag64 = produccion.Impresion64;
+                    detalle.EntradasPag48 = produccion.Impresion48;
+                    detalle.EntradasPag32 = produccion.Impresion32;
+                    detalle.EntradasPag24 = produccion.Impresion24;
+                    detalle.EntradasPag16 = produccion.Impresion16;
+                    detalle.EntradasPag8 = produccion.Impresion08;
+                    detalle.EntradasPag4 = produccion.Impresion04;
+                    if (produccion.Entradas64 > 0)
+                    {
+                        NumeroDoblez = 64;
+                    }
+                    else if (produccion.Entradas48 > 0)
+                    {
+                        NumeroDoblez = 48;
+                    }
+                    else
+                    {
+                        NumeroDoblez = 16;
+                    }
+                }
+
+                #endregion
+                #region EntradasxFormato
+                else
+                {
+                    produccion = db.Produccion.Where(x => x.Paginas == 16).FirstOrDefault();
                     produccion.Entradas64 = 0;
-                    detalle.EntradasPag32 = (CantidadPaginasInt / 32);
-                    produccion.Impresion32 = detalle.EntradasPag32;
-                    NumeroDoblez = 32;
-                    switch (CantidadPaginasInt - (detalle.EntradasPag32 * 32))
+                    produccion.Entradas48 = 0;
+
+                    if ((CantidadPaginasInt / 16) > 0)
                     {
-                        case 28:
-                            detalle.EntradasPag16 = 1; produccion.Entradas16 = 1;
-                            produccion.Impresion08 = 1; detalle.EntradasPag8 = 1;
-                            detalle.EntradasPag4 = 1; produccion.Impresion04 = 1;
-                            break;
-                        case 24:
-                            detalle.EntradasPag16 = 1; produccion.Entradas16 = 1;
-                            detalle.EntradasPag8 = 1; produccion.Impresion08 = 1;
-                            break;
-                        case 20:
-                            detalle.EntradasPag16 = 1; produccion.Entradas16 = 1;
-                            detalle.EntradasPag4 = 1; produccion.Impresion04 = 1;
-                            break;
-                        case 16:
-                            detalle.EntradasPag16 = 1; produccion.Entradas16 = 1;
-                            break;
-                        case 12:
-                            detalle.EntradasPag8 = 1; produccion.Impresion08 = 1;
-                            detalle.EntradasPag4 = 1; produccion.Impresion04 = 1;
-                            break;
-                        case 8:
-                            detalle.EntradasPag8 = 1; produccion.Impresion08 = 1;
-                            break;
-                        case 4:
-                            detalle.EntradasPag4 = 1; produccion.Impresion04 = 1;
-                            break;
+                        detalle.EntradasPag16 = (CantidadPaginasInt / 16);
+                        produccion.Impresion16 = detalle.EntradasPag16;
+                        NumeroDoblez = 16;
+                        switch (CantidadPaginasInt - (detalle.EntradasPag16 * 16))
+                        {
+                            case 12:
+                                detalle.EntradasPag8 = 1;
+                                produccion.Impresion08 = 1;
+                                detalle.EntradasPag4 = 1;
+                                produccion.Impresion04 = 1;
+                                break;
+                            case 8:
+                                detalle.EntradasPag8 = 1;
+                                produccion.Impresion08 = 1;
+                                break;
+                            case 4:
+                                detalle.EntradasPag4 = 1;
+                                produccion.Impresion04 = 1;
+                                break;
+                        }
+                        produccion.Entradas16 = (detalle.EntradasPag16 + detalle.EntradasPag8 + detalle.EntradasPag4);
                     }
-                    produccion.Entradas64 = (detalle.EntradasPag32);
-                    produccion.Entradas16 = (detalle.EntradasPag16 + detalle.EntradasPag8 + detalle.EntradasPag4);
-                }
-                else if ((CantidadPaginasInt / 16) > 0)
-                {
-                    detalle.EntradasPag16 = (CantidadPaginasInt / 16);
-                    produccion.Impresion16 = detalle.EntradasPag16;
-                    NumeroDoblez = 16;
-                    switch (CantidadPaginasInt - (detalle.EntradasPag16 * 16))
+                    else if ((CantidadPaginasInt / 8) > 0)
                     {
-                        case 12:
-                            detalle.EntradasPag8 = 1;
-                            produccion.Impresion08 = 1;
-                            detalle.EntradasPag4 = 1;
-                            produccion.Impresion04 = 1;
-                            break;
-                        case 8:
-                            detalle.EntradasPag8 = 1;
-                            produccion.Impresion08 = 1;
-                            break;
-                        case 4:
-                            detalle.EntradasPag4 = 1;
-                            produccion.Impresion04 = 1;
-                            break;
+                        detalle.EntradasPag8 = (CantidadPaginasInt / 8);
+                        produccion.Impresion08 = detalle.EntradasPag8;
+                        NumeroDoblez = 8;
+                        switch (CantidadPaginasInt - (detalle.EntradasPag8 * 8))
+                        {
+                            case 4:
+                                detalle.EntradasPag4 = 1;
+                                produccion.Impresion04 = 1;
+                                break;
+                        }
+                        produccion.Entradas16 = (detalle.EntradasPag8 + detalle.EntradasPag4);
                     }
-                    produccion.Entradas16 = (detalle.EntradasPag16 + detalle.EntradasPag8 + detalle.EntradasPag4);
+                    produccion.Web88cms = Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez);
                 }
-                else if ((CantidadPaginasInt / 8) > 0)
+                #endregion
+                #region Impresion Interior Nuevo
+
+
+                string[] split = FormatoId.Split('x');
+                double formatox = Convert.ToDouble(split[0]);
+                double formatoy = Convert.ToDouble(split[1]);
+                List<Formato> listaFormatos = db.Formato.Where(x => x.FormatoCerradoX == formatox && x.FormatoCerradoY == formatoy).ToList();
+                //detalle.Formato = db.Formato.Where(x => x.FormatoCerradoX == formatox && x.FormatoCerradoY == formatoy).FirstOrDefault();
+                if ((db.Papel.Where(x => x.IdPapel == (int)idPapelInterior).Select(x => x.NombrePapel).Contains("Bond")))
                 {
-                    detalle.EntradasPag8 = (CantidadPaginasInt / 8);
-                    produccion.Impresion08 = detalle.EntradasPag8;
-                    NumeroDoblez = 8;
-                    switch (CantidadPaginasInt - (detalle.EntradasPag8 * 8))
+                    listaFormatos = listaFormatos.Where(x => x.EntradasxFormatos != 48).ToList();
+                    foreach (Formato f in listaFormatos.Where(x => x.EntradasxFormatos != 16).ToList())
                     {
-                        case 4:
-                            detalle.EntradasPag4 = 1;
-                            produccion.Impresion04 = 1;
-                            break;
+                        f.EntradasxFormatos = 32;
+                        f.Interior_Ancho = 88;
                     }
-                    produccion.Entradas16 = (detalle.EntradasPag8 + detalle.EntradasPag4);
                 }
-                produccion.Web88cms = Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez);
-            }
-            else if (FormatoId != "230 x 300")
-            {
-                detalle.EntradasPag64 = produccion.Impresion64;
-                detalle.EntradasPag48 = produccion.Impresion48;
-                detalle.EntradasPag32 = produccion.Impresion32;
-                detalle.EntradasPag24 = produccion.Impresion24;
-                detalle.EntradasPag16 = produccion.Impresion16;
-                detalle.EntradasPag8 = produccion.Impresion08;
-                detalle.EntradasPag4 = produccion.Impresion04;
-                if (produccion.Entradas64 > 0)
+                Papel papelInterior = db.Papel.Where(x => x.IdPapel == (int)idPapelInterior).FirstOrDefault();
+                Papel papelTapa = ((CantidadPaginasTap > 0 && idPapelTap != null)) ? db.Papel.Where(x => x.IdPapel == (int)idPapelTap).FirstOrDefault() : null;
+                detalle.MaquinaInterior = (papelInterior.Gramaje > 130) ? db.Maquina.Where(x => x.NombreMaquina == "Plana").FirstOrDefault() : db.Maquina.Where(x => x.NombreMaquina == "Rotativa").FirstOrDefault();
+                if (papelTapa != null)
                 {
-                    NumeroDoblez = 64;
+                    detalle.MaquinaTapa = ((papelTapa.Gramaje > 130) ? db.Maquina.Where(x => x.NombreMaquina == "Plana").FirstOrDefault() : db.Maquina.Where(x => x.NombreMaquina == "Rotativa").FirstOrDefault());
                 }
-                else if (produccion.Entradas48 > 0)
+                List<Impresion> lista = db.Impresion.Include(x => x.TipoMoneda).Include(x => x.TipoMoneda.Monedas).Include(x => x.Maquina).Where(x => x.Maquina.NombreMaquina == detalle.MaquinaInterior.NombreMaquina).ToList();
+
+                switch (NumeroDoblez)
                 {
-                    NumeroDoblez = 48;
+                    case 64:
+                        detalle.CostoFijoPag64 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "64").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag48 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "48").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag32 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag24 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag16 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag12 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoVariablePag64 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "64").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag48 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "48").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag32 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag24 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag16 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag12 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+
+                        break;
+                    case 48:
+                        detalle.CostoFijoPag48 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "48").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag32 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag24 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag16 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag12 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoVariablePag48 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "48").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag32 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag24 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag16 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag12 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+
+                        break;
+                    case 32:
+                        detalle.CostoFijoPag32 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag24 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag16 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag12 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoVariablePag32 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag24 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag16 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag12 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+
+                        break;
+                    case 24:
+                        detalle.CostoFijoPag24 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag16 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag12 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoVariablePag24 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag16 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag12 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+
+                        break;
+                    case 16:
+                        detalle.CostoFijoPag16 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag12 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoVariablePag16 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag12 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+
+                        break;
+                    case 8:
+                        detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
+                        detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+                        detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
+
+                        break;
+                    default: break;
+                }
+
+                #endregion
+                #region Tapas Nuevo
+                List<Impresion> ListImpTapa = db.Impresion.Include(x => x.Maquina).Include(x => x.TipoMoneda).Include(x => x.TipoMoneda.Monedas).Where(x => x.Maquina.NombreMaquina == MaquinaTap && x.NombreImpresion == "16").ToList();
+                detalle.CostoFijoTapa = (CantidadPaginasTap > 0) ? Math.Ceiling(ListImpTapa.Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion * CantidadModelos).FirstOrDefault()) : 0;
+                detalle.CostoVariableTapa = (CantidadPaginasTap > 0) ? (Math.Ceiling((((ListImpTapa.Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault()) / 1000.0) / CantidadPaginasTap) * 100.0) / 100.0) : 0;
+
+                detalle.CantidadModelos = CantidadModelos;
+
+                Formato TapaFormato = listaFormatos.Where(x => x.EntradasxFormatos == listaFormatos.Max(y => y.EntradasxFormatos)).FirstOrDefault();
+                List<SubProceso> ListTerm = db.SubProceso.Include(x => x.TipoMoneda).Include(x => x.TipoMoneda.Monedas).ToList();
+                detalle.CostoFijoQuintoColor = (IDQuintoColor != null) ? Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => (x.CostoFijoSubProceso * CantidadPasadaQuintoColor * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())).FirstOrDefault()) : 0;
+                detalle.CostoVariableQuintoColor = (IDQuintoColor != null) ? (Math.Ceiling((((ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => x.CostoVariableSubProceso * CantidadPasadaQuintoColor * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) / CantidadPaginasTap) * 100.0) / 100.0) : 0;
+                detalle.NombreQuintoColor = (IDQuintoColor != null) ? ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
+                detalle.CostoFijoPlizado = (db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => x.Gramaje).FirstOrDefault() >= 170) ? ListTerm.Where(x => x.NombreSubProceso == "Plizado").Select(x => x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault() : 0;
+                detalle.CostoVariablePlizado = (db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => x.Gramaje).FirstOrDefault() >= 170) ? (ListTerm.Where(x => x.NombreSubProceso == "Plizado").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault() / Convert.ToDouble(CantidadPaginasTap)) : 0;
+
+                #endregion
+                #region Encuadernacion Nuevo
+                detalle.CostoFijoEncuadernacion = (EncuadernacionId != null) ? Math.Ceiling(db.Encuadernacion.Where(x => x.IdEncuadernacion == EncuadernacionId).Select(x => x.ValorFijo * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(y => y.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
+                detalle.CostoVariableEncuadernacion = (EncuadernacionId != null) ? (Math.Ceiling(((db.Encuadernacion.Where(x => x.IdEncuadernacion == EncuadernacionId).Select(x => x.ValorVariable * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(y => y.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) * 100.0) / 100.0) : 0;
+                detalle.NombreEncuadernacion = (EncuadernacionId != null) ? db.Encuadernacion.Where(x => x.IdEncuadernacion == EncuadernacionId).Select(x => x.NombreEncuadernacion).FirstOrDefault() : "";
+                #endregion
+                #region Terminaciones Nuevas
+                double dobleentrada = (BarnizAcuoso == 4) && (CantidadPaginasTap > 0) ? 2 : 1;
+                detalle.CostoFijoBarnizAcuosoTapa = ((CantidadPaginasTap > 0) && (BarnizAcuoso >= 2)) ? Math.Ceiling(ListTerm.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.CostoFijoSubProceso * dobleentrada * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
+                detalle.CostoVariableBarnizAcuosoTapa = ((CantidadPaginasTap > 0) && (BarnizAcuoso >= 2)) ? Math.Ceiling((((ListTerm.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.CostoVariableSubProceso * dobleentrada * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) / CantidadPaginasTap) * 100.0) / 100.0 : 0;
+                detalle.CostoVariableEmbolsado = (Embolsado != null) ? (ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => ((x.CostoVariableSubProceso * CantidadTerminacionEmbolsado) / Convert.ToDouble(detalle.Tiraje))).FirstOrDefault()) : 0;
+                detalle.NombreEmbolsado = (Embolsado != null) ? ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
+                detalle.CantidadTerminacionEmbolsado = (Embolsado != null) ? CantidadTerminacionEmbolsado : 0;
+                detalle.CostoVariableLaminado = ((Laminado != null) && (CantidadPaginasTap > 0)) ? (Math.Ceiling(((ListTerm.Where(x => x.IdSubProceso == Laminado).Select(x => (x.CostoVariableSubProceso * (TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0)).FirstOrDefault()) / Convert.ToDouble(CantidadPaginasTap)) * 100.0) / 100.0) : 0;
+                detalle.NombreLaminado = ((Laminado != null) && (CantidadPaginasTap > 0)) ? ListTerm.Where(x => x.IdSubProceso == Laminado).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
+                detalle.CostoFijoBarnizUV = (UV != null) ? Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == UV).Select(x => x.CostoFijoSubProceso).FirstOrDefault()) : 0;
+                if (UV != null)
+                {
+                    SubProceso subpro = db.SubProceso.Where(x => x.IdSubProceso == UV).FirstOrDefault();
+                    if (subpro.NombreSubProceso == "Barniz UV 100% en el tiro")
+                    {
+                        detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => ((x.CostoVariableSubProceso * ((TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0))) / Convert.ToDouble(CantidadPaginasTap)).FirstOrDefault()) * 100.0) / 100.0);
+                    }
+                    else if (subpro.NombreSubProceso == "Barniz UV con Reserva")
+                    {
+                        detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => (x.CostoVariableSubProceso * (Tiraje * Convert.ToDouble(1.0 / CantidadPaginasTap)) / Tiraje)).FirstOrDefault()) * 100.0) / 100.0);
+                    }
+                    else if (subpro.NombreSubProceso == "Barniz UV con Glitter")
+                    {
+                        detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => (x.CostoVariableSubProceso) / CantidadPaginasTap).FirstOrDefault()) * 100.0) / 100.0);
+                    }
+                    detalle.NombreBarnizUV = ListTerm.Where(x => x.IdSubProceso == UV).Select(x => x.NombreSubProceso).FirstOrDefault();
+                }
+                detalle.CostoFijoTroquel = (ddlTroquel != "No" && ddlTroquel != "" && ddlTroquel != null) ? (ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => (x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())).FirstOrDefault()) : 0;
+                detalle.CostoVariableTroquel = (ddlTroquel != "No" && ddlTroquel != "" && ddlTroquel != null) ? ((ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / Convert.ToDouble(CantidadPaginasTap)) : 0;
+                detalle.CostoFijoCorteFrontal = (CantidadPaginasTap > 0) ? (ListTerm.Where(x => x.NombreSubProceso == "Corte Frontal").Select(x => x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
+                detalle.CostoVariableCorteFrontal = (CantidadPaginasTap > 0) ? (ListTerm.Where(x => x.NombreSubProceso == "Corte Frontal").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
+
+                #endregion
+                #region Manualidades Pendiente
+                detalle.CostoVariableAlzadoPlano = (AlzadoPlano != null && AlzadoPlano == 2) ? (ListTerm.Where(x => x.NombreSubProceso == "Alzado Plano").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
+                detalle.CostoVariableEmbolsadoManual = (EmbolsadoManual != null && EmbolsadoManual == 2) ? (ListTerm.Where(x => x.NombreSubProceso == "Embolsado manual").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
+
+                detalle.CostoVariableDesembolsado = (Desembolsado != null && Desembolsado == 2) ? (ListTerm.Where(x => x.NombreSubProceso == "Desembolsado simple").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
+                detalle.CostoVariableAlzado = (Alzado != null) ? (ListTerm.Where(x => x.IdSubProceso == Alzado).Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
+                detalle.CostoVariableInsercion = (Insercion != null) ? (ListTerm.Where(x => x.IdSubProceso == Insercion).Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
+                detalle.CostoVariablePegado = (Pegado != null) ? (ListTerm.Where(x => x.IdSubProceso == Pegado).Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
+                detalle.CostoVariableFajado = (Fajado != null) ? (ListTerm.Where(x => x.IdSubProceso == Fajado).Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
+                detalle.CostoVariableAdhesivo = (Pegado != null) ? (ListTerm.Where(x => x.NombreSubProceso == "Stopgard (9 mm.)"//Adhesivo
+                                                                                                            ).Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
+                detalle.AdhesivoCms = Convert.ToDouble(cmsAdhesivo);
+                detalle.CostoVariableAdhesivoTotal = Math.Ceiling((detalle.AdhesivoCms * detalle.CostoVariableAdhesivo) * 10.0) / 10.0;
+                #region Embalaje
+                Embalaje emb = db.Embalaje.Where(x => x.Estado == true).FirstOrDefault();
+                Papel p = db.Papel.Where(x => x.IdPapel == idPapelInterior).FirstOrDefault();
+                double LomoInterior = Math.Ceiling(((((p.Micron * Convert.ToDouble(CantidadPaginasInt)) / 2.0) / 1000.0) + p.Adhesivo) * 10.0) / 10.0;
+                double LomoTapa = db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => ((x.Micron * 2.0) / 1000.0)).FirstOrDefault();
+                double LomocTapa = (Math.Ceiling((LomoInterior + (LomoTapa)) * 10)) / 10;
+
+                if (CatalogoId != null)
+                {
+                    try
+                    {//Productos ingresados con formato de cajas
+                        string[] dimension = db.Catalogo.Where(x => x.IdTipoCatalogo == CatalogoId).Select(x => x.DimensionesCajasStandar).FirstOrDefault().Split('x');
+                        detalle.LibrosxCajas = Math.Floor(Convert.ToInt32(dimension[2]) / LomocTapa) * emb.Base;
+                    }
+                    catch (Exception ex)
+                    {
+                        //Todos los productos nuevos con formato standard - cjerias
+                        string[] dimension = ("320x220x283").Split('x');
+                        //string formmmat = db.Catalogo.Where(x => x.IdTipoCatalogo == CatalogoId).Select(x => x.FormatoSeleccionado).SingleOrDefault();
+                        //string[] dimension = db.Catalogo.Where(x => x.FormatoSeleccionado == formmmat).Select(x => x.DimensionesCajasStandar).SingleOrDefault().Split('x');
+                        detalle.LibrosxCajas = Math.Floor(Convert.ToInt32(dimension[2]) / LomocTapa) * emb.Base;
+                    }
                 }
                 else
                 {
-                    NumeroDoblez = 16;
+                    detalle.LibrosxCajas = Math.Floor(emb.AltoCaja / LomocTapa) * emb.Base;
                 }
-            }
+                detalle.CantidadCajas = (int)Math.Ceiling(CantidadEnCajas / detalle.LibrosxCajas);
+                detalle.CostoVariableSuministroCaja = (Math.Ceiling((
+                    ((emb.CajaEstandar * detalle.CantidadCajas) / Convert.ToDouble(Tiraje)) * 100)) / 100);
+                detalle.CostoVariableInsercionCajaySellado = (Math.Ceiling((
+                    ((emb.EncajadoxCaja * detalle.CantidadCajas) / Convert.ToDouble(Tiraje)) * 100)) / 100);
+                detalle.Enzunchadoxpqte = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(CantidadEnZuncho) / detalle.LibrosxCajas));
+                detalle.CostoVariableEnzunchado = (Math.Ceiling(((emb.Enzunchado * detalle.Enzunchadoxpqte))) / Convert.ToDouble(Tiraje) * 100) / 100;
+                detalle.CantidadenBolsa = CantidadEnBolsa;
 
-            #endregion
-            #region EntradasxFormato
-            else
-            {
-                produccion = db.Produccion.Where(x => x.Paginas == 16).FirstOrDefault();
-                produccion.Entradas64 = 0;
-                produccion.Entradas48 = 0;
 
-                if ((CantidadPaginasInt / 16) > 0)
+                #endregion
+                detalle.CostoVariablePegadoSticker = (Sticker != null && Sticker == 2) ? (ListTerm.Where(x => x.NombreSubProceso == "Pegado de Sticker").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
+                #endregion
+                #region Papel
+                if ((CantidadPaginasInt > 0) && (idPapelInterior != null))
                 {
-                    detalle.EntradasPag16 = (CantidadPaginasInt / 16);
-                    produccion.Impresion16 = detalle.EntradasPag16;
-                    NumeroDoblez = 16;
-                    switch (CantidadPaginasInt - (detalle.EntradasPag16 * 16))
+                    detalle.Interior = new Interior();
+                    detalle.Interior.CantidadPaginas = CantidadPaginasInt;
+                    detalle.Interior.PapelId = (int)idPapelInterior;
+
+                    Formato Web88 = listaFormatos.Where(x => x.EntradasxFormatos == 16).FirstOrDefault();
+                    Formato Litho132 = listaFormatos.Where(x => x.EntradasxFormatos == 48).FirstOrDefault();
+                    Formato Litho174 = listaFormatos.Where(x => x.EntradasxFormatos == 64).FirstOrDefault();
+
+                    if (Litho174 != null)
                     {
-                        case 12:
-                            detalle.EntradasPag8 = 1;
-                            produccion.Impresion08 = 1;
-                            detalle.EntradasPag4 = 1;
-                            produccion.Impresion04 = 1;
-                            break;
-                        case 8:
-                            detalle.EntradasPag8 = 1;
-                            produccion.Impresion08 = 1;
-                            break;
-                        case 4:
-                            detalle.EntradasPag4 = 1;
-                            produccion.Impresion04 = 1;
-                            break;
+                        detalle.FormatoId = listaFormatos.Where(x => x.EntradasxFormatos == 64).Select(x => x.IdFormato).FirstOrDefault();
                     }
-                    produccion.Entradas16 = (detalle.EntradasPag16 + detalle.EntradasPag8 + detalle.EntradasPag4);
-                }
-                else if ((CantidadPaginasInt / 8) > 0)
-                {
-                    detalle.EntradasPag8 = (CantidadPaginasInt / 8);
-                    produccion.Impresion08 = detalle.EntradasPag8;
-                    NumeroDoblez = 8;
-                    switch (CantidadPaginasInt - (detalle.EntradasPag8 * 8))
+                    else if (Litho132 != null)
                     {
-                        case 4:
-                            detalle.EntradasPag4 = 1;
-                            produccion.Impresion04 = 1;
-                            break;
+                        detalle.FormatoId = listaFormatos.Where(x => x.EntradasxFormatos == 48).Select(x => x.IdFormato).FirstOrDefault();
                     }
-                    produccion.Entradas16 = (detalle.EntradasPag8 + detalle.EntradasPag4);
+                    else
+                    {
+                        detalle.FormatoId = listaFormatos.Where(x => x.EntradasxFormatos == 16).Select(x => x.IdFormato).FirstOrDefault();
+                    }
+
+                    detalle.Interior.Entradas = (float)(((Web88 != null) ? (((produccion.Entradas16 * detalle.MaquinaInterior.MermaFija) / 1000.0) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000.0)) : 0) +
+                                                       ((Litho132 != null) ? (((produccion.Entradas48 * detalle.MaquinaInterior.MermaFija) / 1000.0) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000.0)) : 0) +
+                                                       ((Litho174 != null) ? (((produccion.Entradas64 * detalle.MaquinaInterior.MermaFija) / 1000.0) * ((papelInterior.Gramaje * Litho174.Interior_Alto * Litho174.Interior_Ancho) / 10000.0)) : 0));
+
+                    //detalle.Interior.Entradas = (float)((((detalle.EntradasPag64 + detalle.EntradasPag48 + detalle.EntradasPag32 + detalle.EntradasPag24 + detalle.EntradasPag16 + detalle.EntradasPag12 + detalle.EntradasPag8 + detalle.EntradasPag4) * detalle.MaquinaInterior.MermaFija)/1000.0) 
+                    //                                        * (((papelInterior.Gramaje * detalle.Formato.Interior_Alto * detalle.Formato.Interior_Ancho) / 10000.0)));
+
+                    detalle.Interior.CostoPapelinteriorFijo = Math.Ceiling(detalle.Interior.Entradas * papelInterior.PrecioKilos);
+
+                    detalle.Interior.Tiradas = (float)(((Web88 != null) ? (((Tiraje * produccion.Web88cms * detalle.MaquinaInterior.MermaVariable) / 1000.0) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000.0)) : 0) +
+                                               ((Litho132 != null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) / 1000.0) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000.0)) : 0) +
+                                               ((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) / 1000.0) * ((papelInterior.Gramaje * Litho174.Interior_Alto * Litho174.Interior_Ancho) / 10000.0)) : 0));
+                    //detalle.Interior.Tiradas = (float)(((Tiraje * (Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez)) * detalle.MaquinaInterior.MermaVariable) / 1000.0) * ((papelInterior.Gramaje * detalle.Formato.Interior_Alto * detalle.Formato.Interior_Ancho) / 10000.0));
+
+                    detalle.Interior.CostoPapelInteriorVari = (Math.Ceiling(((papelInterior.PrecioKilos * detalle.Interior.Tiradas) / Convert.ToDouble(Tiraje)) * 100.0) / 100.0);
+
+                    float a = (float)(((Web88 != null) ? (((Tiraje * produccion.Web88cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas16 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000000.0)) : 0));
+                    float b = (float)((Litho132 != null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas48 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000000.0)) : 0);
+                    float c = (float)((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas64 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho174.Interior_Alto * Litho174.Interior_Ancho) / 10000000.0)) : 0);
+
+
+                    detalle.Interior.KilosPapel = (float)(((Web88 != null) ? (((Tiraje * produccion.Web88cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas16 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000000.0)) : 0) +
+                                                         ((Litho132 != null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas48 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000000.0)) : 0) +
+                                                         ((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas64 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * ((Litho174 != null) ? Litho174.Interior_Alto : 0)) * ((Litho174 != null) ? Litho174.Interior_Ancho : 0) / 10000000.0)) : 0));
+
+
+                    //detalle.Interior.KilosPapel = (float)(((Tiraje * (Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez)) * detalle.MaquinaInterior.MermaVariable) 
+                    //    + ((detalle.EntradasPag64 + detalle.EntradasPag48 + detalle.EntradasPag32 + detalle.EntradasPag24 + detalle.EntradasPag16 + detalle.EntradasPag12 + detalle.EntradasPag8 + detalle.EntradasPag4) * detalle.MaquinaInterior.MermaFija))
+                    //                            * ((papelInterior.Gramaje * detalle.Formato.Interior_Alto * detalle.Formato.Interior_Ancho) / 10000000.0));
+
+
+                    if ((CantidadPaginasTap > 0 && idPapelTap != 0 && idPapelTap != null))
+                    {
+                        detalle.Tapa = new Tapa();
+                        detalle.Tapa.CantidadPaginas = (CantidadPaginasTap > 0) ? Convert.ToInt32(CantidadPaginasTap) : 0;
+                        detalle.Tapa.PapelId = (int)idPapelTap;
+
+                        detalle.Tapa.Entradas = (float)(((1 * detalle.MaquinaTapa.MermaFija * CantidadModelos) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
+
+                        detalle.Tapa.CostoPapelTapaFijo = Math.Ceiling(detalle.Tapa.Entradas * papelTapa.PrecioKilos);
+
+                        detalle.Tapa.Tiradas = (float)(((Tiraje * CantidadPaginasTap * detalle.MaquinaTapa.MermaVariable) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
+                        double wnoo = ((Tiraje * CantidadPaginasTap * detalle.MaquinaTapa.MermaVariable) / 1000.0);
+                        double wno2 = ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0);
+                        double wan2 = wnoo * wno2;
+
+
+                        double pesokkk = papelTapa.PrecioKilos;
+                        detalle.Tapa.CostoPapelTapaVari = (Math.Ceiling(((papelTapa.PrecioKilos * detalle.Tapa.Tiradas) / Convert.ToDouble(Tiraje)) * 100.0) / 100.0);
+
+                        detalle.Tapa.KilosPapel = (float)((((Tiraje * (1.0 / CantidadPaginasTap) * detalle.MaquinaTapa.MermaVariable) + (1 * detalle.MaquinaTapa.MermaFija * CantidadModelos)) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
+                    };
+                    float PesoInterior = (float)((((TapaFormato.FormatoCerradoX / 10.0) * (TapaFormato.FormatoCerradoY / 10.0) * papelInterior.Gramaje) / 10000000.0) * (CantidadPaginasInt / 2));
+                    float Pesotapa = (float)((((TapaFormato.FormatoCerradoX / 10.0) * (TapaFormato.FormatoCerradoY / 10.0) * ((papelTapa != null) ? papelTapa.Gramaje : 0)) / 10000000.0) * (4 / 2));
+                    float Enc = 0.002f;
+
+                    detalle.CostoVariablePallet = Math.Ceiling(((emb.PalletEstandar * Math.Ceiling(((PesoInterior + Pesotapa + Enc) * Convert.ToDouble(detalle.Tiraje)) / 700)) / Convert.ToDouble(Tiraje)) * 100) / 100;//CantidadPallet);
                 }
-                produccion.Web88cms = Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez);
-            }
-            #endregion
-            #region Impresion Interior Nuevo
+                #endregion
+                #region Totales
+                detalle.TarifaFijaImpresion = Math.Ceiling((detalle.CostoFijoPag64 * detalle.EntradasPag64) + (detalle.CostoFijoPag48 * detalle.EntradasPag48) + (detalle.CostoFijoPag32 * detalle.EntradasPag32) + (detalle.CostoFijoPag24 * detalle.EntradasPag24) +
+                                                (detalle.CostoFijoPag16 * detalle.EntradasPag16) + (detalle.CostoFijoPag12 * detalle.EntradasPag12) + (detalle.CostoFijoPag8 * detalle.EntradasPag8) + (detalle.CostoFijoPag4 * detalle.EntradasPag4)
+                                                + detalle.CostoFijoTapa);
+                detalle.TarifaVariableImpresion = (Math.Ceiling(((detalle.CostoVariablePag64 * detalle.EntradasPag64) + (detalle.CostoVariablePag48 * detalle.EntradasPag48) + (detalle.CostoVariablePag32 * detalle.EntradasPag32) + (detalle.CostoVariablePag24 * detalle.EntradasPag24) +
+                                                    (detalle.CostoVariablePag16 * detalle.EntradasPag16) + (detalle.CostoVariablePag12 * detalle.EntradasPag12) + (detalle.CostoVariablePag8 * detalle.EntradasPag8) +
+                                                    (detalle.CostoVariablePag4 * detalle.EntradasPag4) + detalle.CostoVariableTapa) * 100.0)) / 100.0;
 
+                detalle.TarifaFijaEncuadernacion = Math.Ceiling(detalle.CostoFijoEncuadernacion + detalle.CostoFijoPlizado + detalle.CostoFijoTroquel + detalle.CostoFijoCorteFrontal);
+                detalle.TarifaVariableEncuadernacion = (Math.Ceiling((detalle.CostoVariableEncuadernacion + detalle.CostoVariablePlizado + detalle.CostoVariableTroquel + detalle.CostoVariableCorteFrontal) * 100.0)) / 100.0;
 
-            string[] split = FormatoId.Split('x');
-            double formatox = Convert.ToDouble(split[0]);
-            double formatoy = Convert.ToDouble(split[1]);
-            List<Formato> listaFormatos = db.Formato.Where(x => x.FormatoCerradoX == formatox && x.FormatoCerradoY == formatoy).ToList();
-            //detalle.Formato = db.Formato.Where(x => x.FormatoCerradoX == formatox && x.FormatoCerradoY == formatoy).FirstOrDefault();
-            if ((db.Papel.Where(x => x.IdPapel == (int)idPapelInterior).Select(x => x.NombrePapel).Contains("Bond")))
+                detalle.TarifaFijaDespacho = (detalle.CostoVariableSuministroCaja + detalle.CostoVariableInsercionCajaySellado + detalle.CostoVariableEnzunchado + detalle.CostoVariablePallet);
+
+                detalle.TarifaFijaTerminacion = Math.Ceiling(detalle.CostoFijoQuintoColor + detalle.CostoFijoBarnizUV + detalle.CostoFijoBarnizAcuosoTapa);
+
+                detalle.TarifaFijaPapel = Math.Ceiling(detalle.Interior.CostoPapelinteriorFijo + ((papelTapa != null) ? detalle.Tapa.CostoPapelTapaFijo : 0));
+                detalle.TarifaVariablePapel = (Math.Ceiling((detalle.Interior.CostoPapelInteriorVari + ((papelTapa != null) ? detalle.Tapa.CostoPapelTapaVari : 0)) * 100.0)) / 100.0;
+                detalle.TarifaVariableTerminacion = (Math.Ceiling((detalle.CostoVariableQuintoColor +
+                                 detalle.CostoVariableBarnizUV + detalle.CostoVariableEmbolsado + detalle.CostoVariableLaminado + detalle.CostoVariableBarnizAcuosoTapa +
+                                 detalle.CostoVariableAlzadoPlano + detalle.CostoVariableEmbolsadoManual + detalle.CostoVariableDesembolsado + detalle.CostoVariableAlzado +
+                                 detalle.CostoVariableInsercion + detalle.CostoVariablePegado + detalle.CostoVariableFajado + detalle.CostoVariableAdhesivoTotal + detalle.CostoVariablePegadoSticker) * 100.0)) / 100.0;
+                double TarifaVariableMecanica = (Math.Ceiling((detalle.CostoVariableQuintoColor +
+                                 detalle.CostoVariableBarnizUV + detalle.CostoVariableEmbolsado + detalle.CostoVariableLaminado + detalle.CostoVariableBarnizAcuosoTapa + detalle.CostoVariableAdhesivoTotal) * 100.0)) / 100.0;
+                detalle.ManufacturaFijo = Math.Ceiling(detalle.TarifaFijaImpresion + detalle.TarifaFijaEncuadernacion + detalle.TarifaFijaTerminacion);
+                detalle.ManufacturaVari = (Math.Ceiling((detalle.TarifaVariableImpresion + detalle.TarifaVariableEncuadernacion + detalle.TarifaVariableTerminacion + detalle.TarifaFijaDespacho) * 100.0)) / 100.0;
+                detalle.TotalNetoFijo = detalle.ManufacturaFijo + detalle.TarifaFijaPapel;
+                detalle.TotalNetoVari = detalle.ManufacturaVari + detalle.TarifaVariablePapel;
+
+                detalle.TotalNetoTotal = Math.Ceiling(detalle.TotalNetoFijo + ((detalle.TotalNetoVari - (detalle.TarifaVariableTerminacion - TarifaVariableMecanica)) * Convert.ToDouble(Tiraje)) +
+                                         (detalle.CostoVariableAlzadoPlano * CantidadAlzadoPlano) + (detalle.CostoVariableDesembolsado * CantidadDesembolsado) + (detalle.CostoVariableAlzado * CantidadAlzado) +
+                                         (detalle.CostoVariableInsercion * CantidadInsercion) + (detalle.CostoVariablePegado * CantidadPegado) + (detalle.CostoVariableFajado * CantidadFajado) +
+                                         (detalle.CostoVariablePegadoSticker * CantidadPegadoSticker));
+                detalle.PrecioUnitario = (Math.Ceiling((detalle.TotalNetoTotal / Convert.ToDouble(Tiraje)) * 100) / 100);
+
+                #endregion
+            } else
             {
-                listaFormatos = listaFormatos.Where(x => x.EntradasxFormatos != 48).ToList();
-                foreach (Formato f in listaFormatos.Where(x => x.EntradasxFormatos != 16).ToList())
+                #region calcularsolo tapa
+                string[] split = FormatoId.Split('x');
+                double formatox = Convert.ToDouble(split[0]);
+                double formatoy = Convert.ToDouble(split[1]);
+                List<Formato> listaFormatos = db.Formato.Where(x => x.FormatoCerradoX == formatox && x.FormatoCerradoY == formatoy).ToList();
+                List<Impresion> ListImpTapa = db.Impresion.Include(x => x.Maquina).Include(x => x.TipoMoneda).Include(x => x.TipoMoneda.Monedas).Where(x => x.Maquina.NombreMaquina == MaquinaTap && x.NombreImpresion == "16").ToList();
+                detalle.CostoFijoTapa = (CantidadPaginasTap > 0) ? Math.Ceiling(ListImpTapa.Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion * CantidadModelos).FirstOrDefault()) : 0;
+                detalle.CostoVariableTapa = (CantidadPaginasTap > 0) ? (Math.Ceiling((((ListImpTapa.Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault()) / 1000.0) / CantidadPaginasTap) * 100.0) / 100.0) : 0;
+
+                detalle.CantidadModelos = CantidadModelos;
+
+                Formato TapaFormato = listaFormatos.Where(x => x.EntradasxFormatos == listaFormatos.Max(y => y.EntradasxFormatos)).FirstOrDefault();
+                List<SubProceso> ListTerm = db.SubProceso.Include(x => x.TipoMoneda).Include(x => x.TipoMoneda.Monedas).ToList();
+                detalle.CostoFijoQuintoColor = (IDQuintoColor != null) ? Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => (x.CostoFijoSubProceso * CantidadPasadaQuintoColor * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())).FirstOrDefault()) : 0;
+                detalle.CostoVariableQuintoColor = (IDQuintoColor != null) ? (Math.Ceiling((((ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => x.CostoVariableSubProceso * CantidadPasadaQuintoColor * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) / CantidadPaginasTap) * 100.0) / 100.0) : 0;
+                detalle.NombreQuintoColor = (IDQuintoColor != null) ? ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
+                detalle.CostoFijoPlizado = (db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => x.Gramaje).FirstOrDefault() >= 170) ? ListTerm.Where(x => x.NombreSubProceso == "Plizado").Select(x => x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault() : 0;
+                detalle.CostoVariablePlizado = (db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => x.Gramaje).FirstOrDefault() >= 170) ? (ListTerm.Where(x => x.NombreSubProceso == "Plizado").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault() / Convert.ToDouble(CantidadPaginasTap)) : 0;
+                #endregion
+                #region Embolsado_ENC
+                detalle.CostoFijoEncuadernacion = (EncuadernacionId != null) ? Math.Ceiling(db.Encuadernacion.Where(x => x.IdEncuadernacion == EncuadernacionId).Select(x => x.ValorFijo * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(y => y.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
+                detalle.CostoVariableEmbolsado = (Embolsado != null) ? (ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => ((x.CostoVariableSubProceso * CantidadTerminacionEmbolsado) / Convert.ToDouble(detalle.Tiraje))).FirstOrDefault()) : 0;
+                detalle.NombreEmbolsado = (Embolsado != null) ? ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
+                #endregion
+                #region ValorTerminaciones
+                double dobleentrada = (BarnizAcuoso == 4) && (CantidadPaginasTap > 0) ? 2 : 1;
+                detalle.CostoFijoBarnizAcuosoTapa = ((CantidadPaginasTap > 0) && (BarnizAcuoso >= 2)) ? Math.Ceiling(ListTerm.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.CostoFijoSubProceso * dobleentrada * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
+                detalle.CostoVariableBarnizAcuosoTapa = ((CantidadPaginasTap > 0) && (BarnizAcuoso >= 2)) ? Math.Ceiling((((ListTerm.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.CostoVariableSubProceso * dobleentrada * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) / CantidadPaginasTap) * 100.0) / 100.0 : 0;
+                detalle.CostoVariableEmbolsado = (Embolsado != null) ? (ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => ((x.CostoVariableSubProceso * CantidadTerminacionEmbolsado) / Convert.ToDouble(detalle.Tiraje))).FirstOrDefault()) : 0;
+                detalle.NombreEmbolsado = (Embolsado != null) ? ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
+                detalle.CantidadTerminacionEmbolsado = (Embolsado != null) ? CantidadTerminacionEmbolsado : 0;
+                detalle.CostoVariableLaminado = ((Laminado != null) && (CantidadPaginasTap > 0)) ? (Math.Ceiling(((ListTerm.Where(x => x.IdSubProceso == Laminado).Select(x => (x.CostoVariableSubProceso * (TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0)).FirstOrDefault()) / Convert.ToDouble(CantidadPaginasTap)) * 100.0) / 100.0) : 0;
+                detalle.NombreLaminado = ((Laminado != null) && (CantidadPaginasTap > 0)) ? ListTerm.Where(x => x.IdSubProceso == Laminado).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
+                detalle.CostoFijoBarnizUV = (UV != null) ? Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == UV).Select(x => x.CostoFijoSubProceso).FirstOrDefault()) : 0;
+                if (UV != null)
                 {
-                    f.EntradasxFormatos = 32;
-                    f.Interior_Ancho = 88;
+                    SubProceso subpro = db.SubProceso.Where(x => x.IdSubProceso == UV).FirstOrDefault();
+                    if (subpro.NombreSubProceso == "Barniz UV 100% en el tiro")
+                    {
+                        detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => ((x.CostoVariableSubProceso * ((TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0))) / Convert.ToDouble(CantidadPaginasTap)).FirstOrDefault()) * 100.0) / 100.0);
+                    }
+                    else if (subpro.NombreSubProceso == "Barniz UV con Reserva")
+                    {
+                        detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => (x.CostoVariableSubProceso * (Tiraje * Convert.ToDouble(1.0 / CantidadPaginasTap)) / Tiraje)).FirstOrDefault()) * 100.0) / 100.0);
+                    }
+                    else if (subpro.NombreSubProceso == "Barniz UV con Glitter")
+                    {
+                        detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => (x.CostoVariableSubProceso) / CantidadPaginasTap).FirstOrDefault()) * 100.0) / 100.0);
+                    }
+                    detalle.NombreBarnizUV = ListTerm.Where(x => x.IdSubProceso == UV).Select(x => x.NombreSubProceso).FirstOrDefault();
                 }
-            }
-            Papel papelInterior = db.Papel.Where(x => x.IdPapel == (int)idPapelInterior).FirstOrDefault();
-            Papel papelTapa = ((CantidadPaginasTap > 0 && idPapelTap != null)) ? db.Papel.Where(x => x.IdPapel == (int)idPapelTap).FirstOrDefault() : null;
-            detalle.MaquinaInterior = (papelInterior.Gramaje > 130) ? db.Maquina.Where(x => x.NombreMaquina == "Plana").FirstOrDefault() : db.Maquina.Where(x => x.NombreMaquina == "Rotativa").FirstOrDefault();
-            if (papelTapa != null)
-            {
+                detalle.CostoFijoTroquel = (ddlTroquel != "No" && ddlTroquel != "" && ddlTroquel != null) ? (ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => (x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())).FirstOrDefault()) : 0;
+                detalle.CostoVariableTroquel = (ddlTroquel != "No" && ddlTroquel != "" && ddlTroquel != null) ? ((ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / Convert.ToDouble(CantidadPaginasTap)) : 0;
+                detalle.CostoFijoCorteFrontal = (CantidadPaginasTap > 0) ? (ListTerm.Where(x => x.NombreSubProceso == "Corte Frontal").Select(x => x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
+                detalle.CostoVariableCorteFrontal = (CantidadPaginasTap > 0) ? (ListTerm.Where(x => x.NombreSubProceso == "Corte Frontal").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
+                #endregion
+                #region Cajas y Sellado
+                Embalaje emb = db.Embalaje.Where(x => x.Estado == true).FirstOrDefault();
+                //Papel p = db.Papel.Where(x => x.IdPapel == idPapelInterior).FirstOrDefault();
+                //double LomoInterior = Math.Ceiling(((((p.Micron * Convert.ToDouble(CantidadPaginasInt)) / 2.0) / 1000.0) + p.Adhesivo) * 10.0) / 10.0;
+                double LomoTapa = db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => ((x.Micron * 2.0) / 1000.0)).FirstOrDefault();
+                double LomocTapa = (Math.Ceiling((0 + (LomoTapa)) * 10)) / 10;// 0= lomoInterior
+
+                if (CatalogoId != null)
+                {
+                    try
+                    {//Productos ingresados con formato de cajas
+                        string[] dimension = db.Catalogo.Where(x => x.IdTipoCatalogo == CatalogoId).Select(x => x.DimensionesCajasStandar).FirstOrDefault().Split('x');
+                        detalle.LibrosxCajas = Math.Floor(Convert.ToInt32(dimension[2]) / LomocTapa) * emb.Base;
+                    }
+                    catch (Exception ex)
+                    {
+                        //Todos los productos nuevos con formato standard - cjerias
+                        string[] dimension = ("320x220x283").Split('x');
+                        //string formmmat = db.Catalogo.Where(x => x.IdTipoCatalogo == CatalogoId).Select(x => x.FormatoSeleccionado).SingleOrDefault();
+                        //string[] dimension = db.Catalogo.Where(x => x.FormatoSeleccionado == formmmat).Select(x => x.DimensionesCajasStandar).SingleOrDefault().Split('x');
+                        detalle.LibrosxCajas = Math.Floor(Convert.ToInt32(dimension[2]) / LomocTapa) * emb.Base;
+                    }
+                }
+                else
+                {
+                    detalle.LibrosxCajas = Math.Floor(emb.AltoCaja / LomocTapa) * emb.Base;
+                }
+
+                detalle.CantidadCajas = (int)Math.Ceiling(CantidadEnCajas / detalle.LibrosxCajas);
+                detalle.CostoVariableSuministroCaja = (Math.Ceiling((
+                    ((emb.CajaEstandar * detalle.CantidadCajas) / Convert.ToDouble(Tiraje)) * 100)) / 100);
+                detalle.CostoVariableInsercionCajaySellado = (Math.Ceiling((
+                    ((emb.EncajadoxCaja * detalle.CantidadCajas) / Convert.ToDouble(Tiraje)) * 100)) / 100);
+                // detalle.Enzunchadoxpqte = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(CantidadEnZuncho) / detalle.LibrosxCajas));
+                // detalle.CostoVariableEnzunchado = (Math.Ceiling(((emb.Enzunchado * detalle.Enzunchadoxpqte))) / Convert.ToDouble(Tiraje) * 100) / 100;
+                #endregion
+                #region CostoTapas
+                Papel papelTapa = ((CantidadPaginasTap > 0 && idPapelTap != null)) ? db.Papel.Where(x => x.IdPapel == (int)idPapelTap).FirstOrDefault() : null;
                 detalle.MaquinaTapa = ((papelTapa.Gramaje > 130) ? db.Maquina.Where(x => x.NombreMaquina == "Plana").FirstOrDefault() : db.Maquina.Where(x => x.NombreMaquina == "Rotativa").FirstOrDefault());
-            }
-            List<Impresion> lista = db.Impresion.Include(x => x.TipoMoneda).Include(x => x.TipoMoneda.Monedas).Include(x => x.Maquina).Where(x => x.Maquina.NombreMaquina == detalle.MaquinaInterior.NombreMaquina).ToList();
+                detalle.Tapa = new Tapa();
+                detalle.Tapa.CantidadPaginas = (CantidadPaginasTap > 0) ? Convert.ToInt32(CantidadPaginasTap) : 0;
+                detalle.Tapa.PapelId = (int)idPapelTap;
+                detalle.Tapa.Entradas = (float)(((1 * detalle.MaquinaTapa.MermaFija * CantidadModelos) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
+                detalle.Tapa.CostoPapelTapaFijo = Math.Ceiling(detalle.Tapa.Entradas * papelTapa.PrecioKilos);
+                detalle.Tapa.Tiradas = (float)(((Tiraje * CantidadPaginasTap * detalle.MaquinaTapa.MermaVariable) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
+                detalle.Tapa.CostoPapelTapaVari = (Math.Ceiling(((papelTapa.PrecioKilos * detalle.Tapa.Tiradas) / Convert.ToDouble(Tiraje)) * 100.0) / 100.0);
+                detalle.Tapa.KilosPapel = (float)((((Tiraje * (1.0 / CantidadPaginasTap) * detalle.MaquinaTapa.MermaVariable) + (1 * detalle.MaquinaTapa.MermaFija * CantidadModelos)) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
 
-            switch (NumeroDoblez)
-            {
-                case 64:
-                    detalle.CostoFijoPag64 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "64").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag48 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "48").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag32 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag24 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag16 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag12 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoVariablePag64 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "64").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag48 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "48").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag32 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag24 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag16 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag12 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-
-                    break;
-                case 48:
-                    detalle.CostoFijoPag48 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "48").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag32 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag24 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag16 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag12 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoVariablePag48 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "48").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag32 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag24 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag16 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag12 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-
-                    break;
-                case 32:
-                    detalle.CostoFijoPag32 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag24 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag16 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag12 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoVariablePag32 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "32").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag24 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag16 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag12 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-
-                    break;
-                case 24:
-                    detalle.CostoFijoPag24 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag16 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag12 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoVariablePag24 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "24").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag16 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag12 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-
-                    break;
-                case 16:
-                    detalle.CostoFijoPag16 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag12 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoVariablePag16 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "16").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag12 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "12").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-
-                    break;
-                case 8:
-                    detalle.CostoFijoPag8 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoFijoPag4 = Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion).FirstOrDefault());
-                    detalle.CostoVariablePag8 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "8").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-                    detalle.CostoVariablePag4 = (Math.Ceiling(((Math.Ceiling(lista.Where(x => x.NombreImpresion == "4").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault())) / 1000.0) * 100.0) / 100.0);
-
-                    break;
-                default: break;
-            }
-
-            #endregion
-            #region Tapas Nuevo
-            List<Impresion> ListImpTapa = db.Impresion.Include(x => x.Maquina).Include(x => x.TipoMoneda).Include(x => x.TipoMoneda.Monedas).Where(x => x.Maquina.NombreMaquina == MaquinaTap && x.NombreImpresion == "16").ToList();
-            detalle.CostoFijoTapa = (CantidadPaginasTap > 0) ? Math.Ceiling(ListImpTapa.Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.ValorFijoImpresion * CantidadModelos).FirstOrDefault()) : 0;
-            detalle.CostoVariableTapa = (CantidadPaginasTap > 0) ? (Math.Ceiling((((ListImpTapa.Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.valorvariableImpresion).FirstOrDefault()) / 1000.0) / CantidadPaginasTap) * 100.0) / 100.0) : 0;
-
-            detalle.CantidadModelos = CantidadModelos;
-
-            Formato TapaFormato = listaFormatos.Where(x => x.EntradasxFormatos == listaFormatos.Max(y => y.EntradasxFormatos)).FirstOrDefault();
-            List<SubProceso> ListTerm = db.SubProceso.Include(x => x.TipoMoneda).Include(x => x.TipoMoneda.Monedas).ToList();
-            detalle.CostoFijoQuintoColor = (IDQuintoColor != null) ? Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => (x.CostoFijoSubProceso * CantidadPasadaQuintoColor * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())).FirstOrDefault()) : 0;
-            detalle.CostoVariableQuintoColor = (IDQuintoColor != null) ? (Math.Ceiling((((ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => x.CostoVariableSubProceso * CantidadPasadaQuintoColor * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) / CantidadPaginasTap) * 100.0) / 100.0) : 0;
-            detalle.NombreQuintoColor = (IDQuintoColor != null) ? ListTerm.Where(x => x.IdSubProceso == IDQuintoColor).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
-            detalle.CostoFijoPlizado = (db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => x.Gramaje).FirstOrDefault() >= 170) ? ListTerm.Where(x => x.NombreSubProceso == "Plizado").Select(x => x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault() : 0;
-            detalle.CostoVariablePlizado = (db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => x.Gramaje).FirstOrDefault() >= 170) ? (ListTerm.Where(x => x.NombreSubProceso == "Plizado").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault() / Convert.ToDouble(CantidadPaginasTap)) : 0;
-
-            #endregion
-            #region Encuadernacion Nuevo
-            detalle.CostoFijoEncuadernacion = (EncuadernacionId != null) ? Math.Ceiling(db.Encuadernacion.Where(x => x.IdEncuadernacion == EncuadernacionId).Select(x => x.ValorFijo * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(y => y.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
-            detalle.CostoVariableEncuadernacion = (EncuadernacionId != null) ? (Math.Ceiling(((db.Encuadernacion.Where(x => x.IdEncuadernacion == EncuadernacionId).Select(x => x.ValorVariable * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(y => y.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) * 100.0) / 100.0) : 0;
-            detalle.NombreEncuadernacion = (EncuadernacionId != null) ? db.Encuadernacion.Where(x => x.IdEncuadernacion == EncuadernacionId).Select(x => x.NombreEncuadernacion).FirstOrDefault() : "";
-            #endregion
-            #region Terminaciones Nuevas
-            double dobleentrada = (BarnizAcuoso == 4) && (CantidadPaginasTap > 0) ? 2 : 1;
-            detalle.CostoFijoBarnizAcuosoTapa = ((CantidadPaginasTap > 0) && (BarnizAcuoso >= 2)) ? Math.Ceiling(ListTerm.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.CostoFijoSubProceso * dobleentrada * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
-            detalle.CostoVariableBarnizAcuosoTapa = ((CantidadPaginasTap > 0) && (BarnizAcuoso >= 2)) ? Math.Ceiling((((ListTerm.Where(x => x.NombreSubProceso == "Barniz Acuoso (solo tiro)").Select(x => x.CostoVariableSubProceso * dobleentrada * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / 1000.0) / CantidadPaginasTap) * 100.0) / 100.0 : 0;
-            detalle.CostoVariableEmbolsado = (Embolsado != null) ? (ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => ((x.CostoVariableSubProceso * CantidadTerminacionEmbolsado) / Convert.ToDouble(detalle.Tiraje))).FirstOrDefault()) : 0;
-            detalle.NombreEmbolsado = (Embolsado != null) ? ListTerm.Where(x => x.IdSubProceso == Embolsado).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
-            detalle.CantidadTerminacionEmbolsado = (Embolsado != null) ? CantidadTerminacionEmbolsado : 0;
-            detalle.CostoVariableLaminado = ((Laminado != null) && (CantidadPaginasTap > 0)) ? (Math.Ceiling(((ListTerm.Where(x => x.IdSubProceso == Laminado).Select(x => (x.CostoVariableSubProceso * (TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0)).FirstOrDefault()) / Convert.ToDouble(CantidadPaginasTap)) * 100.0) / 100.0) : 0;
-            detalle.NombreLaminado = ((Laminado != null) && (CantidadPaginasTap > 0)) ? ListTerm.Where(x => x.IdSubProceso == Laminado).Select(x => x.NombreSubProceso).FirstOrDefault() : "";
-            detalle.CostoFijoBarnizUV = (UV != null) ? Math.Ceiling(ListTerm.Where(x => x.IdSubProceso == UV).Select(x => x.CostoFijoSubProceso).FirstOrDefault()) : 0;
-            if (UV != null)
-            {
-                SubProceso subpro = db.SubProceso.Where(x => x.IdSubProceso == UV).FirstOrDefault();
-                if (subpro.NombreSubProceso == "Barniz UV 100%")
-                {
-                    detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => ((x.CostoVariableSubProceso * ((TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0))) / Convert.ToDouble(CantidadPaginasTap)).FirstOrDefault()) * 100.0) / 100.0);
-                }
-                else if (subpro.NombreSubProceso == "Barniz UV con Reserva")
-                {
-                    detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => (x.CostoVariableSubProceso * (Tiraje * Convert.ToDouble(1.0 / CantidadPaginasTap)) / Tiraje)).FirstOrDefault()) * 100.0) / 100.0);
-                }
-                else if (subpro.NombreSubProceso == "Barniz UV con Glitter")
-                {
-                    detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => (x.CostoVariableSubProceso) / CantidadPaginasTap).FirstOrDefault()) * 100.0) / 100.0);
-                }
-                detalle.NombreBarnizUV = ListTerm.Where(x => x.IdSubProceso == UV).Select(x => x.NombreSubProceso).FirstOrDefault();
-            }
-            detalle.CostoFijoTroquel = (ddlTroquel != "No" && ddlTroquel != "" && ddlTroquel != null) ? (ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => (x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault())).FirstOrDefault()) : 0;
-            detalle.CostoVariableTroquel = (ddlTroquel != "No" && ddlTroquel != "" && ddlTroquel != null) ? ((ListTerm.Where(x => x.NombreSubProceso == "Troquel").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) / Convert.ToDouble(CantidadPaginasTap)) : 0;
-            detalle.CostoFijoCorteFrontal = (CantidadPaginasTap > 0) ? (ListTerm.Where(x => x.NombreSubProceso == "Corte Frontal").Select(x => x.CostoFijoSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
-            detalle.CostoVariableCorteFrontal = (CantidadPaginasTap > 0) ? (ListTerm.Where(x => x.NombreSubProceso == "Corte Frontal").Select(x => x.CostoVariableSubProceso * x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault()).FirstOrDefault()) : 0;
-
-            #endregion
-            #region Manualidades Pendiente
-            detalle.CostoVariableAlzadoPlano = (AlzadoPlano != null && AlzadoPlano == 2) ? (ListTerm.Where(x => x.NombreSubProceso == "Alzado Plano").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
-            detalle.CostoVariableEmbolsadoManual = (EmbolsadoManual != null && EmbolsadoManual == 2) ? (ListTerm.Where(x => x.NombreSubProceso == "Embolsado manual").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
-
-            detalle.CostoVariableDesembolsado = (Desembolsado != null && Desembolsado == 2) ? (ListTerm.Where(x => x.NombreSubProceso == "Desembolsado simple").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
-            detalle.CostoVariableAlzado = (Alzado != null) ? (ListTerm.Where(x => x.IdSubProceso == Alzado).Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
-            detalle.CostoVariableInsercion = (Insercion != null) ? (ListTerm.Where(x => x.IdSubProceso == Insercion).Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
-            detalle.CostoVariablePegado = (Pegado != null) ? (ListTerm.Where(x => x.IdSubProceso == Pegado).Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
-            detalle.CostoVariableFajado = (Fajado != null) ? (ListTerm.Where(x => x.IdSubProceso == Fajado).Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
-            detalle.CostoVariableAdhesivo = (Pegado != null) ? (ListTerm.Where(x => x.NombreSubProceso == "Stopgard (9 mm.)"//Adhesivo
-                                                                                                        ).Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
-            detalle.AdhesivoCms = Convert.ToDouble(cmsAdhesivo);
-            detalle.CostoVariableAdhesivoTotal = Math.Ceiling((detalle.AdhesivoCms * detalle.CostoVariableAdhesivo) * 10.0) / 10.0;
-            #region Embalaje
-            Embalaje emb = db.Embalaje.Where(x => x.Estado == true).FirstOrDefault();
-            Papel p = db.Papel.Where(x => x.IdPapel == idPapelInterior).FirstOrDefault();
-            double LomoInterior = Math.Ceiling(((((p.Micron * Convert.ToDouble(CantidadPaginasInt)) / 2.0) / 1000.0) + p.Adhesivo) * 10.0) / 10.0;
-            double LomoTapa = db.Papel.Where(x => x.IdPapel == idPapelTap).Select(x => ((x.Micron * 2.0) / 1000.0)).FirstOrDefault();
-            double LomocTapa = (Math.Ceiling((LomoInterior + (LomoTapa)) * 10)) / 10;
-
-            if (CatalogoId != null)
-            {
-                try
-                {//Productos ingresados con formato de cajas
-                    string[] dimension = db.Catalogo.Where(x => x.IdTipoCatalogo == CatalogoId).Select(x => x.DimensionesCajasStandar).FirstOrDefault().Split('x');
-                    detalle.LibrosxCajas = Math.Floor(Convert.ToInt32(dimension[2]) / LomocTapa) * emb.Base;
-                }
-                catch (Exception ex)
-                {
-                    //Todos los productos nuevos con formato standard - cjerias
-                    string[] dimension = ("320x220x283").Split('x');
-                    //string formmmat = db.Catalogo.Where(x => x.IdTipoCatalogo == CatalogoId).Select(x => x.FormatoSeleccionado).SingleOrDefault();
-                    //string[] dimension = db.Catalogo.Where(x => x.FormatoSeleccionado == formmmat).Select(x => x.DimensionesCajasStandar).SingleOrDefault().Split('x');
-                    detalle.LibrosxCajas = Math.Floor(Convert.ToInt32(dimension[2]) / LomocTapa) * emb.Base;
-                }
-            }
-            else
-            {
-                detalle.LibrosxCajas = Math.Floor(emb.AltoCaja / LomocTapa) * emb.Base;
-            }
-            detalle.CantidadCajas = (int)Math.Ceiling(CantidadEnCajas / detalle.LibrosxCajas);
-            detalle.CostoVariableSuministroCaja = (Math.Ceiling((
-                ((emb.CajaEstandar * detalle.CantidadCajas) / Convert.ToDouble(Tiraje)) * 100)) / 100);
-            detalle.CostoVariableInsercionCajaySellado = (Math.Ceiling((
-                ((emb.EncajadoxCaja * detalle.CantidadCajas) / Convert.ToDouble(Tiraje)) * 100)) / 100);
-            detalle.Enzunchadoxpqte = Convert.ToInt32(Math.Ceiling(Convert.ToDouble(CantidadEnZuncho) / detalle.LibrosxCajas));
-            detalle.CostoVariableEnzunchado = (Math.Ceiling(((emb.Enzunchado * detalle.Enzunchadoxpqte))) / Convert.ToDouble(Tiraje) * 100) / 100;
-            detalle.CantidadenBolsa = CantidadEnBolsa;
-
-
-            #endregion
-            detalle.CostoVariablePegadoSticker = (Sticker != null && Sticker == 2) ? (ListTerm.Where(x => x.NombreSubProceso == "Pegado de Sticker").Select(x => x.TipoMoneda.Monedas.Where(i => i.Estado == true).Select(i => i.Valor).FirstOrDefault() * x.CostoVariableSubProceso).FirstOrDefault()) : 0;
-            #endregion
-            #region Papel
-            if ((CantidadPaginasInt > 0) && (idPapelInterior != null))
-            {
                 detalle.Interior = new Interior();
-                detalle.Interior.CantidadPaginas = CantidadPaginasInt;
-                detalle.Interior.PapelId = (int)idPapelInterior;
-
-                Formato Web88 = listaFormatos.Where(x => x.EntradasxFormatos == 16).FirstOrDefault();
-                Formato Litho132 = listaFormatos.Where(x => x.EntradasxFormatos == 48).FirstOrDefault();
-                Formato Litho174 = listaFormatos.Where(x => x.EntradasxFormatos == 64).FirstOrDefault();
-
-                if (Litho174 != null)
-                {
-                    detalle.FormatoId = listaFormatos.Where(x => x.EntradasxFormatos == 64).Select(x => x.IdFormato).FirstOrDefault();
-                }
-                else if (Litho132 != null)
-                {
-                    detalle.FormatoId = listaFormatos.Where(x => x.EntradasxFormatos == 48).Select(x => x.IdFormato).FirstOrDefault();
-                }
-                else
-                {
-                    detalle.FormatoId = listaFormatos.Where(x => x.EntradasxFormatos == 16).Select(x => x.IdFormato).FirstOrDefault();
-                }
-
-                detalle.Interior.Entradas = (float)(((Web88 != null) ? (((produccion.Entradas16 * detalle.MaquinaInterior.MermaFija) / 1000.0) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000.0)) : 0) +
-                                                   ((Litho132 != null) ? (((produccion.Entradas48 * detalle.MaquinaInterior.MermaFija) / 1000.0) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000.0)) : 0) +
-                                                   ((Litho174 != null) ? (((produccion.Entradas64 * detalle.MaquinaInterior.MermaFija) / 1000.0) * ((papelInterior.Gramaje * Litho174.Interior_Alto * Litho174.Interior_Ancho) / 10000.0)) : 0));
-
-                //detalle.Interior.Entradas = (float)((((detalle.EntradasPag64 + detalle.EntradasPag48 + detalle.EntradasPag32 + detalle.EntradasPag24 + detalle.EntradasPag16 + detalle.EntradasPag12 + detalle.EntradasPag8 + detalle.EntradasPag4) * detalle.MaquinaInterior.MermaFija)/1000.0) 
-                //                                        * (((papelInterior.Gramaje * detalle.Formato.Interior_Alto * detalle.Formato.Interior_Ancho) / 10000.0)));
-
-                detalle.Interior.CostoPapelinteriorFijo = Math.Ceiling(detalle.Interior.Entradas * papelInterior.PrecioKilos);
-
-                detalle.Interior.Tiradas = (float)(((Web88 != null) ? (((Tiraje * produccion.Web88cms * detalle.MaquinaInterior.MermaVariable) / 1000.0) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000.0)) : 0) +
-                                           ((Litho132 != null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) / 1000.0) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000.0)) : 0) +
-                                           ((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) / 1000.0) * ((papelInterior.Gramaje * Litho174.Interior_Alto * Litho174.Interior_Ancho) / 10000.0)) : 0));
-                //detalle.Interior.Tiradas = (float)(((Tiraje * (Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez)) * detalle.MaquinaInterior.MermaVariable) / 1000.0) * ((papelInterior.Gramaje * detalle.Formato.Interior_Alto * detalle.Formato.Interior_Ancho) / 10000.0));
-
-                detalle.Interior.CostoPapelInteriorVari = (Math.Ceiling(((papelInterior.PrecioKilos * detalle.Interior.Tiradas) / Convert.ToDouble(Tiraje)) * 100.0) / 100.0);
-
-                float a = (float)(((Web88 != null) ? (((Tiraje * produccion.Web88cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas16 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000000.0)) : 0));
-                float b = (float)((Litho132 != null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas48 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000000.0)) : 0);
-                float c = (float)((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas64 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho174.Interior_Alto * Litho174.Interior_Ancho) / 10000000.0)) : 0);
+                detalle.Interior = null;
 
 
-                detalle.Interior.KilosPapel = (float)(((Web88 != null) ? (((Tiraje * produccion.Web88cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas16 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Web88.Interior_Alto * Web88.Interior_Ancho) / 10000000.0)) : 0) +
-                                                     ((Litho132 != null) ? (((Tiraje * produccion.Litho132cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas48 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * Litho132.Interior_Alto * Litho132.Interior_Ancho) / 10000000.0)) : 0) +
-                                                     ((Litho174 != null) ? (((Tiraje * produccion.Litho174cms * detalle.MaquinaInterior.MermaVariable) + (produccion.Entradas64 * detalle.MaquinaInterior.MermaFija)) * ((papelInterior.Gramaje * ((Litho174 != null) ? Litho174.Interior_Alto : 0)) * ((Litho174 != null) ? Litho174.Interior_Ancho : 0) / 10000000.0)) : 0));
 
 
-                //detalle.Interior.KilosPapel = (float)(((Tiraje * (Convert.ToDouble(CantidadPaginasInt) / Convert.ToDouble(NumeroDoblez)) * detalle.MaquinaInterior.MermaVariable) 
-                //    + ((detalle.EntradasPag64 + detalle.EntradasPag48 + detalle.EntradasPag32 + detalle.EntradasPag24 + detalle.EntradasPag16 + detalle.EntradasPag12 + detalle.EntradasPag8 + detalle.EntradasPag4) * detalle.MaquinaInterior.MermaFija))
-                //                            * ((papelInterior.Gramaje * detalle.Formato.Interior_Alto * detalle.Formato.Interior_Ancho) / 10000000.0));
-
-
-                if ((CantidadPaginasTap > 0 && idPapelTap != 0 && idPapelTap != null))
-                {
-                    detalle.Tapa = new Tapa();
-                    detalle.Tapa.CantidadPaginas = (CantidadPaginasTap > 0) ? Convert.ToInt32(CantidadPaginasTap) : 0;
-                    detalle.Tapa.PapelId = (int)idPapelTap;
-
-                    detalle.Tapa.Entradas = (float)(((1 * detalle.MaquinaTapa.MermaFija * CantidadModelos) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
-
-                    detalle.Tapa.CostoPapelTapaFijo = Math.Ceiling(detalle.Tapa.Entradas * papelTapa.PrecioKilos);
-
-                    detalle.Tapa.Tiradas = (float)(((Tiraje * CantidadPaginasTap * detalle.MaquinaTapa.MermaVariable) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
-
-                    detalle.Tapa.CostoPapelTapaVari = (Math.Ceiling(((papelTapa.PrecioKilos * detalle.Tapa.Tiradas) / Convert.ToDouble(Tiraje)) * 100.0) / 100.0);
-
-                    detalle.Tapa.KilosPapel = (float)((((Tiraje * (1.0 / CantidadPaginasTap) * detalle.MaquinaTapa.MermaVariable) + (1 * detalle.MaquinaTapa.MermaFija * CantidadModelos)) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
-                };
-                float PesoInterior = (float)((((TapaFormato.FormatoCerradoX / 10.0) * (TapaFormato.FormatoCerradoY / 10.0) * papelInterior.Gramaje) / 10000000.0) * (CantidadPaginasInt / 2));
+                //float PesoInterior = (float)((((TapaFormato.FormatoCerradoX / 10.0) * (TapaFormato.FormatoCerradoY / 10.0) * papelInterior.Gramaje) / 10000000.0) * (CantidadPaginasInt / 2));
                 float Pesotapa = (float)((((TapaFormato.FormatoCerradoX / 10.0) * (TapaFormato.FormatoCerradoY / 10.0) * ((papelTapa != null) ? papelTapa.Gramaje : 0)) / 10000000.0) * (4 / 2));
                 float Enc = 0.002f;
 
-                detalle.CostoVariablePallet = Math.Ceiling(((emb.PalletEstandar * Math.Ceiling(((PesoInterior + Pesotapa + Enc) * Convert.ToDouble(detalle.Tiraje)) / 700)) / Convert.ToDouble(Tiraje)) * 100) / 100;//CantidadPallet);
+                detalle.CostoVariablePallet = Math.Ceiling(((emb.PalletEstandar * Math.Ceiling(((0 + Pesotapa + Enc) * Convert.ToDouble(detalle.Tiraje)) / 700)) / Convert.ToDouble(Tiraje)) * 100) / 100;//CantidadPallet);
+                #endregion
+
+                #region Totales
+                //230 x 300
+                detalle.FormatoId = listaFormatos.Where(x => (x.FormatoCerradoX + " x " + x.FormatoCerradoY) == FormatoId).Select(x => x.IdFormato).FirstOrDefault();
+                detalle.TarifaFijaImpresion = Math.Ceiling((detalle.CostoFijoPag64 * detalle.EntradasPag64) + (detalle.CostoFijoPag48 * detalle.EntradasPag48) + (detalle.CostoFijoPag32 * detalle.EntradasPag32) + (detalle.CostoFijoPag24 * detalle.EntradasPag24) +
+                                                (detalle.CostoFijoPag16 * detalle.EntradasPag16) + (detalle.CostoFijoPag12 * detalle.EntradasPag12) + (detalle.CostoFijoPag8 * detalle.EntradasPag8) + (detalle.CostoFijoPag4 * detalle.EntradasPag4)
+                                                + detalle.CostoFijoTapa);
+                detalle.TarifaVariableImpresion = (Math.Ceiling(((detalle.CostoVariablePag64 * detalle.EntradasPag64) + (detalle.CostoVariablePag48 * detalle.EntradasPag48) + (detalle.CostoVariablePag32 * detalle.EntradasPag32) + (detalle.CostoVariablePag24 * detalle.EntradasPag24) +
+                                                    (detalle.CostoVariablePag16 * detalle.EntradasPag16) + (detalle.CostoVariablePag12 * detalle.EntradasPag12) + (detalle.CostoVariablePag8 * detalle.EntradasPag8) +
+                                                    (detalle.CostoVariablePag4 * detalle.EntradasPag4) + detalle.CostoVariableTapa) * 100.0)) / 100.0;
+
+                detalle.TarifaFijaEncuadernacion = Math.Ceiling(detalle.CostoFijoEncuadernacion + detalle.CostoFijoPlizado + detalle.CostoFijoTroquel + detalle.CostoFijoCorteFrontal);
+                detalle.TarifaVariableEncuadernacion = (Math.Ceiling((detalle.CostoVariableEncuadernacion + detalle.CostoVariablePlizado + detalle.CostoVariableTroquel + detalle.CostoVariableCorteFrontal) * 100.0)) / 100.0;
+
+                detalle.TarifaFijaDespacho = (detalle.CostoVariableSuministroCaja + detalle.CostoVariableInsercionCajaySellado + detalle.CostoVariableEnzunchado + detalle.CostoVariablePallet);
+
+                detalle.TarifaFijaTerminacion = Math.Ceiling(detalle.CostoFijoQuintoColor + detalle.CostoFijoBarnizUV + detalle.CostoFijoBarnizAcuosoTapa);
+
+                detalle.TarifaFijaPapel = Math.Ceiling(0 + ((papelTapa != null) ? detalle.Tapa.CostoPapelTapaFijo : 0));
+                detalle.TarifaVariablePapel = (Math.Ceiling((0 + ((papelTapa != null) ? detalle.Tapa.CostoPapelTapaVari : 0)) * 100.0)) / 100.0;
+                detalle.TarifaVariableTerminacion = (Math.Ceiling((detalle.CostoVariableQuintoColor +
+                                 detalle.CostoVariableBarnizUV + detalle.CostoVariableEmbolsado + detalle.CostoVariableLaminado + detalle.CostoVariableBarnizAcuosoTapa +
+                                 detalle.CostoVariableAlzadoPlano + detalle.CostoVariableEmbolsadoManual + detalle.CostoVariableDesembolsado + detalle.CostoVariableAlzado +
+                                 detalle.CostoVariableInsercion + detalle.CostoVariablePegado + detalle.CostoVariableFajado + detalle.CostoVariableAdhesivoTotal + detalle.CostoVariablePegadoSticker) * 100.0)) / 100.0;
+                double TarifaVariableMecanica = (Math.Ceiling((detalle.CostoVariableQuintoColor +
+                                 detalle.CostoVariableBarnizUV + detalle.CostoVariableEmbolsado + detalle.CostoVariableLaminado + detalle.CostoVariableBarnizAcuosoTapa + detalle.CostoVariableAdhesivoTotal) * 100.0)) / 100.0;
+                detalle.ManufacturaFijo = Math.Ceiling(0 + detalle.TarifaFijaEncuadernacion + detalle.TarifaFijaTerminacion);
+                detalle.ManufacturaVari = (Math.Ceiling((0 + detalle.TarifaVariableEncuadernacion + detalle.TarifaVariableTerminacion + detalle.TarifaFijaDespacho) * 100.0)) / 100.0;
+                detalle.TotalNetoFijo = detalle.ManufacturaFijo + detalle.TarifaFijaPapel;
+                detalle.TotalNetoVari = detalle.ManufacturaVari + detalle.TarifaVariablePapel;
+
+                double Total_Impresion = detalle.CostoFijoTapa + (detalle.CostoVariableTapa * Tiraje);
+                double Total_Papel = detalle.TarifaFijaPapel + (detalle.TarifaVariablePapel * Tiraje);
+                double Total_Encuad = detalle.TarifaFijaEncuadernacion + (detalle.TarifaVariableEncuadernacion * Tiraje);
+                double Total_Terminacion = detalle.TarifaFijaTerminacion + (detalle.TarifaVariableTerminacion * Tiraje);
+                double Total_Despacho = detalle.TarifaFijaDespacho * Tiraje;
+
+                //detalle.TotalNetoTotal = Math.Ceiling(detalle.TotalNetoFijo + ((detalle.TotalNetoVari - (detalle.TarifaVariableTerminacion - TarifaVariableMecanica)) * Convert.ToDouble(Tiraje)) +
+                //                         (detalle.CostoVariableAlzadoPlano * CantidadAlzadoPlano) + (detalle.CostoVariableDesembolsado * CantidadDesembolsado) + (detalle.CostoVariableAlzado * CantidadAlzado) +
+                //                         (detalle.CostoVariableInsercion * CantidadInsercion) + (detalle.CostoVariablePegado * CantidadPegado) + (detalle.CostoVariableFajado * CantidadFajado) +
+                //                         (detalle.CostoVariablePegadoSticker * CantidadPegadoSticker));
+
+                detalle.TotalNetoTotal = Total_Impresion + Total_Papel + Total_Encuad + Total_Terminacion + Total_Despacho;
+                detalle.PrecioUnitario = (Math.Ceiling((detalle.TotalNetoTotal / Convert.ToDouble(Tiraje)) * 100) / 100);
+
+                #endregion
+
+                #region valores null
+                detalle.EntradasPag64 = 0;
+                detalle.EntradasPag48 = 0;
+                detalle.EntradasPag32 = 0;
+                detalle.EntradasPag16 = 0;
+                detalle.EntradasPag12 = 0;
+                detalle.EntradasPag8 = 0;
+                detalle.EntradasPag4 = 0;
+
+                detalle.CostoFijoPag64 = 0;
+                detalle.CostoFijoPag48 = 0;
+                detalle.CostoFijoPag32 = 0;
+                detalle.CostoFijoPag16 = 0;
+                detalle.CostoFijoPag12 = 0;
+                detalle.CostoFijoPag8 = 0;
+                detalle.CostoFijoPag4 = 0;
+
+                detalle.CostoVariablePag64 = 0;
+                detalle.CostoVariablePag48 = 0;
+                detalle.CostoVariablePag32 = 0;
+                detalle.CostoVariablePag16 = 0;
+                detalle.CostoVariablePag12 = 0;
+                detalle.CostoVariablePag8 = 0;
+                detalle.CostoVariablePag4 = 0;
+                 
+               
+                #endregion
             }
-            #endregion
-            #region Totales
-            detalle.TarifaFijaImpresion = Math.Ceiling((detalle.CostoFijoPag64 * detalle.EntradasPag64) + (detalle.CostoFijoPag48 * detalle.EntradasPag48) + (detalle.CostoFijoPag32 * detalle.EntradasPag32) + (detalle.CostoFijoPag24 * detalle.EntradasPag24) +
-                                            (detalle.CostoFijoPag16 * detalle.EntradasPag16) + (detalle.CostoFijoPag12 * detalle.EntradasPag12) + (detalle.CostoFijoPag8 * detalle.EntradasPag8) + (detalle.CostoFijoPag4 * detalle.EntradasPag4)
-                                            + detalle.CostoFijoTapa);
-            detalle.TarifaVariableImpresion = (Math.Ceiling(((detalle.CostoVariablePag64 * detalle.EntradasPag64) + (detalle.CostoVariablePag48 * detalle.EntradasPag48) + (detalle.CostoVariablePag32 * detalle.EntradasPag32) + (detalle.CostoVariablePag24 * detalle.EntradasPag24) +
-                                                (detalle.CostoVariablePag16 * detalle.EntradasPag16) + (detalle.CostoVariablePag12 * detalle.EntradasPag12) + (detalle.CostoVariablePag8 * detalle.EntradasPag8) +
-                                                (detalle.CostoVariablePag4 * detalle.EntradasPag4) + detalle.CostoVariableTapa) * 100.0)) / 100.0;
-
-            detalle.TarifaFijaEncuadernacion = Math.Ceiling(detalle.CostoFijoEncuadernacion + detalle.CostoFijoPlizado + detalle.CostoFijoTroquel + detalle.CostoFijoCorteFrontal);
-            detalle.TarifaVariableEncuadernacion = (Math.Ceiling((detalle.CostoVariableEncuadernacion + detalle.CostoVariablePlizado + detalle.CostoVariableTroquel + detalle.CostoVariableCorteFrontal) * 100.0)) / 100.0;
-
-            detalle.TarifaFijaDespacho = (detalle.CostoVariableSuministroCaja + detalle.CostoVariableInsercionCajaySellado + detalle.CostoVariableEnzunchado + detalle.CostoVariablePallet);
-
-            detalle.TarifaFijaTerminacion = Math.Ceiling(detalle.CostoFijoQuintoColor + detalle.CostoFijoBarnizUV + detalle.CostoFijoBarnizAcuosoTapa);
-
-            detalle.TarifaFijaPapel = Math.Ceiling(detalle.Interior.CostoPapelinteriorFijo + ((papelTapa != null) ? detalle.Tapa.CostoPapelTapaFijo : 0));
-            detalle.TarifaVariablePapel = (Math.Ceiling((detalle.Interior.CostoPapelInteriorVari + ((papelTapa != null) ? detalle.Tapa.CostoPapelTapaVari : 0)) * 100.0)) / 100.0;
-            detalle.TarifaVariableTerminacion = (Math.Ceiling((detalle.CostoVariableQuintoColor +
-                             detalle.CostoVariableBarnizUV + detalle.CostoVariableEmbolsado + detalle.CostoVariableLaminado + detalle.CostoVariableBarnizAcuosoTapa +
-                             detalle.CostoVariableAlzadoPlano + detalle.CostoVariableEmbolsadoManual + detalle.CostoVariableDesembolsado + detalle.CostoVariableAlzado +
-                             detalle.CostoVariableInsercion + detalle.CostoVariablePegado + detalle.CostoVariableFajado + detalle.CostoVariableAdhesivoTotal + detalle.CostoVariablePegadoSticker) * 100.0)) / 100.0;
-            double TarifaVariableMecanica = (Math.Ceiling((detalle.CostoVariableQuintoColor +
-                             detalle.CostoVariableBarnizUV + detalle.CostoVariableEmbolsado + detalle.CostoVariableLaminado + detalle.CostoVariableBarnizAcuosoTapa + detalle.CostoVariableAdhesivoTotal) * 100.0)) / 100.0;
-            detalle.ManufacturaFijo = Math.Ceiling(detalle.TarifaFijaImpresion + detalle.TarifaFijaEncuadernacion + detalle.TarifaFijaTerminacion);
-            detalle.ManufacturaVari = (Math.Ceiling((detalle.TarifaVariableImpresion + detalle.TarifaVariableEncuadernacion + detalle.TarifaVariableTerminacion + detalle.TarifaFijaDespacho) * 100.0)) / 100.0;
-            detalle.TotalNetoFijo = detalle.ManufacturaFijo + detalle.TarifaFijaPapel;
-            detalle.TotalNetoVari = detalle.ManufacturaVari + detalle.TarifaVariablePapel;
-
-            detalle.TotalNetoTotal = Math.Ceiling(detalle.TotalNetoFijo + ((detalle.TotalNetoVari - (detalle.TarifaVariableTerminacion - TarifaVariableMecanica)) * Convert.ToDouble(Tiraje)) +
-                                     (detalle.CostoVariableAlzadoPlano * CantidadAlzadoPlano) + (detalle.CostoVariableDesembolsado * CantidadDesembolsado) + (detalle.CostoVariableAlzado * CantidadAlzado) +
-                                     (detalle.CostoVariableInsercion * CantidadInsercion) + (detalle.CostoVariablePegado * CantidadPegado) + (detalle.CostoVariableFajado * CantidadFajado) +
-                                     (detalle.CostoVariablePegadoSticker * CantidadPegadoSticker));
-            detalle.PrecioUnitario = (Math.Ceiling((detalle.TotalNetoTotal / Convert.ToDouble(Tiraje)) * 100) / 100);
-
-            #endregion
             return detalle;
         }
 
@@ -634,6 +834,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
             pres.Catalogo = db.Catalogo.ToList();
             pres.Empresa = db.Empresa.ToList();
             List<SelectListItem> s = new List<SelectListItem>();
+            s.Add(new SelectListItem() { Text = "Seleccione Cantidad", Value = "0" });
             for (int i = 4; i <= 200; i = i + 4)//antes 400
             {
                 s.Add(new SelectListItem() { Text = i.ToString(), Value = i.ToString() });
@@ -728,10 +929,17 @@ namespace ProyectoPersonal.Controllers.Cotizador
 
                     db.Catalogo.Add(tc);
                 }
-                db.Presupuesto.Add(p);
-                db.Presupuesto_SubProceso.AddRange(listaSubProceso);
-                db.SaveChanges();
-                pres2.IdPresupuesto = db.Presupuesto.Max(item => item.IdPresupuesto);
+                try
+                {
+                    db.Presupuesto.Add(p);
+                    db.Presupuesto_SubProceso.AddRange(listaSubProceso);
+                    db.SaveChanges();
+                    pres2.IdPresupuesto = db.Presupuesto.Max(item => item.IdPresupuesto);
+                }
+                catch(Exception exx)
+                {
+
+                }
             }
             else
             {
@@ -1676,7 +1884,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
             if (UV != null)
             {
                 SubProceso subpro = db.SubProceso.Where(x => x.IdSubProceso == UV).FirstOrDefault();
-                if (subpro.NombreSubProceso == "Barniz UV 100%")
+                if (subpro.NombreSubProceso == "Barniz UV 100% en el tiro")
                 {
                     detalle.CostoVariableBarnizUV = (Math.Ceiling((ListTerm.Where(x => x.IdSubProceso == UV).Select(x => ((x.CostoVariableSubProceso * ((TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0))) / Convert.ToDouble(CantidadPaginasTap)).FirstOrDefault()) * 100.0) / 100.0);
                 }
@@ -1906,7 +2114,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
             }
             Presupuesto pres2 = new Presupuesto();
             p.IdPresupuesto = IdPresupuestoFormo;
-            p.Interior.IdInterior = db.Presupuesto.Where(x => x.IdPresupuesto == p.IdPresupuesto).Select(x => x.InteriorId).FirstOrDefault();
+         //   p.Interior.IdInterior = db.Presupuesto.Where(x => x.IdPresupuesto == p.IdPresupuesto).Select(x => x.InteriorId).FirstOrDefault();
             p.TapaId= db.Presupuesto.Where(x => x.IdPresupuesto == p.IdPresupuesto).Select(x => x.TapaId).FirstOrDefault();
             p.NombrePresupuesto = NombrePresupuesto;
             p.TipoCatalogoId = tc.IdTipoCatalogo;

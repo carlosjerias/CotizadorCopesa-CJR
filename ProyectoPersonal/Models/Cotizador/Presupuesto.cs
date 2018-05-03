@@ -28,7 +28,7 @@ namespace ProyectoPersonal.Models.Cotizador
         public int? EncuadernacionId { get; set; }
         public Encuadernacion Encuadernacion { get; set; }
 
-        public int InteriorId { get; set; }
+        public int? InteriorId { get; set; }//quitar el "?" para que sea obligatorio
         public Interior Interior { get; set; }
 
         public int? TapaId { get; set; }
@@ -229,7 +229,7 @@ namespace ProyectoPersonal.Models.Cotizador
         [NotMapped]
         public List<Encuadernacion> Encuadernaciones { get; set; }
         [NotMapped]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
+        //[Required(ErrorMessage = "El campo {0} es obligatorio")]
         [Display(Name = "Encuadernación")]
         public string SelectEnc { get; set; }
         [NotMapped]
@@ -248,13 +248,12 @@ namespace ProyectoPersonal.Models.Cotizador
         public List<Papel> Papeles { get; set; }
         [NotMapped]
         [Display(Name = "Papel de Cliente")]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
         public string SelectPapelIntId { get; set; }
         [NotMapped]
         public string SelectPapelTapId { get; set; }
+ 
         [NotMapped]
-        [Required(ErrorMessage = "El campo {0} es obligatorio")]
-        [Display(Name = "Cantidad")]
+        [Display(Name = "Cantidad1")]
         public int CantidadInt { get; set; }
         [NotMapped]
         [Display(Name = "Cantidad")]
