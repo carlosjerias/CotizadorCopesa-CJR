@@ -458,9 +458,49 @@
 
             ContadorErrores += 1;
         } else { $("input#Tiraje").css("border", ""); }
-//Papel Interior
-        //var CantInterior = $("select#CantidadInt option:selected").text();
-        //var PapelInt = $("select#SelectPapelIntId option:selected").text();
+        //Papel Interior
+
+        var CantInterior = $("select#CantidadInt option:selected").text();
+        var PapelInt = $("select#SelectPapelIntId option:selected").text();
+
+        if (CantInterior == 'Seleccione Cantidad' && PapelInt != 'Seleccione un Papel') {
+            $("#SpanCantInterior").text("Seleccione cantidad de páginas en Interior.").show();
+            $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+            $("#spanCantidadInt").hide();
+            $("#spanCantidadIntIMG").hide();
+            $("#PapelIntDescripcion").hide();
+            
+            ContadorErrores += 1;
+        }
+        if (CantInterior != 'Seleccione Cantidad' && PapelInt == 'Seleccione un Papel') {
+            $("#SpanPapelIntCliente").text("Seleccione cantidad de páginas en Interior.").show();
+            $("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+            $("#SpanCantInterior").hide();
+            $("#spanCantidadInt").hide();
+            $("#spanCantidadIntIMG").hide();
+            $("#PapelIntDescripcion").hide();
+            ContadorErrores += 1;
+        }
+        if (CantInterior != 'Seleccione Cantidad' && PapelInt != 'Seleccione un Papel') {
+            $("#spanCantidadInt").show();
+            $("#spanCantidadIntIMG").show();
+            $("#SpanCantInterior").hide();
+            $("#PapelIntDescripcion").show();
+            $("#SpanPapelIntCliente").hide();
+            
+        }
+        if (CantInterior == 'Seleccione Cantidad' && PapelInt == 'Seleccione un Papel') {
+            $("#spanCantidadInt").hide();
+            $("#spanCantidadIntIMG").hide();
+            $("#SpanCantInterior").hide();
+            $("#PapelIntDescripcion").hide();
+            $("#SpanPapelIntCliente").hide();
+            $("select#CantidadInt").css("border", "");
+            $("select#SelectPapelIntId").css("border", "");
+
+        }
+
+
         //if (CantInterior == null || CantInterior == 'Seleccione Cantidad') {
         //    $("#PapelIntDescripcion").hide();
         //    $("#spanCantidadInt").hide();
@@ -729,6 +769,7 @@
         @Html.DropDownListFor(model => model.CantidadInt, new SelectList(ViewBag.CantidadInt, "Value", "Text"), htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                    @* @Html.ValidationMessageFor(model => model.CantidadInt, "", new { @class = "text-danger", style = "display:inline" })*@
                   <span id="spanCantidadIntIMG" class="glyphicon glyphicon-info-sign alert-info hidden"></span>&nbsp;<span id="spanCantidadInt" style="color:#31708f;font-weight: bold;"></span>
+        <span id="SpanCantInterior" class="text-danger"></span>
                 </div>
             </div>
 
@@ -737,6 +778,7 @@
                 <div class="col-md-10">
                     @Html.DropDownListFor(model => model.EmpresaPapelInterior, new SelectList(Model.Empresa, "IdEmpresa", "NombreEmpresa") , htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline" })
                     <div class="hidden" id="PPapelEmpresaInt" style="display:inline;color:#1a4e68;"><span class="glyphicon glyphicon-info-sign alert-info"></span>&nbsp;<span style="color:#31708f;font-weight: bold;">Papel sujeto a disponibilidad.</span></div>
+                   
                 </div>
             </div>
             <div class="form-group">
@@ -745,8 +787,13 @@
                     @Html.DropDownListFor(model => model.SelectPapelIntId, new SelectList(Model.Papeles, "IdPapel", "NombreCompletoPapel"), "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "$(this.form).submit();", style = "display:inline;width: 280px;" })
                     <span id="spanSelectPapelIntId">  @Html.ValidationMessageFor(model => model.SelectPapelIntId, "", new { @class = "text-danger", style = "display:inline" })</span> 
                     <span id="SpanPapelIntCliente" class="text-danger"></span>  <div style="display:inline;color:#1a4e68;"><strong  id="PapelIntDescripcion" ></strong></div>
+                    
                 
                 </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-2"></div>
+                <div class="col-md-10"><div id="infoInterior" style="color:#1a4e68;">(*)En caso de cotizar solo interior dejar las opciones Cantidad de paginas tapa y papel tapa en seleccione</div></div>
             </div>
         </fieldset>
         <fieldset>
@@ -792,7 +839,10 @@
                     <span id="SpanPapelTapa" class="text-danger"></span>
                 </div>
             </div>
-
+            <div class="form-group">
+                <div class="col-md-2"></div>
+                <div class="col-md-10"><div id="infoTapa" style="color:#1a4e68;">(*)En caso de cotizar solo Tapa dejar las opciones Cantidad de paginas interior y papel interior en seleccione</div></div>
+            </div>
         </fieldset>
         <fieldset>
             <legend>Terminaciones adicionales para Tapas</legend>
@@ -1400,7 +1450,7 @@
             $("#PapelIntDescripcion").hide();
         }
         $("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-            $("#SpanPapelIntCliente").text("Seleccione Papel Interior").show();
+            //$("#SpanPapelIntCliente").text("Seleccione Papel Interior").show();
             $("#btnGuardar").prop('disabled', true);
     });
     $("#EmpresaPapelTapa").change(function () {
@@ -1452,7 +1502,7 @@
 
 
                 $("input#NombreCatalogo").addClass("hidden");
-                $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == result.EmpresaPapelInt); });//.trigger("change");
+                $("select#EmpresaPapelInterior option").each(function () { this.selected = (this.text == result.EmpresaPapelInt); }).trigger("change");
                 //INTENTO CARGA DIRECTA PAPELES Y LUEGO CHANGE (?)
                 $.getJSON('@Url.Action("SeleccionarPapel", "Presupuesto")', { EmpresaID: result.EmpresaIntID }, function (Papel) {
                     var GramajeSelect = $('#SelectPapelIntId');
@@ -1467,15 +1517,15 @@
                     });
                 });
                 //COLOR A LAS PAGINAS INTERIOR
-                    //var cInterior = $("select#CantidadInt option:selected").text();
+                    var cInterior = $("select#CantidadInt option:selected").text();
 
-                    //if (cInterior != 'Seleccione Cantidad') {
-                    //    $("select#CantidadInt").css("border", "");
-                    //} else {
-                    //    $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-                    //}
-                    //$("#spanSelectPapelIntId").hide();
-                    //$("select#SelectPapelIntId").css("border", "");
+                    if (cInterior != 'Seleccione Cantidad') {
+                        $("select#CantidadInt").css("border", "");
+                    } else {
+                        $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+                    }
+                    $("#spanSelectPapelIntId").hide();
+                    $("select#SelectPapelIntId").css("border", "");
           
                 //CREAR VALIDACION CUANDO SEA PRODUCTO SIN TAPA
                 if (result.EmpresaPapelTapa == null || result.EmpresaPapelTapa == '') {
@@ -1512,21 +1562,21 @@
         }
         else {
 
-            //var cInterior = $("select#CantidadInt option:selected").text();
-            //if (cInterior != 'Seleccione Cantidad') {
-            //    $("select#CantidadInt").css("border", "");
-            //} else {
-            //    $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-            //}
+            var cInterior = $("select#CantidadInt option:selected").text();
+            if (cInterior != 'Seleccione Cantidad') {
+                $("select#CantidadInt").css("border", "");
+            } else {
+                $("select#CantidadInt").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+            }
 
-            //var cInteriorPapel = $("select#SelectPapelIntId option:selected").text();
-            //if (cInteriorPapel != 'Seleccione un Papel') {
-            //    $("select#SelectPapelIntId").css("border", "");
-            //    $("#SpanPapelIntCliente").hide();
-            //} else {
-            //    $("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
-            //    $("#SpanPapelIntCliente").show();
-            //}
+            var cInteriorPapel = $("select#SelectPapelIntId option:selected").text();
+            if (cInteriorPapel != 'Seleccione un Papel') {
+                $("select#SelectPapelIntId").css("border", "");
+                $("#SpanPapelIntCliente").hide();
+            } else {
+                $("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
+                //$("#SpanPapelIntCliente").show();
+            }
             $("#SpanPapelTapa").text("Seleccione Papel Tapa.").show();
             $("#PapelTapDescripcion").hide();
            // $("#PapelTapDescripcion").addClass("hidden");
@@ -1716,7 +1766,7 @@
             //$("select#SelectPapelIntId").css({ "border": "2px solid #a94442", "border-radius:": "5px" });
         } else {
             $("#PapelIntDescripcion").show();
-            $("#SpanPapelIntCliente").hide();
+            //$("#SpanPapelIntCliente").hide();
             $("select#SelectPapelIntId").css("border", "");
         }
         ValidaBotonCrear(); 

@@ -1,0 +1,603 @@
+﻿@model ProyectoPersonal.Models.ProductosEspeciales.ProductosEspeciales_PresupuestoForm
+
+<link href="~/Content/Template/dark_cyan.css" rel="stylesheet" />
+<script src="~/Scripts/printThis.js"></script> 
+<style>
+    #sidebar {
+        width: 28%;
+        float: right;
+        background: #ccc;
+        margin-left: 10px;
+        padding: 0 2px 2px 0;
+    }
+</style>
+<script>
+    var formatNumber = {
+        separador: ".", // separador para los miles
+        sepDecimal: ',', // separador para los decimales
+        formatear: function (num) {
+            num += '';
+            var splitStr = num.split('.');
+            var splitLeft = splitStr[0];
+            var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
+            var regx = /(\d+)(\d{3})/;
+            while (regx.test(splitLeft)) {
+                splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+            }
+            return this.simbol + splitLeft + splitRight;
+        },
+        new: function (num, simbol) {
+            this.simbol = simbol || '';
+            return this.formatear(num);
+        }
+    }
+    var numberFormat = new Intl.NumberFormat('es-ES');
+
+</script>
+<script type="text/javascript">
+
+    function OnSuccess(data) {
+        //TOTALES NUESTRA OFERTA
+        $("#OfertaImpF").text(formatNumber.new(Math.round(data.ImpresionCostoFijoTotal)));
+        $("#OfertaImpV").text(numberFormat.format(data.ImpresionCostoVariableTotal));
+        $("#OfertaImpT").text(formatNumber.new(Math.round((data.ImpresionCostoFijoTotal + (data.ImpresionCostoVariableTotal * data.Cantidad)))));
+
+        $("#OfertaPapelF").text(formatNumber.new(Math.round(data.PapelCostoFijo)));
+        $("#OfertaPapelV").text(numberFormat.format(data.PapelCostoVariable));
+        $("#OfertaPapelT").text(formatNumber.new(Math.round((data.PapelCostoFijo + (data.PapelCostoVariable * data.Cantidad)))));
+
+        $("#OfertaTermF").text(formatNumber.new(Math.round(data.TerminacionCostoFijoTotal)));
+        $("#OfertaTermV").text(numberFormat.format(data.TerminacionCostoVariableTotal));
+        $("#OfertaTermT").text(formatNumber.new(Math.round((data.TerminacionCostoFijoTotal + (data.TerminacionCostoVariableTotal * data.Cantidad)))));
+
+        $("#OfertaEncF").text(formatNumber.new(Math.round(data.EncuadernacionCostoFijoTotal)));
+        $("#OfertaEncV").text(numberFormat.format(data.EncuadernacionCostoVariableTotal));
+        $("#OfertaEncT").text(formatNumber.new(Math.round((data.EncuadernacionCostoFijoTotal + (data.EncuadernacionCostoVariableTotal * data.Cantidad)))));
+
+        $("#OfertaDespF").text(formatNumber.new(Math.round(data.DespachoCostoFijo)));
+        $("#OfertaDespV").text(numberFormat.format(data.DespachoCostoVariable));
+        $("#OfertaDespT").text(formatNumber.new(Math.round((data.DespachoCostoFijo + (data.DespachoCostoVariable * data.Cantidad)))));
+
+        $("#OfertaNetoF").text(formatNumber.new(Math.round(data.NetoCostoFijoTotal)));
+        $("#OfertaNetoV").text(numberFormat.format(data.NetoCostoVariableTotal));
+        $("#OfertaNetoT").text(formatNumber.new(Math.round((data.NetoCostoFijoTotal + (data.NetoCostoVariableTotal * data.Cantidad)))));
+
+        $("#OfertaPrecioUnit").text(numberFormat.format(Math.round(data.PrecioUnitario)));
+
+        //TABLA TOTALES COSTO IMPRESION
+        $("#Entradas16").text(formatNumber.new(Math.round(data.Entradas)));
+        $("#16CostoFijo").text(formatNumber.new(Math.round(data.ImpresionCostoFijo)));
+        $("#16CostoVari").text(numberFormat.format(data.ImpresionCostoVariable));
+        $("#16Tototal").text(formatNumber.new(Math.round((data.ImpresionCostoFijo + (data.ImpresionCostoVariable * data.Cantidad)))));
+        //TOTALES COSTO 5TO COLOR PMS
+        $("#5PMSFijo").text(formatNumber.new(Math.round(data.QuintoColorPMSCostoFijo)));
+        $("#5PMSVari").text(numberFormat.format(data.QuintoColorPMSCostoVariable));
+        $("#5PMSTotal").text(formatNumber.new(Math.round((data.QuintoColorPMSCostoFijo + (data.QuintoColorPMSCostoVariable * data.Cantidad)))));
+        //TOTALES COSTO 5TO COLOR FLUOR
+        $("#5FluorFijo").text(formatNumber.new(Math.round(data.QuintoColorFluorCostoFijo)));
+        $("#5FluorVari").text(numberFormat.format(data.QuintoColorFluorCostoVariable));
+        $("#5FluorTotal").text(formatNumber.new(Math.round((data.QuintoColorFluorCostoFijo + (data.QuintoColorFluorCostoVariable * data.Cantidad)))));
+        //TOTALES COSTO 5TO COLOR METÁLICO
+        $("#5MetalFijo").text(formatNumber.new(Math.round(data.QuintoColorMetalCostoFijo)));
+        $("#5MetalVari").text(numberFormat.format(data.QuintoColorMetalCostoVariable));
+        $("#5MetalTotal").text(formatNumber.new(Math.round((data.QuintoColorMetalCostoFijo + (data.QuintoColorMetalCostoVariable * data.Cantidad)))));
+        //TOTALES COSTO BARNIZ ACUOSO
+        $("#BAcuosoFijo").text(formatNumber.new(Math.round(data.BarnizAcuosoCostoFijo)));
+        $("#BAcuosoVari").text(numberFormat.format(data.BarnizAcuosoCostoVariable));
+        $("#BAcuosoTotal").text(formatNumber.new(Math.round((data.BarnizAcuosoCostoFijo + (data.BarnizAcuosoCostoVariable * data.Cantidad)))));
+        //TOTALES COSTO PAPEL
+        $("#PapelCostoFijo").text(formatNumber.new(Math.round(data.PapelCostoFijo)));
+        $("#PapelCostoVari").text(numberFormat.format(data.PapelCostoVariable));
+        $("#PapelCostoTotal").text(formatNumber.new(Math.round((data.PapelCostoFijo + (data.PapelCostoVariable * data.Cantidad)))));
+        //TOTALES COSTO TERMINACIONES
+        $("#BUVBCostoFijo").text(formatNumber.new(Math.round(data.BarnizUVBrillanteCostoFijo)));
+        $("#BUVBCostoVari").text(numberFormat.format(data.BarnizUVBrillanteCostoVariable));
+        $("#BUVBCostoTotal").text(formatNumber.new(Math.round((data.BarnizUVBrillanteCostoFijo + (data.BarnizUVBrillanteCostoVariable * data.Cantidad)))));
+
+        $("#BUVBSCostoFijo").text(formatNumber.new(Math.round(data.BarnizUVBrillanteSelectivoCostoFijo)));
+        $("#BUVBSCostoVari").text(numberFormat.format(data.BarnizUVBrillanteSelectivoCostoVariable));
+        $("#BUVBSCostoTotal").text(formatNumber.new(Math.round((data.BarnizUVBrillanteSelectivoCostoFijo + (data.BarnizUVBrillanteSelectivoCostoVariable * data.Cantidad)))));
+        
+        $("#BGSCostoFijo").text(formatNumber.new(Math.round(data.BarnizGlitterCostoFijo)));
+        $("#BGSCostoVari").text(numberFormat.format(data.BarnizGlitterCostoVariable));
+        $("#BGSCostoTotal").text(formatNumber.new(Math.round((data.BarnizGlitterCostoFijo + (data.BarnizGlitterCostoVariable * data.Cantidad)))));
+
+        $("#PoliBrillanteCostoFijo").text(formatNumber.new(Math.round(data.PoliBrillanteCostoFijo)));
+        $("#PoliBrillanteCostoVari").text(numberFormat.format(data.PoliBrillanteCostoVariable));
+        $("#PoliBrillanteCostoTotal").text(formatNumber.new(Math.round((data.PoliBrillanteCostoFijo + (data.PoliBrillanteCostoVariable * data.Cantidad)))));
+
+        $("#PoliOpacoCostoFijo").text(formatNumber.new(Math.round(data.PoliOpacoCostoFijo)));
+        $("#PoliOpacoCostoVari").text(numberFormat.format(data.PoliOpacoCostoVariable));
+        $("#PoliOpacoCostoTotal").text(formatNumber.new(Math.round((data.PoliOpacoCostoFijo + (data.PoliOpacoCostoVariable * data.Cantidad)))));
+        //TOTALES COSTO ENCUADERNACION
+        $("#PlisadoCostoFijo").text(formatNumber.new(Math.round(data.PlisadoCostoFijo)));
+        $("#PlisadoCostoVari").text(numberFormat.format(data.PlisadoCostoVariable));
+        $("#PlisadoCostoTotal").text(formatNumber.new(Math.round((data.PlisadoCostoFijo + (data.PlisadoCostoVariable * data.Cantidad)))));
+
+        $("#TroquelCostoFijo").text(formatNumber.new(Math.round(data.TroquelCostoFijo)));
+        $("#TroquelCostoVari").text(numberFormat.format(data.TroquelCostoVariable));
+        $("#TroquelCostoTotal").text(formatNumber.new(Math.round((data.TroquelCostoFijo + (data.TroquelCostoVariable * data.Cantidad)))));
+
+        $("#CorteCostoFijo").text(formatNumber.new(Math.round(data.CorteCostoFijo)));
+        $("#CorteCostoVari").text(numberFormat.format(data.CorteCostoVariable));
+        $("#CorteCostoTotal").text(formatNumber.new(Math.round((data.CorteCostoFijo + (data.CorteCostoVariable * data.Cantidad)))));
+
+        $("#DoblezDipticoCostoFijo").text(formatNumber.new(Math.round(data.DoblezDipticoCostoFijo)));
+        $("#DoblezDipticoCostoVari").text(numberFormat.format(data.DoblezDipticoCostoVariable));
+        $("#DoblezDipticoCostoTotal").text(formatNumber.new(Math.round((data.DoblezDipticoCostoFijo + (data.DoblezDipticoCostoVariable * data.Cantidad)))));
+
+        $("#MecanizadoCostoFijo").text(formatNumber.new(Math.round(data.MecanizadoCostoFijo)));
+        $("#MecanizadoCostoVari").text(numberFormat.format(data.MecanizadoCostoVariable));
+        $("#MecanizadoCostoTotal").text(formatNumber.new(Math.round((data.MecanizadoCostoFijo + (data.MecanizadoCostoVariable * data.Cantidad)))));
+        
+      
+       
+    }
+    function OnFailure(data) {
+        alert('no funciona :c');
+    }
+    $(document).ready(function () {
+
+    });
+    function CalculaPresu() {
+        var contador = 0;
+        var NamePresu = $("input#NombrePresupuesto").val();
+        var valFormato = $("select#Formato option:selected").text();
+        var Canti = $("input#Cantidad").val();
+        var elementos = $("input#ElementosEnTama_o").val();
+        var papel = $("select#Papel option:selected").text();
+
+        (NamePresu != "") ? "" : contador++;
+        (valFormato != "Seleccione un Formato") ? "" : contador++;
+        (Canti > 0) ? "" : contador++;
+        (elementos > 0) ? "" : contador++;
+        (papel != "Seleccione un Papel") ? "" : contador++;
+        
+        if (contador == 0) {
+            $("input#Maquina").trigger("change");
+        } else {
+          //  alert('aun no' + contador + ' ' + NamePresu + ' ' + valFormato + ' ' + Canti + ' ' + elementos + ' ' + papel);
+        }
+}
+</script>
+<script>
+
+    $(function () {
+        var offset = $("#sidebar").offset();
+        var topPadding = 135;
+        $(window).on("scroll",function () {
+            if ($(window).scrollTop() > (offset.top - topPadding)) {
+                if ($(window).scrollTop() + (offset.top - topPadding) > 0) {
+                    $("#sidebar").stop().animate({
+                        marginTop: $(window).scrollTop() + (offset.top - topPadding)
+                    });
+                }
+                else {
+                    $("#sidebar").stop().animate({
+                        marginTop: 0
+                    });
+                }
+            } else {
+                $("#sidebar").stop().animate({
+                    marginTop: 0
+                });
+            };
+        });
+    });
+
+</script>
+
+
+@*@using (Html.BeginForm())*@ 
+@using (Ajax.BeginForm("Calcular", new AjaxOptions()@*using (Ajax.BeginForm(null, new AjaxOptions()*@
+{
+    HttpMethod = "POST",
+    OnSuccess = "OnSuccess",
+    OnFailure = "OnFailure"
+}))
+{
+    @Html.AntiForgeryToken()
+
+    //INICIO TOTALES IZQUIERO OFERTA COMERCIAL
+    <div id="sidebar" class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title text-center" id="myModalLabel">Nuestra Oferta</h4>
+            </div>
+            <div class="modal-body">
+                <p><b>Presupuesto:</b> <span id="OfertaPresupuesto"></span></p>
+                <table class="table table-bordered table-condensed table-striped" style="padding-right: 15px;">
+                    <thead>
+                        <tr>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);">Proceso</th>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);" class="tableOferta">C.F.</th>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);" class="tableOferta">C.V.</th>
+                            <th style="background-color: rgba(0, 151, 152, 0.48);">Costo Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Impresión</td>
+                            <td class="text-right tableOferta">$<span id="OfertaImpF">0</span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaImpV">0</span></td>
+                            <td class="text-right">$<span id="OfertaImpT">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>Papel</td>
+                            <td class="text-right tableOferta">$<span id="OfertaPapelF">0</span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaPapelV">0</span></td>
+                            <td class="text-right">$<span id="OfertaPapelT">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>Encuadernación</td>
+                            <td class="text-right tableOferta">$<span id="OfertaEncF">0</span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaEncV">0</span></td>
+                            <td class="text-right">$<span id="OfertaEncT">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>Terminación</td>
+                            <td class="text-right tableOferta">$<span id="OfertaTermF">0</span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaTermV">0</span></td>
+                            <td class="text-right">$<span id="OfertaTermT">0</span></td>
+                        </tr>
+                        <tr>
+                            <td>Despacho</td>
+                            <td class="text-right tableOferta">$<span id="OfertaDespF">0</span></td>
+                            <td class="text-right tableOferta">$<span id="OfertaDespV">0</span></td>
+                            <td class="text-right">$<span id="OfertaDespT">0</span></td>
+                        </tr>
+                        <tr>
+                            <td><b>Total Neto</b></td>
+                            <td class="text-right tableOferta"><b>$<span id="OfertaNetoF">0</span></b></td>
+                            <td class="text-right tableOferta"><b>$<span id="OfertaNetoV">0</span></b></td>
+                            <td class="text-right"><b>$<span id="OfertaNetoT">0</span></b></td>
+                        </tr>
+                        <tr>
+                            <td><b>Precio unit.</b></td>
+                            <td class="tableOferta"></td>
+                            <td class="tableOferta"></td>
+                            <td class="text-right"><b>$<span id="OfertaPrecioUnit">0</span></b></td>
+                        </tr>
+
+                    </tbody>
+                </table>
+                <p>El valor de la UF es $@ViewBag.ValorUF.</p>
+            </div>
+            <div class="modal-footer">
+                <a href="@Url.Action("index","Presupuesto")"><span class="btn btn-sm btn-default fa fa-history"> Volver</span></a>
+
+                @*<input type="submit" value="Save" id="btnSave" name="ButtonType" />
+                <input type="submit" value="Next" id="btnNext" name="ButtonType" />*@
+            </div>
+        </div>
+    </div>
+    //FIN TOTALES IZQUIERO OFERTA COMERCIAL
+
+
+
+    //Version GENERADA AUTOMATICA
+    
+    <div class="form-horizontal form" style="width:70%">
+        <fieldset>
+            <legend>Informacion Presupuesto</legend>
+
+            <div class="form-group hidden">
+                @Html.LabelFor(model => model.Maquina, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Maquina, new { htmlAttributes = new { @class = "form-control",@Value="Plana", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })
+
+                    @Html.ValidationMessageFor(model => model.NombrePresupuesto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.NombrePresupuesto, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.NombrePresupuesto, new { htmlAttributes = new { @class = "form-control" , onchange = "CalculaPresu();" } })
+                   
+                    @Html.ValidationMessageFor(model => model.NombrePresupuesto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Formato, "Formato", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 form-inline">
+                    @Html.DropDownListFor(model => model.Formato, (SelectList)ViewBag.Formatos,"Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline;width: 280px;" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                    @Html.LabelFor(model => model.Cantidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control", onchange = "CalculaPresu();" } })
+                        @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+ 
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.ElementosEnTamaño, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.ElementosEnTamaño, new { htmlAttributes = new { @class = "form-control", @Value = "4", onchange = "CalculaPresu();" } })
+                    @Html.ValidationMessageFor(model => model.ElementosEnTamaño, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Papel, "Papel", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10 form-inline">
+                    @Html.DropDownListFor(model => model.Papel, (SelectList)ViewBag.Papeles, "Seleccione un Papel", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline;width: 280px;" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Despacho, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Despacho", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+
+        </fieldset>
+        <fieldset>
+            <legend>Procesos Impresión</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.QuintoColorPMS, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("QuintoColorPMS", new List<SelectListItem>{new SelectListItem{ Text="Si", Value = "2" },}, "No",htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.QuintoColorFluor, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("QuintoColorFluor", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.QuintoColorMetalico, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("QuintoColorMetalico", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BarnizAcuoso, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("BarnizAcuoso", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Procesos Terminación</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.BarnizUVBrillante, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("BarnizUVBrillante", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BarnizUVBrillanteSelectivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("BarnizUVBrillanteSelectivo", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.BarnizGlitterSelectivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("BarnizGlitterSelectivo", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PolitermolaminadoBrillante, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PolitermolaminadoBrillante", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PolitermolaminadoOpaco, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("PolitermolaminadoOpaco", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+        </fieldset>
+
+        <fieldset>
+            <legend>Procesos Encuadernación</legend>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Plisado, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Plisado", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Troquel, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Troquel", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Corte, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Corte", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.DoblezDiptico, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("DoblezDiptico", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Mecanizado, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("Mecanizado", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                </div>
+            </div>
+        </fieldset>
+
+
+
+            @if (Request.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("SuperUser")))
+            {
+                <fieldset>
+                    <legend>Totales</legend>
+                    <div class="text-right"><button type="button" class="btn btn-default" id="print_btn">Imprimir detalle</button></div>
+                    <table class="table table-condensed table-bordered table-striped" id="muestra">
+                        <thead>
+                            <tr>
+                                <th>Descripción de Procesos</th>
+                                <th>#Entradas</th>
+                                <th>CF</th>
+                                <th>CV</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th colspan="7">Impresión</th>
+                            </tr>
+                            <tr>
+                                <td>16 Pag.</td>
+                                <td class="text-right"><span id="Entradas16"></span></td>
+                                <td class="text-right"><span id="16CostoFijo"></span></td>
+                                <td class="text-right"><span id="16CostoVari"></span></td>
+                                <td class="text-right"><span id="16Tototal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>5° Color PMS Tiro</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="5PMSFijo"></span></td>
+                                <td class="text-right"><span id="5PMSVari"></span></td>
+                                <td class="text-right"><span id="5PMSTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>5° Color Fluor</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="5FluorFijo"></span></td>
+                                <td class="text-right"><span id="5FluorVari"></span></td>
+                                <td class="text-right"><span id="5FluorTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>5° Color Metálico</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="5MetalFijo"></span></td>
+                                <td class="text-right"><span id="5MetalVari"></span></td>
+                                <td class="text-right"><span id="5MetalTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Barniz Acuoso</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="BAcuosoFijo"></span></td>
+                                <td class="text-right"><span id="BAcuosoVari"></span></td>
+                                <td class="text-right"><span id="BAcuosoTotal"></span></td>
+                            </tr>
+                            @*FIN TOTAL IMPRESION*@
+                            <tr>
+                                <th colspan="7">Papel</th>
+                            </tr>
+                            <tr>
+                                <td>Papel</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="PapelCostoFijo"></span></td>
+                                <td class="text-right"><span id="PapelCostoVari"></span></td>
+                                <td class="text-right"><span id="PapelCostoTotal"></span></td>
+                            </tr>
+                            @*TERMINACIONES*@
+                            <tr>
+                                <th colspan="7">Terminación</th>
+                            </tr>
+                            <tr>
+                                <td>Barniz UV Brillante en Tiro</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="BUVBCostoFijo"></span></td>
+                                <td class="text-right"><span id="BUVBCostoVari"></span></td>
+                                <td class="text-right"><span id="BUVBCostoTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Barniz UV Brillante Selectivo en Tiro</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="BUVBSCostoFijo"></span></td>
+                                <td class="text-right"><span id="BUVBSCostoVari"></span></td>
+                                <td class="text-right"><span id="BUVBSCostoTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Barniz UV Glitter Selectivo en Tiro</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="BGSCostoFijo"></span></td>
+                                <td class="text-right"><span id="BGSCostoVari"></span></td>
+                                <td class="text-right"><span id="BGSCostoTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Politermolaminado Brillante en Tiro</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="PoliBrillanteCostoFijo"></span></td>
+                                <td class="text-right"><span id="PoliBrillanteCostoVari"></span></td>
+                                <td class="text-right"><span id="PoliBrillanteCostoTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Politermolaminado Opaco en Tiro</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="PoliOpacoCostoFijo"></span></td>
+                                <td class="text-right"><span id="PoliOpacoCostoVari"></span></td>
+                                <td class="text-right"><span id="PoliOpacoCostoTotal"></span></td>
+                            </tr>
+                            @*ENCUADERNACION*@
+                            <tr>
+                                <th colspan="7">Encuadernación</th>
+                            </tr>
+                            <tr>
+                                <td>Plisado</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="PlisadoCostoFijo"></span></td>
+                                <td class="text-right"><span id="PlisadoCostoVari"></span></td>
+                                <td class="text-right"><span id="PlisadoCostoTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Troquel</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="TroquelCostoFijo"></span></td>
+                                <td class="text-right"><span id="TroquelCostoVari"></span></td>
+                                <td class="text-right"><span id="TroquelCostoTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Corte</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="CorteCostoFijo"></span></td>
+                                <td class="text-right"><span id="CorteCostoVari"></span></td>
+                                <td class="text-right"><span id="CorteCostoTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Doblez Diptico</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="DoblezDipticoCostoFijo"></span></td>
+                                <td class="text-right"><span id="DoblezDipticoCostoVari"></span></td>
+                                <td class="text-right"><span id="DoblezDipticoCostoTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Mecanizado</td>
+                                <td class="text-right"></td>
+                                <td class="text-right"><span id="MecanizadoCostoFijo"></span></td>
+                                <td class="text-right"><span id="MecanizadoCostoVari"></span></td>
+                                <td class="text-right"><span id="MecanizadoCostoTotal"></span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </fieldset>
+            }
+
+</div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

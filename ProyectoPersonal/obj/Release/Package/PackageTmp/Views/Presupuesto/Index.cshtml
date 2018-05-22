@@ -100,9 +100,9 @@
     <a class="btn  btn-default btnExportacion" style="border-radius: 4px 0px 0px 4px;"  href="@Url.Action("Create", "Presupuesto")">
         <i class="fa fa-plus-circle"></i> Crear Nuevo
     </a> 
-    <a class="btn btn-default btnExportacion" style="border-radius: 0px 4px 4px 0px;" tabindex="0" aria-controls="example" href="#">
+    @*<a class="btn btn-default btnExportacion" style="border-radius: 0px 4px 4px 0px;" tabindex="0" aria-controls="example" href="#">
         <span>Excel</span>
-    </a>
+    </a>*@
 </div>
 <div class="row">
     <table id="tblPresupuesto" class="table" style="padding-right: 0px !important;padding-left: 0px !important;">
@@ -170,19 +170,15 @@
                         @Html.DisplayFor(modelItem => item.TotalNetoTotal)
                     </td>
                     <td>
-                        @*<a href="@Url.Action("Edit", "Presupuesto", new { id = item.IdPresupuesto })"><span title="Editar" class="fa fa-edit"></span></a> |*@
-
-                        @*@Html.ActionLink("Modificar", "CargaPresupuesto", "Presupuesto", new { id = item.IdPresupuesto, Tipo = 0 }, new { @class = "modal-link" }) |*@
                         <a href="@Url.Action("PDF", "Presupuesto", new { id = item.IdPresupuesto })" target="_blank"><span title="PDF" class="fa fa-file-pdf-o"></span></a>
                         @if (Request.IsAuthenticated && (User.IsInRole("Administrador") || User.IsInRole("SuperUser")))
                         {
                             <span> |</span><a href="@Url.Action("CargaPresupuesto", "Presupuesto", new { id = item.IdPresupuesto, Tipo = 0 })" class="modal-link"><span title="Aprobar" class="fa fa-check"></span></a>
                             <span> | </span><a href="@Url.Action("ReajustePPTO", "Presupuesto", new { id = item.IdPresupuesto })"><span title="Detalle" class="glyphicon glyphicon-th-list"></span></a>
                         }
-                        @*@Html.ActionLink("Modificar", "Delete", "Presupuesto", new { id = item.IdDepartamento, Tipo = 0 }, new { @class = "modal-link" }) |*@
-                        @*<a href="@Url.Action("VistaEliminaPresupuesto", "Presupuesto", new { id = item.IdPresupuesto })" class="modal-link"><span title="Eliminar" class="fa fa-trash"></span></a>*@
-                        <span> | </span><a href="@Url.Action("Editar", "Presupuesto", new { IdP = item.IdPresupuesto })"><span title="Modificar" class="glyphicon glyphicon-edit"></span></a>
-                        <span> | </span><a href="@Url.Action("Duplicar", "Presupuesto", new { IdP = item.IdPresupuesto })"><span title="Duplicar" class="glyphicon glyphicon-duplicate"></span></a>
+
+                       @* <span> | </span><a href="@Url.Action("Editar", "Presupuesto", new { IdP = item.IdPresupuesto })"><span title="Modificar" class="glyphicon glyphicon-edit"></span></a>*@
+                       @* <span> | </span><a href="@Url.Action("Duplicar", "Presupuesto", new { IdP = item.IdPresupuesto })"><span title="Duplicar" class="glyphicon glyphicon-duplicate"></span></a>*@
                         | <a  href="javascript:;" onclick="AddEditEmployee(@item.IdPresupuesto)"><span title="Eliminar" class="fa fa-trash"></span></a>
                     
                     </td>

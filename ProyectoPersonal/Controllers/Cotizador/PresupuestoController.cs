@@ -541,8 +541,8 @@ namespace ProyectoPersonal.Controllers.Cotizador
                         detalle.Tapa.Entradas = (float)(((1 * detalle.MaquinaTapa.MermaFija * CantidadModelos) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
 
                         detalle.Tapa.CostoPapelTapaFijo = Math.Ceiling(detalle.Tapa.Entradas * papelTapa.PrecioKilos);
-
-                        detalle.Tapa.Tiradas = (float)(((Tiraje * CantidadPaginasTap * detalle.MaquinaTapa.MermaVariable) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
+                        //CantidadPaginasTap = 1
+                        detalle.Tapa.Tiradas = (float)(((Tiraje * (1.0 / CantidadPaginasTap) * detalle.MaquinaTapa.MermaVariable) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
                         double wnoo = ((Tiraje * CantidadPaginasTap * detalle.MaquinaTapa.MermaVariable) / 1000.0);
                         double wno2 = ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0);
                         double wan2 = wnoo * wno2;
@@ -697,7 +697,9 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 detalle.Tapa.PapelId = (int)idPapelTap;
                 detalle.Tapa.Entradas = (float)(((1 * detalle.MaquinaTapa.MermaFija * CantidadModelos) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
                 detalle.Tapa.CostoPapelTapaFijo = Math.Ceiling(detalle.Tapa.Entradas * papelTapa.PrecioKilos);
-                detalle.Tapa.Tiradas = (float)(((Tiraje * CantidadPaginasTap * detalle.MaquinaTapa.MermaVariable) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
+
+                //CantidadPaginasTap = 1
+                detalle.Tapa.Tiradas = (float)(((Tiraje * (1.0/ CantidadPaginasTap) * detalle.MaquinaTapa.MermaVariable) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
                 detalle.Tapa.CostoPapelTapaVari = (Math.Ceiling(((papelTapa.PrecioKilos * detalle.Tapa.Tiradas) / Convert.ToDouble(Tiraje)) * 100.0) / 100.0);
                 detalle.Tapa.KilosPapel = (float)((((Tiraje * (1.0 / CantidadPaginasTap) * detalle.MaquinaTapa.MermaVariable) + (1 * detalle.MaquinaTapa.MermaFija * CantidadModelos)) / 1000.0) * ((papelTapa.Gramaje * TapaFormato.TapaDiptica_Alto * TapaFormato.TapaDiptica_Ancho) / 10000.0));
 

@@ -236,6 +236,7 @@
     <Compile Include="Controllers\Gerencia\ModuloController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductosEspeciales\ProductosEspecialesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -327,10 +328,6 @@
     <Compile Include="Migrations\201712121457216_cambios en Catalogo para automatizar el sistema.Designer.cs">
       <DependentUpon>201712121457216_cambios en Catalogo para automatizar el sistema.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201712121647368_cambios.cs" />
-    <Compile Include="Migrations\201712121647368_cambios.Designer.cs">
-      <DependentUpon>201712121647368_cambios.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201712181849565_Se agrega Produccion.cs" />
     <Compile Include="Migrations\201712181849565_Se agrega Produccion.Designer.cs">
       <DependentUpon>201712181849565_Se agrega Produccion.cs</DependentUpon>
@@ -379,6 +376,78 @@
     <Compile Include="Migrations\201804261904054_Cambio base de datos, interior opcional + encuadernacion opcional.Designer.cs">
       <DependentUpon>201804261904054_Cambio base de datos, interior opcional + encuadernacion opcional.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805071325211_creacion productos Especiales.cs" />
+    <Compile Include="Migrations\201805071325211_creacion productos Especiales.Designer.cs">
+      <DependentUpon>201805071325211_creacion productos Especiales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805071408112_creacion tablas productos Especiales.cs" />
+    <Compile Include="Migrations\201805071408112_creacion tablas productos Especiales.Designer.cs">
+      <DependentUpon>201805071408112_creacion tablas productos Especiales.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805071837038_ProductosEspeciales add formato.cs" />
+    <Compile Include="Migrations\201805071837038_ProductosEspeciales add formato.Designer.cs">
+      <DependentUpon>201805071837038_ProductosEspeciales add formato.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805071850550_cambio formato.cs" />
+    <Compile Include="Migrations\201805071850550_cambio formato.Designer.cs">
+      <DependentUpon>201805071850550_cambio formato.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805071927457_cambios1.cs" />
+    <Compile Include="Migrations\201805071927457_cambios1.Designer.cs">
+      <DependentUpon>201805071927457_cambios1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805071955267_nombreFormato.cs" />
+    <Compile Include="Migrations\201805071955267_nombreFormato.Designer.cs">
+      <DependentUpon>201805071955267_nombreFormato.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805081311318_Papel hoja.cs" />
+    <Compile Include="Migrations\201805081311318_Papel hoja.Designer.cs">
+      <DependentUpon>201805081311318_Papel hoja.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805091452403_cambio tablas presupuesto, papel y formato.cs" />
+    <Compile Include="Migrations\201805091452403_cambio tablas presupuesto, papel y formato.Designer.cs">
+      <DependentUpon>201805091452403_cambio tablas presupuesto, papel y formato.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805091632396_tabla impresion - contiene pags por entradas, valor fijo y variables de la impresion.cs" />
+    <Compile Include="Migrations\201805091632396_tabla impresion - contiene pags por entradas, valor fijo y variables de la impresion.Designer.cs">
+      <DependentUpon>201805091632396_tabla impresion - contiene pags por entradas, valor fijo y variables de la impresion.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805091636265_tabla impresion - agregue maquina.cs" />
+    <Compile Include="Migrations\201805091636265_tabla impresion - agregue maquina.Designer.cs">
+      <DependentUpon>201805091636265_tabla impresion - agregue maquina.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805091647245_modelo papel agregue valor kilos de papel.cs" />
+    <Compile Include="Migrations\201805091647245_modelo papel agregue valor kilos de papel.Designer.cs">
+      <DependentUpon>201805091647245_modelo papel agregue valor kilos de papel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805091856168_tablas productosEspeciales_presupuesto se agrego costos fijos y variables.cs" />
+    <Compile Include="Migrations\201805091856168_tablas productosEspeciales_presupuesto se agrego costos fijos y variables.Designer.cs">
+      <DependentUpon>201805091856168_tablas productosEspeciales_presupuesto se agrego costos fijos y variables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805092014170_presupuestoForm Quinto color y barniz acuoso.cs" />
+    <Compile Include="Migrations\201805092014170_presupuestoForm Quinto color y barniz acuoso.Designer.cs">
+      <DependentUpon>201805092014170_presupuestoForm Quinto color y barniz acuoso.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805092020145_presupuestoForm Quinto color y barniz acuoso con int null.cs" />
+    <Compile Include="Migrations\201805092020145_presupuestoForm Quinto color y barniz acuoso con int null.Designer.cs">
+      <DependentUpon>201805092020145_presupuestoForm Quinto color y barniz acuoso con int null.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805092035257_tabla presupuesto 5to color not mapped.cs" />
+    <Compile Include="Migrations\201805092035257_tabla presupuesto 5to color not mapped.Designer.cs">
+      <DependentUpon>201805092035257_tabla presupuesto 5to color not mapped.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805101443295_tabla presupuesto agregue terminaciones.cs" />
+    <Compile Include="Migrations\201805101443295_tabla presupuesto agregue terminaciones.Designer.cs">
+      <DependentUpon>201805101443295_tabla presupuesto agregue terminaciones.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805101547150_tabla presupuesto agregue terminacione.cs" />
+    <Compile Include="Migrations\201805101547150_tabla presupuesto agregue terminacione.Designer.cs">
+      <DependentUpon>201805101547150_tabla presupuesto agregue terminacione.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201805101600062_tabla presupuesto precio unitario.cs" />
+    <Compile Include="Migrations\201805101600062_tabla presupuesto precio unitario.Designer.cs">
+      <DependentUpon>201805101600062_tabla presupuesto precio unitario.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Cotizador\Doblez.cs" />
@@ -411,6 +480,12 @@
     <Compile Include="Models\Gerencia\Usuario_Perfil.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ProductosEspeciales\ProductosEspeciales_Formato.cs" />
+    <Compile Include="Models\ProductosEspeciales\ProductosEspeciales_Impresion.cs" />
+    <Compile Include="Models\ProductosEspeciales\ProductosEspeciales_Papel.cs" />
+    <Compile Include="Models\ProductosEspeciales\ProductosEspeciales_Presupuesto.cs" />
+    <Compile Include="Models\ProductosEspeciales\ProductosEspeciales_Presupuesto_SubProceso.cs" />
+    <Compile Include="Models\ProductosEspeciales\ProductosEspeciales_SubProceso.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -474,6 +549,7 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-numberformatter1.2.4.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -633,6 +709,8 @@
     <Content Include="Views\Presupuesto\Modificar.cshtml" />
     <Content Include="Views\Presupuesto\Editar.cshtml" />
     <Content Include="Views\Presupuesto\Duplicar.cshtml" />
+    <Content Include="Views\ProductosEspeciales\Create.cshtml" />
+    <Content Include="Views\ProductosEspeciales\Crear.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -711,9 +789,6 @@
     <EmbeddedResource Include="Migrations\201712121457216_cambios en Catalogo para automatizar el sistema.resx">
       <DependentUpon>201712121457216_cambios en Catalogo para automatizar el sistema.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201712121647368_cambios.resx">
-      <DependentUpon>201712121647368_cambios.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201712181849565_Se agrega Produccion.resx">
       <DependentUpon>201712181849565_Se agrega Produccion.cs</DependentUpon>
     </EmbeddedResource>
@@ -749,6 +824,60 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201804261904054_Cambio base de datos, interior opcional + encuadernacion opcional.resx">
       <DependentUpon>201804261904054_Cambio base de datos, interior opcional + encuadernacion opcional.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805071325211_creacion productos Especiales.resx">
+      <DependentUpon>201805071325211_creacion productos Especiales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805071408112_creacion tablas productos Especiales.resx">
+      <DependentUpon>201805071408112_creacion tablas productos Especiales.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805071837038_ProductosEspeciales add formato.resx">
+      <DependentUpon>201805071837038_ProductosEspeciales add formato.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805071850550_cambio formato.resx">
+      <DependentUpon>201805071850550_cambio formato.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805071927457_cambios1.resx">
+      <DependentUpon>201805071927457_cambios1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805071955267_nombreFormato.resx">
+      <DependentUpon>201805071955267_nombreFormato.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805081311318_Papel hoja.resx">
+      <DependentUpon>201805081311318_Papel hoja.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805091452403_cambio tablas presupuesto, papel y formato.resx">
+      <DependentUpon>201805091452403_cambio tablas presupuesto, papel y formato.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805091632396_tabla impresion - contiene pags por entradas, valor fijo y variables de la impresion.resx">
+      <DependentUpon>201805091632396_tabla impresion - contiene pags por entradas, valor fijo y variables de la impresion.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805091636265_tabla impresion - agregue maquina.resx">
+      <DependentUpon>201805091636265_tabla impresion - agregue maquina.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805091647245_modelo papel agregue valor kilos de papel.resx">
+      <DependentUpon>201805091647245_modelo papel agregue valor kilos de papel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805091856168_tablas productosEspeciales_presupuesto se agrego costos fijos y variables.resx">
+      <DependentUpon>201805091856168_tablas productosEspeciales_presupuesto se agrego costos fijos y variables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805092014170_presupuestoForm Quinto color y barniz acuoso.resx">
+      <DependentUpon>201805092014170_presupuestoForm Quinto color y barniz acuoso.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805092020145_presupuestoForm Quinto color y barniz acuoso con int null.resx">
+      <DependentUpon>201805092020145_presupuestoForm Quinto color y barniz acuoso con int null.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805092035257_tabla presupuesto 5to color not mapped.resx">
+      <DependentUpon>201805092035257_tabla presupuesto 5to color not mapped.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805101443295_tabla presupuesto agregue terminaciones.resx">
+      <DependentUpon>201805101443295_tabla presupuesto agregue terminaciones.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805101547150_tabla presupuesto agregue terminacione.resx">
+      <DependentUpon>201805101547150_tabla presupuesto agregue terminacione.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805101600062_tabla presupuesto precio unitario.resx">
+      <DependentUpon>201805101600062_tabla presupuesto precio unitario.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

@@ -9,6 +9,8 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using ProyectoPersonal.Models.ProductosEspeciales;
+using System.Collections;
 
 namespace ProyectoPersonal.Models
 {
@@ -28,6 +30,10 @@ namespace ProyectoPersonal.Models
         public Empresa Empresa { get; set; }
 
         public List<Presupuesto> Presupuestos { get; set; }
+
+        public List<ProductosEspeciales_Presupuesto> ProductosEspeciales_Presupuesto { get; set; }
+
+
         [NotMapped]
         [ScaffoldColumn(false)]
         public string NombreCompleto { get { return NombrePrimer + " " + ApePaterno; } }
@@ -84,6 +90,15 @@ namespace ProyectoPersonal.Models
         public DbSet<Embalaje> Embalaje { get; set; }
         public DbSet<TipoCatalogo> Catalogo { get; set; }
         public DbSet<Produccion> Produccion { get; set; }
+
+        //PRODUCTOS ESPECIALES
+        public DbSet<ProductosEspeciales_Presupuesto> ProductosEspeciales_Presupuesto { get; set; }
+        public DbSet<ProductosEspeciales_Presupuesto_SubProceso> ProductosEspeciales_Presupuesto_SubProceso { get; set; }
+        public DbSet<ProductosEspeciales_SubProceso> ProductosEspeciales_SubProceso { get; set; }
+        public DbSet<ProductosEspeciales_Formato> ProductosEspeciales_Formato { get; set; }
+        public DbSet<ProductosEspeciales_Papel> ProductosEspeciales_Papel { get; set; }
+        public DbSet<ProductosEspeciales_Impresion> ProductosEspeciales_Impresion { get; set; }
+
 
         public static ApplicationDbContext Create()
         {
@@ -167,30 +182,7 @@ namespace ProyectoPersonal.Models
             modelBuilder.Entity<SubProceso>().
                 HasOptional(x => x.Doblez).WithMany(y => y.SubProcesos)
                 .HasForeignKey(x => x.DoblezId);
-
-            //agregando id tipo catalogo
-
-
-
-            //fin
-
-            //modelBuilder.Entity<SubProceso>().
-            //    HasOptional(x => x.Presupuesto_SubProceso).WithMany(y => y.SubProcesos)
-            //    .HasForeignKey(x => x.Presupuesto_SubProcesoId);
-
-            //modelBuilder.Entity<Presupuesto>().
-            //    HasOptional(x => x.Presupuesto_SubProceso).WithMany(y => y.Presupuestos)
-            //    .HasForeignKey(x => x.Presupuesto_ProcesoId);
-
-            //modelBuilder.Entity<Presupuesto_SubProceso>().
-            //    HasRequired(x => SubProceso).WithMany()
-            //    .HasForeignKey(x => x.IdSubProcesos);
-
-            //modelBuilder.Entity<Presupuesto_SubProceso>().
-            //    HasRequired(x => Presupuesto).WithMany()
-            //    .HasForeignKey(x => x.IdPresupuesto);
-
-
+ 
             modelBuilder.Entity<Interior>().
                 HasRequired(x => x.Papel).WithMany(y => y.Interiores)
                 .HasForeignKey(x => x.PapelId);
@@ -211,11 +203,27 @@ namespace ProyectoPersonal.Models
                 HasRequired(x => x.Empresa).WithMany(y => y.Papeles)
                 .HasForeignKey(x => x.EmpresaId);
 
+
+
+            // PRODUCTOS ESPECIALES
+            modelBuilder.Entity<ProductosEspeciales_Presupuesto>().
+                HasRequired(x => x.Usuario).WithMany(y => y.ProductosEspeciales_Presupuesto)
+                .HasForeignKey(x => x.Usuarioid);
+
+
+
+
+
+
+
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
             base.OnModelCreating(modelBuilder);
         }
 
         public System.Data.Entity.DbSet<ProyectoPersonal.Models.Cotizador.PresupuestoForm> PresupuestoForms { get; set; }
+        public IEnumerable ApplicationUsers { get; internal set; }
+
+        public System.Data.Entity.DbSet<ProyectoPersonal.Models.ProductosEspeciales.ProductosEspeciales_PresupuestoForm> ProductosEspeciales_PresupuestoForm { get; set; }
 
 
         //public System.Data.Entity.DbSet<ProyectoPersonal.Models.AplicationRole> IdentityRoles { get; set; }
