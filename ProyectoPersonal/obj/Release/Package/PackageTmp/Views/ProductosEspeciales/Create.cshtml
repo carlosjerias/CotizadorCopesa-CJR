@@ -282,7 +282,7 @@
         <fieldset>
             <legend>Informacion Presupuesto</legend>
 
-            <div class="form-group">
+            <div class="form-group hidden">
                 @Html.LabelFor(model => model.Maquina, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.Maquina, new { htmlAttributes = new { @class = "form-control",@Value="Plana", onchange = "$(this.form).attr('action', 'Calcular').submit();" } })
@@ -318,7 +318,7 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.ElementosEnTamaño, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.EditorFor(model => model.ElementosEnTamaño, new { htmlAttributes = new { @class = "form-control", onchange = "CalculaPresu();" } })
+                    @Html.EditorFor(model => model.ElementosEnTamaño, new { htmlAttributes = new { @class = "form-control", @Value = "4", onchange = "CalculaPresu();" } })
                     @Html.ValidationMessageFor(model => model.ElementosEnTamaño, "", new { @class = "text-danger" })
                 </div>
             </div>

@@ -1124,3 +1124,4 @@ C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCop
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.csproj.GenerateResource.Cache
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.dll
 C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.pdb
+C:\Users\admin\Desktop\Copesa CJR problema papel empresa\Copesa CJR\CotizadorCopesa CJR\ProyectoPersonal\obj\Debug\ProyectoPersonal.csprojResolveAssemblyReference.cache
