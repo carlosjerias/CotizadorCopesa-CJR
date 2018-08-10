@@ -129,15 +129,15 @@
         $("#MecanizadoCostoFijo").text(formatNumber.new(Math.round(data.MecanizadoCostoFijo)));
         $("#MecanizadoCostoVari").text(numberFormat.format(data.MecanizadoCostoVariable));
         $("#MecanizadoCostoTotal").text(formatNumber.new(Math.round((data.MecanizadoCostoFijo + (data.MecanizadoCostoVariable * data.Cantidad)))));
-        
-      
+        //ELEMENTOS EN TAMANO
+        $("#spnElementos").text(data.ElementosEnTamaño);
        
     }
     function OnFailure(data) {
         alert('no funciona :c');
     }
     $(document).ready(function () {
-
+        $("select#Despacho").prop('selectedIndex',1);
     });
     function CalculaPresu() {
         var contador = 0;
@@ -155,6 +155,8 @@
         
         if (contador == 0) {
             $("input#Maquina").trigger("change");
+
+            $("#OfertaPresupuesto").text(NamePresu);
         } else {
           //  alert('aun no' + contador + ' ' + NamePresu + ' ' + valFormato + ' ' + Canti + ' ' + elementos + ' ' + papel);
         }
@@ -241,7 +243,7 @@
                             <td class="text-right tableOferta">$<span id="OfertaTermV">0</span></td>
                             <td class="text-right">$<span id="OfertaTermT">0</span></td>
                         </tr>
-                        <tr>
+                        <tr class="hidden">
                             <td>Despacho</td>
                             <td class="text-right tableOferta">$<span id="OfertaDespF">0</span></td>
                             <td class="text-right tableOferta">$<span id="OfertaDespV">0</span></td>
@@ -299,7 +301,7 @@
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.Formato, "Formato", htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.Formato, "Formato Extendido", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10 form-inline">
                     @Html.DropDownListFor(model => model.Formato, (SelectList)ViewBag.Formatos,"Seleccione un Formato", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline;width: 280px;" })
                 </div>
@@ -311,11 +313,11 @@
                         @Html.EditorFor(model => model.Cantidad, new { htmlAttributes = new { @class = "form-control", onchange = "CalculaPresu();" } })
                         @Html.ValidationMessageFor(model => model.Cantidad, "", new { @class = "text-danger" })
                     </div>
-                </div>
+            </div>
 
  
 
-            <div class="form-group">
+            <div class="form-group hidden">
                 @Html.LabelFor(model => model.ElementosEnTamaño, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.EditorFor(model => model.ElementosEnTamaño, new { htmlAttributes = new { @class = "form-control", @Value = "4", onchange = "CalculaPresu();" } })
@@ -330,7 +332,7 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group hidden">
                 @Html.LabelFor(model => model.Despacho, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("Despacho", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
@@ -341,30 +343,30 @@
         <fieldset>
             <legend>Procesos Impresión</legend>
             <div class="form-group">
-                @Html.LabelFor(model => model.QuintoColorPMS, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.QuintoColorPMS,"Quinto Color PMS", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("QuintoColorPMS", new List<SelectListItem>{new SelectListItem{ Text="Si", Value = "2" },}, "No",htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.QuintoColorFluor, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.QuintoColorFluor,"Quinto Color Fluor", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("QuintoColorFluor", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.QuintoColorMetalico, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.QuintoColorMetalico, "Quinto Color Metalico", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("QuintoColorMetalico", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                    @Html.DropDownList("QuintoColorMetalico", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" } }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.BarnizAcuoso, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BarnizAcuoso,"Barniz Acuoso", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("BarnizAcuoso", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                    @Html.DropDownList("BarnizAcuoso", new List<SelectListItem> { new SelectListItem { Text = "Tiro", Value = "2" }, new SelectListItem { Text = "Retiro", Value = "3" }, new SelectListItem { Text = "Tiro y Retiro", Value = "4" } }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
             </div>
         </fieldset>
@@ -372,35 +374,35 @@
         <fieldset>
             <legend>Procesos Terminación</legend>
             <div class="form-group">
-                @Html.LabelFor(model => model.BarnizUVBrillante, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BarnizUVBrillante,"Barniz UV Brillante", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("BarnizUVBrillante", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                    @Html.DropDownList("BarnizUVBrillante", new List<SelectListItem> { new SelectListItem { Text = "Tiro", Value = "2" }, new SelectListItem { Text = "Retiro", Value = "3" }, new SelectListItem { Text = "Tiro y Retiro", Value = "4" } }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.BarnizUVBrillanteSelectivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BarnizUVBrillanteSelectivo,"Barniz UV Brillante Selectivo", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("BarnizUVBrillanteSelectivo", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                    @Html.DropDownList("BarnizUVBrillanteSelectivo", new List<SelectListItem> { new SelectListItem { Text = "Tiro", Value = "2" }, new SelectListItem { Text = "Retiro", Value = "3" }, new SelectListItem { Text = "Tiro y Retiro", Value = "4" } }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.BarnizGlitterSelectivo, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.BarnizGlitterSelectivo,"Barniz Glitter Selectivo", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("BarnizGlitterSelectivo", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                    @Html.DropDownList("BarnizGlitterSelectivo", new List<SelectListItem> { new SelectListItem { Text = "Tiro", Value = "2" }, new SelectListItem { Text = "Retiro", Value = "3" }, new SelectListItem { Text = "Tiro y Retiro", Value = "4" } }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.PolitermolaminadoBrillante, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.PolitermolaminadoBrillante,"Politermolaminado Brillante", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("PolitermolaminadoBrillante", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.PolitermolaminadoOpaco, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.PolitermolaminadoOpaco,"Politermolaminado Opaco", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("PolitermolaminadoOpaco", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
@@ -428,7 +430,7 @@
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.DoblezDiptico, htmlAttributes: new { @class = "control-label col-md-2" })
+                @Html.LabelFor(model => model.DoblezDiptico,"Doblez Diptico", htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
                     @Html.DropDownList("DoblezDiptico", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
@@ -436,7 +438,14 @@
             <div class="form-group">
                 @Html.LabelFor(model => model.Mecanizado, htmlAttributes: new { @class = "control-label col-md-2" })
                 <div class="col-md-10">
-                    @Html.DropDownList("Mecanizado", new List<SelectListItem> { new SelectListItem { Text = "Si", Value = "2" }, }, "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
+                    @Html.DropDownList("Mecanizado", new List<SelectListItem> { new SelectListItem { Text = "Inserto suelto en página determinada", Value = "2" }, new SelectListItem { Text = "Inserto suelto en página indeterminada", Value = "3" },
+                   new SelectListItem { Text = "Inserto suelto en página indeterminada con solapa direccionada a la portada", Value = "4" },
+                   new SelectListItem { Text = "Inserto suelto en página determinada con solapa direccionada a la portada", Value = "5" },
+                   new SelectListItem { Text = "Encuadernado entre pliegos", Value = "6" },
+                   new SelectListItem { Text = "Encuadernado entre pliegos con solapa direccionada a la portada", Value = "7" },
+               },
+
+                   "No", htmlAttributes: new { @class = "form-control", onchange = "CalculaPresu();", style = "display:inline" })
                 </div>
             </div>
         </fieldset>
@@ -451,7 +460,7 @@
                     <table class="table table-condensed table-bordered table-striped" id="muestra">
                         <thead>
                             <tr>
-                                <th>Descripción de Procesos</th>x
+                                <th>Descripción de Procesos</th>
                                 <th>#Entradas</th>
                                 <th>CF</th>
                                 <th>CV</th>
@@ -496,6 +505,13 @@
                                 <td class="text-right"><span id="BAcuosoFijo"></span></td>
                                 <td class="text-right"><span id="BAcuosoVari"></span></td>
                                 <td class="text-right"><span id="BAcuosoTotal"></span></td>
+                            </tr>
+                            <tr>
+                                <td>Elementos en Tamaño</td>
+                                <td class="text-right"><span id="spnElementos"></span></td>
+                                <td class="text-right">-</td>
+                                <td class="text-right">-</td>
+                                <td class="text-right">-</td>
                             </tr>
                             @*FIN TOTAL IMPRESION*@
                             <tr>

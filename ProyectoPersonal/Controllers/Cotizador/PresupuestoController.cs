@@ -567,11 +567,13 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 detalle.TarifaVariableImpresion = (Math.Ceiling(((detalle.CostoVariablePag64 * detalle.EntradasPag64) + (detalle.CostoVariablePag48 * detalle.EntradasPag48) + (detalle.CostoVariablePag32 * detalle.EntradasPag32) + (detalle.CostoVariablePag24 * detalle.EntradasPag24) +
                                                     (detalle.CostoVariablePag16 * detalle.EntradasPag16) + (detalle.CostoVariablePag12 * detalle.EntradasPag12) + (detalle.CostoVariablePag8 * detalle.EntradasPag8) +
                                                     (detalle.CostoVariablePag4 * detalle.EntradasPag4) + detalle.CostoVariableTapa) * 100.0)) / 100.0;
+                //cambio para quitar despacho de la tabla de costos
+                detalle.TarifaFijaDespacho = (detalle.CostoVariableSuministroCaja + detalle.CostoVariableInsercionCajaySellado + detalle.CostoVariableEnzunchado + detalle.CostoVariablePallet);
 
                 detalle.TarifaFijaEncuadernacion = Math.Ceiling(detalle.CostoFijoEncuadernacion + detalle.CostoFijoPlizado + detalle.CostoFijoTroquel + detalle.CostoFijoCorteFrontal);
-                detalle.TarifaVariableEncuadernacion = (Math.Ceiling((detalle.CostoVariableEncuadernacion + detalle.CostoVariablePlizado + detalle.CostoVariableTroquel + detalle.CostoVariableCorteFrontal) * 100.0)) / 100.0;
+                detalle.TarifaVariableEncuadernacion = (Math.Ceiling((detalle.CostoVariableEncuadernacion + detalle.CostoVariablePlizado + detalle.CostoVariableTroquel + detalle.CostoVariableCorteFrontal+detalle.TarifaFijaDespacho) * 100.0)) / 100.0;
 
-                detalle.TarifaFijaDespacho = (detalle.CostoVariableSuministroCaja + detalle.CostoVariableInsercionCajaySellado + detalle.CostoVariableEnzunchado + detalle.CostoVariablePallet);
+                
 
                 detalle.TarifaFijaTerminacion = Math.Ceiling(detalle.CostoFijoQuintoColor + detalle.CostoFijoBarnizUV + detalle.CostoFijoBarnizAcuosoTapa);
 
@@ -584,7 +586,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 double TarifaVariableMecanica = (Math.Ceiling((detalle.CostoVariableQuintoColor +
                                  detalle.CostoVariableBarnizUV + detalle.CostoVariableEmbolsado + detalle.CostoVariableLaminado + detalle.CostoVariableBarnizAcuosoTapa + detalle.CostoVariableAdhesivoTotal) * 100.0)) / 100.0;
                 detalle.ManufacturaFijo = Math.Ceiling(detalle.TarifaFijaImpresion + detalle.TarifaFijaEncuadernacion + detalle.TarifaFijaTerminacion);
-                detalle.ManufacturaVari = (Math.Ceiling((detalle.TarifaVariableImpresion + detalle.TarifaVariableEncuadernacion + detalle.TarifaVariableTerminacion + detalle.TarifaFijaDespacho) * 100.0)) / 100.0;
+                detalle.ManufacturaVari = (Math.Ceiling((detalle.TarifaVariableImpresion + detalle.TarifaVariableEncuadernacion + detalle.TarifaVariableTerminacion) * 100.0)) / 100.0;//quite despacho pq esta sumando con el costo variable de enc
                 detalle.TotalNetoFijo = detalle.ManufacturaFijo + detalle.TarifaFijaPapel;
                 detalle.TotalNetoVari = detalle.ManufacturaVari + detalle.TarifaVariablePapel;
 
@@ -726,10 +728,13 @@ namespace ProyectoPersonal.Controllers.Cotizador
                                                     (detalle.CostoVariablePag16 * detalle.EntradasPag16) + (detalle.CostoVariablePag12 * detalle.EntradasPag12) + (detalle.CostoVariablePag8 * detalle.EntradasPag8) +
                                                     (detalle.CostoVariablePag4 * detalle.EntradasPag4) + detalle.CostoVariableTapa) * 100.0)) / 100.0;
 
-                detalle.TarifaFijaEncuadernacion = Math.Ceiling(detalle.CostoFijoEncuadernacion + detalle.CostoFijoPlizado + detalle.CostoFijoTroquel + detalle.CostoFijoCorteFrontal);
-                detalle.TarifaVariableEncuadernacion = (Math.Ceiling((detalle.CostoVariableEncuadernacion + detalle.CostoVariablePlizado + detalle.CostoVariableTroquel + detalle.CostoVariableCorteFrontal) * 100.0)) / 100.0;
-
+                //cambios quitar despahco de tabla total costo
                 detalle.TarifaFijaDespacho = (detalle.CostoVariableSuministroCaja + detalle.CostoVariableInsercionCajaySellado + detalle.CostoVariableEnzunchado + detalle.CostoVariablePallet);
+
+                detalle.TarifaFijaEncuadernacion = Math.Ceiling(detalle.CostoFijoEncuadernacion + detalle.CostoFijoPlizado + detalle.CostoFijoTroquel + detalle.CostoFijoCorteFrontal);
+                detalle.TarifaVariableEncuadernacion = (Math.Ceiling((detalle.CostoVariableEncuadernacion + detalle.CostoVariablePlizado + detalle.CostoVariableTroquel + detalle.CostoVariableCorteFrontal+detalle.TarifaFijaDespacho) * 100.0)) / 100.0;
+
+                
 
                 detalle.TarifaFijaTerminacion = Math.Ceiling(detalle.CostoFijoQuintoColor + detalle.CostoFijoBarnizUV + detalle.CostoFijoBarnizAcuosoTapa);
 
@@ -742,7 +747,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
                 double TarifaVariableMecanica = (Math.Ceiling((detalle.CostoVariableQuintoColor +
                                  detalle.CostoVariableBarnizUV + detalle.CostoVariableEmbolsado + detalle.CostoVariableLaminado + detalle.CostoVariableBarnizAcuosoTapa + detalle.CostoVariableAdhesivoTotal) * 100.0)) / 100.0;
                 detalle.ManufacturaFijo = Math.Ceiling(0 + detalle.TarifaFijaEncuadernacion + detalle.TarifaFijaTerminacion);
-                detalle.ManufacturaVari = (Math.Ceiling((0 + detalle.TarifaVariableEncuadernacion + detalle.TarifaVariableTerminacion + detalle.TarifaFijaDespacho) * 100.0)) / 100.0;
+                detalle.ManufacturaVari = (Math.Ceiling((0 + detalle.TarifaVariableEncuadernacion + detalle.TarifaVariableTerminacion) * 100.0)) / 100.0;
                 detalle.TotalNetoFijo = detalle.ManufacturaFijo + detalle.TarifaFijaPapel;
                 detalle.TotalNetoVari = detalle.ManufacturaVari + detalle.TarifaVariablePapel;
 
@@ -957,6 +962,7 @@ namespace ProyectoPersonal.Controllers.Cotizador
             //                                        .Include(p => p.Tapa.Papel).Include(p => p.Encuadernacion).Include(p => p.Moneda).Include(p => p.Usuario).Where(x => x.IdPresupuesto == id).FirstOrDefault();
 
             //return View("OfertaComercial", presupuesto);
+            ViewBag.Termi = "mis terminaciones";
             return new ActionAsPdf("OfertaComercial", new { id = id })
             {
                 PageOrientation = Rotativa.Options.Orientation.Portrait,
@@ -965,6 +971,22 @@ namespace ProyectoPersonal.Controllers.Cotizador
             };
             //return new PdfActionResult//RazorPDF.PdfResult
             //    ("OfertaComercial",presupuesto);
+        }
+        public JsonResult GetDbData(int mid)
+        {
+            List<Presupuesto_SubProceso> listSP = new List<Presupuesto_SubProceso>();
+            List<Presupuesto_SubProceso> listSP2 = new List<Presupuesto_SubProceso>();
+            try
+            {
+                  listSP = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == (int)mid).ToList();
+               // listSP2 = db.Presupuesto_SubProceso.Where(x => x.PresupuestoId == (int)mid).Include(x=>x.SubProceso).ToList();
+            }
+            catch(Exception ee)
+            {
+
+            }
+
+            return Json(new SelectList(listSP, "IdPresupuestoSubProceso", "SubProceso.NombreSubProceso"), JsonRequestBehavior.AllowGet);
         }
 
         // POST: Presupuesto/Create

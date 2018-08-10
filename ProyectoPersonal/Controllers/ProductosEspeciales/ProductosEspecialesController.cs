@@ -25,7 +25,8 @@ namespace ProyectoPersonal.Controllers.ProductosEspeciales
             p.Formatos = db.ProductosEspeciales_Formato.ToList();
             ViewBag.Formato = new SelectList(db.ProductosEspeciales_Formato, "IdFormato", "NombreFormato");
             ViewBag.ValorUF = string.Format("{0:#,0.00}", db.Moneda.Where(x => x.Estado == true && x.TipoMonedaId == 2).Select(x => x.Valor).FirstOrDefault());
-            ViewBag.Papeles = new SelectList(db.ProductosEspeciales_Papel, "IdPapel", "Descripcion");
+            ViewBag.Papeles = new SelectList(db.ProductosEspeciales_Papel.OrderBy(x => x.Descripcion), "IdPapel", "Descripcion");
+                //.OrderBy(x => x.NombrePapel).ThenBy(x => x.Gramaje).ToList();
             return View();
         }
 
@@ -38,6 +39,16 @@ namespace ProyectoPersonal.Controllers.ProductosEspeciales
         {
             ProductosEspeciales_Presupuesto pres = new ProductosEspeciales_Presupuesto();
             double Entradas = 1.0;
+            
+            //formato estandar 700 x 1000
+            //db.ProductosEspeciales_Formato
+            double ancho = db.ProductosEspeciales_Formato.Where(x => x.IdFormato == Formato).Select(c => c.FormatoExtendidoX).FirstOrDefault();
+            double largo = db.ProductosEspeciales_Formato.Where(x => x.IdFormato == Formato).Select(c => c.FormatoExtendidoY).FirstOrDefault();
+
+            int primer = 700 / (int)largo;
+             int segund = 1000 / (int)ancho;
+
+            ElementosEnTamaño = primer * segund;
             double gramaje = db.ProductosEspeciales_Papel.Where(x => x.IdPapel == Papel).Select(x => x.Gramaje).FirstOrDefault();
             double Ancho = db.ProductosEspeciales_Papel.Where(x => x.IdPapel == Papel).Select(x => x.Ancho).FirstOrDefault();
             double Largo = db.ProductosEspeciales_Papel.Where(x => x.IdPapel == Papel).Select(x => x.Largo).FirstOrDefault();
@@ -87,36 +98,79 @@ namespace ProyectoPersonal.Controllers.ProductosEspeciales
              double CostoFijoBarnizAcuoso = 0; double CostoVariableBarnizAcuoso = 0;
             if (BarnizAcuoso != "")
             {
-                double FijoBarnizAcuoso = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 5).Select(x => x.CostoFijo).FirstOrDefault();
-                double variBarnizAcuoso = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 5).Select(x => x.CostoVariable).FirstOrDefault();
-                CostoFijoBarnizAcuoso = (FijoBarnizAcuoso * ValorUF);
-                CostoVariableBarnizAcuoso = (((variBarnizAcuoso * ValorUF) / 1000) / (double)ElementosEnTamaño);
+                if (BarnizAcuoso == "2" || BarnizAcuoso == "3")//si es tiro O retiro
+                {
+                    double FijoBarnizAcuoso = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 5).Select(x => x.CostoFijo).FirstOrDefault();
+                    double variBarnizAcuoso = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 5).Select(x => x.CostoVariable).FirstOrDefault();
+                    CostoFijoBarnizAcuoso = (FijoBarnizAcuoso * ValorUF);
+                    CostoVariableBarnizAcuoso = (((variBarnizAcuoso * ValorUF) / 1000) / (double)ElementosEnTamaño);
+                }
+                else
+                {   //si es en tiro Y retiro, se multiplica por 2
+                    double FijoBarnizAcuoso = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 5).Select(x => x.CostoFijo).FirstOrDefault();
+                    double variBarnizAcuoso = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 5).Select(x => x.CostoVariable).FirstOrDefault();
+                    CostoFijoBarnizAcuoso = (FijoBarnizAcuoso * ValorUF)*2;
+                    CostoVariableBarnizAcuoso = (((variBarnizAcuoso * ValorUF) / 1000) / (double)ElementosEnTamaño)*2;
+                }
+
             }
 
             //INICIO PROCESOS DE TERMINACION
             double CostoFijoBarnizUVBrillante = 0;double CostoVariableBarnizUVBrillante = 0;
             if (BarnizUVBrillante != "")
             {
-                double FijoBarnizUVBrillante = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 6).Select(x => x.CostoFijo).FirstOrDefault();
-                double variBarnizUVBrillante = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 6).Select(x => x.CostoVariable).FirstOrDefault();
-                CostoFijoBarnizUVBrillante = FijoBarnizUVBrillante;
-                CostoVariableBarnizUVBrillante = (variBarnizUVBrillante / (double)ElementosEnTamaño);
+                if (BarnizUVBrillante == "2" || BarnizUVBrillante == "3")
+                {
+                    double FijoBarnizUVBrillante = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 6).Select(x => x.CostoFijo).FirstOrDefault();
+                    double variBarnizUVBrillante = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 6).Select(x => x.CostoVariable).FirstOrDefault();
+                    CostoFijoBarnizUVBrillante = FijoBarnizUVBrillante;
+                    CostoVariableBarnizUVBrillante = (variBarnizUVBrillante / (double)ElementosEnTamaño);
+                }
+                else
+                {
+                    double FijoBarnizUVBrillante = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 6).Select(x => x.CostoFijo).FirstOrDefault();
+                    double variBarnizUVBrillante = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 6).Select(x => x.CostoVariable).FirstOrDefault();
+                    CostoFijoBarnizUVBrillante = FijoBarnizUVBrillante*2;
+                    CostoVariableBarnizUVBrillante = (variBarnizUVBrillante / (double)ElementosEnTamaño)*2;
+                }
             }
             double CostoFijoBarnizUVBrillanteSelectivo = 0; double CostoVariableBarnizUVBrillanteSelectivo = 0;
             if (BarnizUVBrillanteSelectivo != "")
             {
-                double FijoBarnizUVBrillanteSelectivo = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 7).Select(x => x.CostoFijo).FirstOrDefault();
-                double variBarnizUVBrillanteSelectivo = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 7).Select(x => x.CostoVariable).FirstOrDefault();
-                CostoFijoBarnizUVBrillanteSelectivo = FijoBarnizUVBrillanteSelectivo;
-                CostoVariableBarnizUVBrillanteSelectivo = (variBarnizUVBrillanteSelectivo / (double)ElementosEnTamaño);
+                if (BarnizUVBrillanteSelectivo == "2" || BarnizUVBrillanteSelectivo == "3")
+                {
+                    double FijoBarnizUVBrillanteSelectivo = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 7).Select(x => x.CostoFijo).FirstOrDefault();
+                    double variBarnizUVBrillanteSelectivo = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 7).Select(x => x.CostoVariable).FirstOrDefault();
+                    CostoFijoBarnizUVBrillanteSelectivo = FijoBarnizUVBrillanteSelectivo;
+                    CostoVariableBarnizUVBrillanteSelectivo = (variBarnizUVBrillanteSelectivo / (double)ElementosEnTamaño);
+                }
+                else
+                {
+                    double FijoBarnizUVBrillanteSelectivo = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 7).Select(x => x.CostoFijo).FirstOrDefault();
+                    double variBarnizUVBrillanteSelectivo = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 7).Select(x => x.CostoVariable).FirstOrDefault();
+                    CostoFijoBarnizUVBrillanteSelectivo = FijoBarnizUVBrillanteSelectivo*2;
+                    CostoVariableBarnizUVBrillanteSelectivo = (variBarnizUVBrillanteSelectivo / (double)ElementosEnTamaño)*2;
+                }
+
             }
             double CostoFijoBarnizUVGlitter = 0; double CostoVariableBarnizUVGlitter = 0;
             if (BarnizGlitterSelectivo != "")
             {
-                double FijoBarnizUVGlitter = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 8).Select(x => x.CostoFijo).FirstOrDefault();
-                double variBarnizUVGlitter = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 8).Select(x => x.CostoVariable).FirstOrDefault();
-                CostoFijoBarnizUVGlitter = FijoBarnizUVGlitter;
-                CostoVariableBarnizUVGlitter = (variBarnizUVGlitter / (double)ElementosEnTamaño);
+                if (BarnizGlitterSelectivo == "2" || BarnizGlitterSelectivo == "3")
+                {
+                    double FijoBarnizUVGlitter = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 8).Select(x => x.CostoFijo).FirstOrDefault();
+                    double variBarnizUVGlitter = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 8).Select(x => x.CostoVariable).FirstOrDefault();
+                    CostoFijoBarnizUVGlitter = FijoBarnizUVGlitter;
+                    CostoVariableBarnizUVGlitter = (variBarnizUVGlitter / (double)ElementosEnTamaño);
+                }
+                else
+                {
+                    double FijoBarnizUVGlitter = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 8).Select(x => x.CostoFijo).FirstOrDefault();
+                    double variBarnizUVGlitter = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 8).Select(x => x.CostoVariable).FirstOrDefault();
+                    CostoFijoBarnizUVGlitter = FijoBarnizUVGlitter*2;
+                    CostoVariableBarnizUVGlitter = (variBarnizUVGlitter / (double)ElementosEnTamaño)*2;
+                }
+                    
             }
             double CostoFijoPoliBrillante = 0; double CostoVariablePoliBrillante = 0;
             if (PolitermolaminadoBrillante != "")
@@ -171,10 +225,26 @@ namespace ProyectoPersonal.Controllers.ProductosEspeciales
             double CostoFijoMecanizado = 0; double CostoVariableMecanizado = 0;
             if (Mecanizado != "")
             {
-                double FijoMecanizado = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 15).Select(x => x.CostoFijo).FirstOrDefault();
-                double variMecanizado = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 15).Select(x => x.CostoVariable).FirstOrDefault();
-                CostoFijoMecanizado = FijoMecanizado;
-                CostoVariableMecanizado = variMecanizado;
+                switch (Mecanizado)
+                {
+                    case "2"://pagina determinada
+                        CostoFijoMecanizado = 0;
+                        CostoVariableMecanizado = 15.0;
+                        break;
+                    case "3"://pagina indeterminada
+                        CostoFijoMecanizado = 0;
+                        CostoVariableMecanizado = 10.0;
+                        break;
+                    default:
+                        CostoFijoMecanizado = 0;
+                        CostoVariableMecanizado = 0;
+                        break;
+                   
+                }
+                //double FijoMecanizado = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 15).Select(x => x.CostoFijo).FirstOrDefault();
+                //double variMecanizado = db.ProductosEspeciales_SubProceso.Where(x => x.IdSubproceso == 15).Select(x => x.CostoVariable).FirstOrDefault();
+                //CostoFijoMecanizado = FijoMecanizado;
+                //CostoVariableMecanizado = variMecanizado;
             }
             double CostoFijoDespacho = 0; double CostoVariableDespacho = 0;
             if (Despacho != "")
@@ -219,8 +289,8 @@ namespace ProyectoPersonal.Controllers.ProductosEspeciales
             pres.BarnizAcuosoCostoFijo = CostoFijoBarnizAcuoso;
             pres.BarnizAcuosoCostoVariable = CostoVariableBarnizAcuoso;
 
-            pres.ImpresionCostoFijoTotal = (CostoFijoImpresion + CostoFijo5PMS + CostoFijoFluor + CostoFijoMetal + CostoFijoBarnizAcuoso);
-            pres.ImpresionCostoVariableTotal = (CostoVariableImpresion + CostoVariable5PMS + CostoVariableFluor + CostoVariableMetal + CostoVariableBarnizAcuoso);
+            //pres.ImpresionCostoFijoTotal = (CostoFijoImpresion + CostoFijo5PMS + CostoFijoFluor + CostoFijoMetal + CostoFijoBarnizAcuoso);
+            //pres.ImpresionCostoVariableTotal = (CostoVariableImpresion + CostoVariable5PMS + CostoVariableFluor + CostoVariableMetal + CostoVariableBarnizAcuoso);
 
             //PROCESOS TERMINACION
             pres.BarnizUVBrillanteCostoFijo = CostoFijoBarnizUVBrillante;
@@ -257,35 +327,30 @@ namespace ProyectoPersonal.Controllers.ProductosEspeciales
             pres.MecanizadoCostoFijo = CostoFijoMecanizado;
             pres.MecanizadoCostoVariable = CostoVariableMecanizado;
 
-            pres.EncuadernacionCostoFijoTotal = (CostoFijoPlisado + CostoFijoTroquel + CostoFijoCorte + CostoFijoDoblezDiptico + CostoFijoMecanizado);
-            pres.EncuadernacionCostoVariableTotal = (CostoVariablePlisado + CostoVariableTroquel + CostoVariableCorte + CostoVariableDoblezDiptico + CostoVariableMecanizado);
 
-            pres.DespachoCostoFijo = CostoFijoDespacho;
-            pres.DespachoCostoVariable = CostoVariableDespacho;
+            //VALOR NO VISIBLE
+            pres.DespachoCostoFijo =    CostoFijoDespacho;
+            pres.DespachoCostoVariable =   CostoVariableDespacho;
+            //END NO VISIBLE
+            pres.EncuadernacionCostoFijoTotal = (CostoFijoPlisado + CostoFijoTroquel + CostoFijoCorte + CostoFijoDoblezDiptico + CostoFijoMecanizado + CostoFijoDespacho);//agregue costos por despacho
+            pres.EncuadernacionCostoVariableTotal = (CostoVariablePlisado + CostoVariableTroquel + CostoVariableCorte + CostoVariableDoblezDiptico + CostoVariableMecanizado + CostoVariableDespacho);
 
-            pres.NetoCostoFijoTotal = (pres.ImpresionCostoFijoTotal + pres.TerminacionCostoFijoTotal + pres.EncuadernacionCostoFijoTotal + pres.DespachoCostoFijo + pres.PapelCostoFijo);
-            pres.NetoCostoVariableTotal = (pres.PapelCostoVariable + pres.ImpresionCostoVariableTotal + pres.TerminacionCostoVariableTotal + pres.EncuadernacionCostoVariableTotal + pres.DespachoCostoVariable);
+            //COSTOS TOTAL IMPRESION
+            pres.ImpresionCostoFijoTotal = (CostoFijoImpresion + CostoFijo5PMS + CostoFijoFluor + CostoFijoMetal + CostoFijoBarnizAcuoso);//+ CostoFijoDespacho
+            pres.ImpresionCostoVariableTotal = (CostoVariableImpresion + CostoVariable5PMS + CostoVariableFluor + CostoVariableMetal + CostoVariableBarnizAcuoso);//+ CostoVariableDespacho
+
+            //COSTOS TOTALES
+            pres.NetoCostoFijoTotal = (pres.ImpresionCostoFijoTotal + pres.TerminacionCostoFijoTotal + pres.EncuadernacionCostoFijoTotal  + pres.PapelCostoFijo);//quite costo  pres.DespachoCostoFijo considerado en totales de encuadernacion
+            pres.NetoCostoVariableTotal = (pres.PapelCostoVariable + pres.ImpresionCostoVariableTotal + pres.TerminacionCostoVariableTotal + pres.EncuadernacionCostoVariableTotal );//quite costo + pres.DespachoCostoVariable
 
             double totalll = (pres.NetoCostoFijoTotal + (pres.NetoCostoVariableTotal * (double)Cantidad));
             double mitad = totalll / (double)Cantidad;
             pres.PrecioUnitario = mitad;
+            pres.ElementosEnTamaño = ElementosEnTamaño;
 
 
 
-            string jsonText = @"[{'id': '5241585099662481339'," +
-    "'displayName': 'Music'," +
-    "'name': 'music'," +
-    "'slug': 'music'," +
-    "'imageUrl': 'http://kcdn3.klout.com/static/images/music-1333561300502.png'" +
-  "},  { 'id': '6953585193220490118','displayName': 'Celebrities','name': 'celebrities','slug': 'celebrities'," +
-    "'imageUrl': 'http://kcdn3.klout.com/static/images/topics/celebrities_b32741b6703151cc7bd85fba24c44c52.png'" +
-  "}]";
 
-            dynamic dynJson = JsonConvert.DeserializeObject(jsonText);
-            foreach (var item in dynJson)
-            {
-                var algo = item.id;
-            }
 
 
             return Json(pres, JsonRequestBehavior.AllowGet);
